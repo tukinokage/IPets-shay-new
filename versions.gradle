@@ -20,7 +20,11 @@ ext{
     //统一管理
     dependencies = [
             "butterknife":'com.jakewharton:butterknife:10.0.0' ,
-            "butterknife-compiler:":'com.jakewharton:butterknife-compiler:10.0.0'
+            "butterknife-compiler:":'com.jakewharton:butterknife-compiler:10.0.0',
+            "retrofit2'":"com.squareup.retrofit2:retrofit:2.5.0",
+            //retrofit添加Json解析返回数据
+            "retrofit2:converter-gson":"com.squareup.retrofit2:converter-gson:2.5.0",
+            "retrofit2:adapter-rxjava2":'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     ]
 
 }
