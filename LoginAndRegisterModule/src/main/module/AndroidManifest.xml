@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.shay.loginandregistermodule">
+    <!--组件化状态的配置， 不独立运行-->
+    <application
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:name="com.shay.baselibrary.AppContext">
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:label="@string/app_name">
+        </activity>
+    </application>
+
+</manifest>

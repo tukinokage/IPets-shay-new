@@ -1,0 +1,26 @@
+ext{
+    android = [
+
+            compileSdkVersion: 30,
+            buildToolsVersion: "30.0.2",
+            minSdkVersion: 23,
+            targetSdkVersion: 30
+    ]
+
+    //Version
+    supportLibrary = "25.1.0"
+
+    //supportLibraries dependencies
+    supportDependencies = [
+            supportAppcompat: "com.android.support:appcompat-v7:${supportLibrary}",
+            supportV4       : "com.android.support:support-v4:${supportLibrary}",
+            suppoutDesign   : "com.android.support:design:${supportLibrary}"
+    ]
+
+    //统一管理
+    dependencies = [
+            "butterknife":'com.jakewharton:butterknife:10.0.0' ,
+            "butterknife-compiler:":'com.jakewharton:butterknife-compiler:10.0.0'
+    ]
+
+}
