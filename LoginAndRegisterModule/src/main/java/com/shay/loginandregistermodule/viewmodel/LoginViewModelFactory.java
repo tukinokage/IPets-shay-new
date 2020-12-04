@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.ui.login;
+package com.shay.loginandregistermodule.viewmodel;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;

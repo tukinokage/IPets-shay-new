@@ -4,6 +4,15 @@ public class BaseResponse <T>{
 
     private String errorMsg;
     private T data;
+    private int status;
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
 
     public BaseResponse() {
     }

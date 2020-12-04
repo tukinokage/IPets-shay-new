@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.ui.login;
+package com.shay.loginandregistermodule.viewmodel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,9 +6,16 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
+import com.shay.baselibrary.dto.TestUser;
 import com.shay.loginandregistermodule.data.LoginRepository;
 import com.shay.loginandregistermodule.data.Result;
 import com.shay.loginandregistermodule.R;
+import com.shay.loginandregistermodule.ui.login.LoggedInUserView;
+import com.shay.loginandregistermodule.ui.login.LoginFormState;
+import com.shay.loginandregistermodule.ui.login.LoginResult;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginViewModel extends ViewModel {
 
@@ -30,7 +37,14 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("username", username);
+        loginRepository.login(hashMap, new LoginRepository.ResultListener() {
+            @Override
+            public void returnResult(Result result) {
+                loginDataChanged();
+            }
+        });
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();

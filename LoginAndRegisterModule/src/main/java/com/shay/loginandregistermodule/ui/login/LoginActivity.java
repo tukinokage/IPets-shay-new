@@ -22,10 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.shay.baselibrary.Base64Uitl;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.ui.login.LoginViewModel;
-import com.shay.loginandregistermodule.ui.login.LoginViewModelFactory;
+import com.shay.loginandregistermodule.viewmodel.LoginViewModel;
+import com.shay.loginandregistermodule.viewmodel.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
