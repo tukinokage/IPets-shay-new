@@ -1,5 +1,7 @@
 package com.shay.loginandregistermodule.data;
 
+import android.os.Looper;
+
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.TestUser;
 
@@ -70,6 +72,8 @@ public class LoginRepository {
                         public void onNext(BaseResponse<TestUser> testUserBaseResponse) {
 
                             TestUser testUser = testUserBaseResponse.getData();
+                            setLoginResult(new Result.Success(testUser));
+                            System.out.println("onNext线程：" + (Looper.myLooper() == Looper.myLooper()));
 
                         }
 

@@ -3,6 +3,7 @@ package com.shay.loginandregistermodule.ui.login;
 import android.app.Activity;
 
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -34,14 +35,14 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
+        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
 
-        final EditText usernameEditText = findViewById(R.id.username);
-        final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
-        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        final EditText usernameEditText = findViewById(R.id.login_activity_account_et);
+        final EditText passwordEditText = findViewById(R.id.login_activity_password_tv);
+        final Button loginButton = findViewById(R.id.login_activity_login_bt);
+        final ProgressBar loadingProgressBar = findViewById(R.id.login_activity_loading_pb);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override

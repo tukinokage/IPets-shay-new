@@ -13,6 +13,7 @@ import com.shay.loginandregistermodule.data.LoginRepository;
  */
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
 
+    //repository和DataSource在工厂类中注入
     @NonNull
     @Override
     @SuppressWarnings("unchecked")

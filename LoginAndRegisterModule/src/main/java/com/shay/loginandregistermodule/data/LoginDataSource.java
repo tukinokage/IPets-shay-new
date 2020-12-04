@@ -23,14 +23,6 @@ import retrofit2.Retrofit;
  */
 public class LoginDataSource {
 
-    //回调于repository
-    LoginDataSourceListener loginDataSourceListener;
-
-    public void setLoginDataSourceListener(LoginDataSourceListener loginDataSourceListener) {
-        this.loginDataSourceListener = loginDataSourceListener;
-    }
-
-
     public  Observable<BaseResponse<TestUser>> login(HashMap<String, Object> paramsMap){
 
             // TODO: handle loggedInUser authentication
@@ -38,9 +30,6 @@ public class LoginDataSource {
             UserUrlService service = new HttpUtil().getService(UserUrlService.class, UrlUtil.BASE_URL.BASE_URL);
         Observable<BaseResponse<TestUser>> test = service.test(paramsMap);
         return test;
-
-
-
     }
 
     public void logout() {
@@ -52,7 +41,6 @@ public class LoginDataSource {
     }
 
     class MyException extends Exception{
-
 
         public MyException(String message) {
             super(message);
