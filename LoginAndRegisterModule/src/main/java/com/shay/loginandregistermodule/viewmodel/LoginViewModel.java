@@ -24,7 +24,7 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
-    //private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
+    private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     //private LoginAsyncTask loginAsyncTask;
 
 
