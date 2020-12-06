@@ -1,6 +1,8 @@
 package com.shay.baselibrary.dto;
 
-public class TestUser {
+import java.io.Serializable;
+
+public class TestUser implements Serializable {
     private String userName;
 
     public String getUserName() {

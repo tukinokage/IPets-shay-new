@@ -23,6 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.Result;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -37,29 +38,45 @@ public class HttpUtil {
 
     private  OkHttpClient okHttpClient;
 
+    //日志显示级别
+    HttpLoggingInterceptor.Level level = HttpLoggingInterceptor.Level.BODY;
+//
+    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+        @Override
+        public void log(String message) {
+            Log.i("Http请求参数：", message);
+        }
+    });
+
     //default
-    public <T extends IHttpService> T getService(Class<T> clazz, String baseUrl){
+    public <T> T getService(Class<T> clazz, String baseUrl){
+        loggingInterceptor.setLevel(level);
         okHttpClient = new OkHttpClient.Builder().
                 connectTimeout(30, TimeUnit.SECONDS).
                 readTimeout(30, TimeUnit.SECONDS).
-                writeTimeout(30, TimeUnit.SECONDS).build();
+                writeTimeout(30, TimeUnit.SECONDS)
+                .addInterceptor(loggingInterceptor).
+                        build();
 
         return createService(clazz, baseUrl, okHttpClient);
     }
 
 
     public<T extends IHttpService> T getService(Class<T> clazz, String  baseUrl,int connectTimeout, int readTimeout, int writeTimeout){
+        loggingInterceptor.setLevel(level);
         okHttpClient = new OkHttpClient.Builder().
                 connectTimeout(connectTimeout, TimeUnit.SECONDS).
                 readTimeout(readTimeout, TimeUnit.SECONDS).
-                writeTimeout(writeTimeout, TimeUnit.SECONDS).build();
+                writeTimeout(writeTimeout, TimeUnit.SECONDS)
+                .addInterceptor(loggingInterceptor)
+                .build();
 
         return createService(clazz, baseUrl, okHttpClient);
 
     }
 
 
-    private <T extends IHttpService> T createService(Class<T> clazz, String baseUrl,OkHttpClient client){
+    private <T> T createService(Class<T> clazz, String baseUrl,OkHttpClient client){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(client)

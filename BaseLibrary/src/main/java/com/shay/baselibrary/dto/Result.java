@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data;
+package com.shay.baselibrary.dto;
 
 /**
  * A generic class that holds a result success w/ data or an error exception.

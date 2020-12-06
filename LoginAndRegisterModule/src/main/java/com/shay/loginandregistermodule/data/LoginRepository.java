@@ -1,20 +1,20 @@
 package com.shay.loginandregistermodule.data;
 
 import android.os.Looper;
+import android.util.Log;
 
+import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
+import com.shay.baselibrary.myexceptions.MyException;
 
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -60,9 +60,14 @@ public class LoginRepository {
 
     public void login(HashMap<String, Object> paramMap, final ResultListener resultListener) {
         // handle login
+
+        this.resultListener = resultListener;
         try{
-            dataSource.login(paramMap).subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<BaseResponse<TestUser>>() {
+            dataSource.login(paramMap)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<BaseResponse<TestUser>>()
+                    {
                         @Override
                         public void onSubscribe(Disposable d) {
 
@@ -71,16 +76,31 @@ public class LoginRepository {
                         @Override
                         public void onNext(BaseResponse<TestUser> testUserBaseResponse) {
 
-                            TestUser testUser = testUserBaseResponse.getData();
-                            setLoginResult(new Result.Success(testUser));
-                            System.out.println("onNext线程：" + (Looper.myLooper() == Looper.myLooper()));
+                            if (testUserBaseResponse == null){
+                                Log.d( "登录接收", "空");
+                                return;
+                            }
 
+                            Result result = null;
+                            if("".equals(testUserBaseResponse.getErrorMsg())){
+                                TestUser testUser = testUserBaseResponse.getData();
+                                result = new Result.Success(testUser);
+                                Log.d(this.getClass().getSimpleName(), "onNext线程：" + (Looper.myLooper() == Looper.myLooper()));
+
+                            }else {
+                                Log.d( "登录失败", testUserBaseResponse.getErrorMsg());
+                                result = new Result.Error(new MyException(testUserBaseResponse.getErrorMsg()));
+                            }
+
+                            setLoginResult(result);
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            //errorResult
+                           Result result =  RetrofitOnErrorUtil.OnError(e);
+                           setLoginResult(result);
 
-                            setLoginResult(new Result.Error(new Exception("操作错误:202")));
                         }
 
                         @Override
@@ -88,14 +108,16 @@ public class LoginRepository {
 
                         }
                     });
-
         }catch (Exception e){
+            e.printStackTrace();
             setLoginResult(new Result.Error(new Exception("操作错误:201")));
         }
 
     }
 
+    //net dataSource operate completed next
     private void setLoginResult(Result result){
+
         resultListener.returnResult(result);
     }
 

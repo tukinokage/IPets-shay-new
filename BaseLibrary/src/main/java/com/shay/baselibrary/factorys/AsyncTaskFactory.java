@@ -12,9 +12,25 @@ public class AsyncTaskFactory<T extends AsyncTask> {
     }
 
 
-    public T createAsyncTask(Class<T> clazz) throws InstantiationException, IllegalAccessException {
-       T asyncTask =  clazz.newInstance();
+    public AsyncTask createAsyncTask(AsyncTask asyncTask)  {
        asyncTaskArrayList.add(asyncTask);
        return asyncTask;
+    }
+
+    public void cancelAsyncTask(){
+        if(asyncTaskArrayList.isEmpty()){
+            return;
+        }else {
+            for (AsyncTask asyncTask:asyncTaskArrayList){
+                if(asyncTask == null){
+                    continue;
+                }else {
+                    asyncTask.cancel(true);
+                    //asyncTask = null;
+                }
+            }
+
+            asyncTaskArrayList.clear();
+        }
     }
 }

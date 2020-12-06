@@ -1,8 +1,10 @@
 package com.shay.baselibrary.dto;
 
-public class BaseResponse <T>{
+import java.io.Serializable;
 
-    private String errorMsg;
+public class BaseResponse <T> implements Serializable {
+
+    private String errorMsg = "";
     private T data;
     private int status;
 

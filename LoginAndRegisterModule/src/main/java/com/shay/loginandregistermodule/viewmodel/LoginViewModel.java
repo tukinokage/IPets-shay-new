@@ -7,25 +7,25 @@ import androidx.lifecycle.ViewModel;
 import android.os.AsyncTask;
 import android.util.Patterns;
 
+import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.LoginRepository;
-import com.shay.loginandregistermodule.data.Result;
 import com.shay.loginandregistermodule.R;
 import com.shay.loginandregistermodule.ui.login.LoggedInUserView;
 import com.shay.loginandregistermodule.ui.login.LoginFormState;
 import com.shay.loginandregistermodule.ui.login.LoginResult;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
+//LiveData的setValue只能在主线程调用，使用rxjava回调时注意在设置在主线程
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
     private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
-    //private LoginAsyncTask loginAsyncTask;
+    private LoginAsyncTask loginAsyncTask;
 
 
     LoginViewModel(LoginRepository loginRepository) {
@@ -40,18 +40,27 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-
-
-    class LoginAsyncTask extends AsyncTask<HashMap<String, Object>, Integer, Result >{
-
+    public class LoginAsyncTask extends AsyncTask<HashMap<String, Object>, Integer, Result>{
 
         @Override
         protected Result doInBackground(HashMap<String, Object>... hashMaps) {
 
             HashMap<String, Object> map = hashMaps[0];
+            //执行于rxjava的observer线程
+            //生成客户端是一个线程（在asyncxtask线程），rxjava + retrofit只是在访问网络以及响应时使用了另一个异步线程
+            loginRepository.login(map,
+                    result -> {
+                    /********rxjava回调主线程的监听器***********/
 
-
-
+                        if (result instanceof Result.Success) {
+                            TestUser data = ((Result.Success<TestUser>) result).getData();
+                            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getUserName())));
+                        } else {
+                            loginResult.setValue(new LoginResult(R.string.login_failed));
+                        }
+                    }
+                    /******************************************/
+                    );
             return null;
         }
 
@@ -60,31 +69,14 @@ public class LoginViewModel extends ViewModel {
     public void login(String account, String password) {
         // can be launched in a separate asynchronous job
         HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("account", account);
+        hashMap.put("name", account);
         hashMap.put("password", password);
 
         //新建并存入工厂的list中
-        loginRepository.login(hashMap,
-                new LoginRepository.ResultListener() {//执行于rxjava的observer线程
-                    @Override
-                    public void returnResult(Result result) {
-                        if (result instanceof Result.Success) {
-                            TestUser data = ((Result.Success<TestUser>) result).getData();
-                            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getUserName())));
-                        } else {
-                            loginResult.setValue(new LoginResult(R.string.login_failed));
-                        }
-                    }
-                });
-      /*  try {
-            loginAsyncTask = (LoginAsyncTask) asyncTaskFactory.createAsyncTask(LoginAsyncTask.class);
-            loginAsyncTask.execute(hashMap);
-        } catch (InstantiationException e) {
 
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }*/
+        loginAsyncTask = (LoginAsyncTask) asyncTaskFactory.createAsyncTask(new LoginAsyncTask());
+        loginAsyncTask.execute(hashMap);
+
 
     }
 
@@ -118,21 +110,6 @@ public class LoginViewModel extends ViewModel {
 
 
     public void cancelAsyncTask(){
-
-        if(asyncTaskFactory.getAsyncTaskArrayList().isEmpty()){
-            return;
-        }else {
-            ArrayList<AsyncTask> arrayList = asyncTaskFactory.getAsyncTaskArrayList();
-            for (AsyncTask asyncTask:arrayList){
-                if(asyncTask == null){
-                    continue;
-                }else {
-                    asyncTask.cancel(true);
-                    asyncTask = null;
-                }
-            }
-
-            arrayList.clear();
-        }
+        asyncTaskFactory.cancelAsyncTask();
     }
 }
