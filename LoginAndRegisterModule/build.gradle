@@ -52,6 +52,9 @@ android {
         }
     }
 
+    //解决资源冲突
+    resourcePrefix "loginmodule_"
+
     buildTypes {
         release {
             minifyEnabled false
@@ -115,4 +118,6 @@ dependencies {
 
     //ui库
     implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
+    //微博sdk
+    implementation 'com.sina.weibo.sdk:core:9.12.0:openDefaultRelease@aar'
 }

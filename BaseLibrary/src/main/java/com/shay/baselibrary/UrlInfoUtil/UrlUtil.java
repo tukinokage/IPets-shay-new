@@ -3,6 +3,7 @@ package com.shay.baselibrary.UrlInfoUtil;
 public class UrlUtil {
     public static class BASE_URL{
         public static final String BASE_URL = "http://172.27.35.1:7371/";
+        public static final String ALI_MSG_API_BASE_URL = "http://dysmsapi.aliyuncs.com/?";
     }
 
     public static class PIC_URL{
