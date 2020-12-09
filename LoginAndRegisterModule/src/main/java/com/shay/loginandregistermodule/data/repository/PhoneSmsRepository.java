@@ -27,7 +27,7 @@ public class PhoneSmsRepository {
         this.phoneSmsDataSource = phoneSmsDataSource;
     }
 
-    synchronized public PhoneSmsRepository getInstance(PhoneSmsDataSource phoneSmsDataSource){
+    synchronized static public PhoneSmsRepository getInstance(PhoneSmsDataSource phoneSmsDataSource){
         if(instance == null){
           instance = new PhoneSmsRepository(phoneSmsDataSource);
         }
