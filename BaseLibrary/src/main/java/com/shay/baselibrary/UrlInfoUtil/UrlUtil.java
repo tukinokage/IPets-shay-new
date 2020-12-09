@@ -11,6 +11,9 @@ public class UrlUtil {
         public static final String UPLOAD_URL = "http://172.27.35.1:7371/pic/upload";
         public static final String DOWNLOAD_URL = "http://172.27.35.1:7371/pic/download";
     }
+    public static class ALI_API_URL{
+        public static final String SEND_PHONE_MSG = "http(s)://dysmsapi.aliyuncs.com/?";
+    }
 
     public static class API_URL{
 

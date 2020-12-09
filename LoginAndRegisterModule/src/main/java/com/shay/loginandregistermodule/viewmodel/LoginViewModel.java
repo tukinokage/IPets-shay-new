@@ -10,7 +10,7 @@ import android.util.Patterns;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
-import com.shay.loginandregistermodule.data.LoginRepository;
+import com.shay.loginandregistermodule.data.repository.LoginRepository;
 import com.shay.loginandregistermodule.R;
 import com.shay.loginandregistermodule.ui.login.LoggedInUserView;
 import com.shay.loginandregistermodule.ui.login.LoginFormState;

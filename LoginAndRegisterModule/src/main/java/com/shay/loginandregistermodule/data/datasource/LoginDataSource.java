@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data;
+package com.shay.loginandregistermodule.data.datasource;
 
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;

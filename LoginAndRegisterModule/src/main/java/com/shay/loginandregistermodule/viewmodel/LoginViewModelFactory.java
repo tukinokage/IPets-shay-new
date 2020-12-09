@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.shay.loginandregistermodule.data.LoginDataSource;
-import com.shay.loginandregistermodule.data.LoginRepository;
+import com.shay.loginandregistermodule.data.datasource.LoginDataSource;
+import com.shay.loginandregistermodule.data.repository.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

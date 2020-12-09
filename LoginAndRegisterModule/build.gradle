@@ -74,7 +74,6 @@ android {
 }
 
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -101,7 +100,7 @@ dependencies {
     implementation librarys.supportV4
     implementation librarys.suppoutDesign
 
-   // implementation rootProject.ext.dependencies["别名"]
+    // implementation rootProject.ext.dependencies["别名"]
     //implementation rootProject.ext.dependencies['butterknife']
     //annotationProcessor rootProject.ext.dependencies['butterknife-compiler']
 
