@@ -19,6 +19,6 @@ public class SmsResultStauts {
         this.errorMsg = errorMsg;
     }
 
-    private String errorMsg = "";
+    private String errorMsg;
 
 }

@@ -26,7 +26,7 @@ public class PhoneSmsViewModel extends ViewModel {
 
     private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     private SmsAsyncTask smsAsyncTask;
-    private String codeParam;
+    private String codeParam = "";
 
 
     public PhoneSmsViewModel(PhoneSmsRepository phoneSmsRepository) {
@@ -73,6 +73,10 @@ public class PhoneSmsViewModel extends ViewModel {
        smsAsyncTask.execute(aliSmsRequestParam);
     }
 
+
+    public String getCode(){
+        return codeParam;
+    }
     public LiveData<SmsResultStauts> getSmsResultLiveData() {
         return smsResultLiveData;
     }
@@ -80,5 +84,6 @@ public class PhoneSmsViewModel extends ViewModel {
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();
     }
+
 
 }
