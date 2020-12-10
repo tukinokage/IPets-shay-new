@@ -24,8 +24,12 @@ import java.util.List;
  * to handle interaction events.
  * Use the {@link PetsContentFragment#newInstance} factory method to
  * create an instance of this fragment.
+ *
  * 承载viewpage的fragment
  */
+/*
+* 要在主activity销毁pagerAdapter
+* */
 public class PetsContentFragment extends Fragment {
 
     //更换，种类

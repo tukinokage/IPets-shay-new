@@ -10,6 +10,12 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.petsandinfo.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
@@ -17,7 +23,7 @@ import com.example.petsandinfo.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+    private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -35,12 +41,26 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mContext.getResources().getString(TAB_TITLES[position]);
+        Iterator<Map.Entry<String, Fragment>> iterator = fragmentsMap.entrySet().iterator();
+
+        for (int i = 0; i < fragmentsMap.size(); i++){
+            if(iterator.hasNext()){
+                Map.Entry<String, Fragment> next = iterator.next();
+                if(i == position){
+                    return next.getKey();
+                }
+            }
+
+        }
+    }
+
+    public void addFragment(Fragment fragment, String petClassName){
+        fragmentsMap.put(petClassName, fragment);
     }
 
     @Override
     public int getCount() {
         // Show 2 total pages.
-        return TAB_TITLES.length;
+        return fragmentsMap.size();
     }
 }
