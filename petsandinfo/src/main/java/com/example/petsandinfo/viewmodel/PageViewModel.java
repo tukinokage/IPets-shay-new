@@ -1,4 +1,4 @@
-package com.example.petsandinfo.ui.main;
+package com.example.petsandinfo.viewmodel;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
