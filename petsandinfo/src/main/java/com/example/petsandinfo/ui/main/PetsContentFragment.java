@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class PetsContentFragment extends Fragment {
 
-    //灵活更换
+    //更换，种类
     private List<String> petClasses = new ArrayList<>();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,7 +82,7 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, , getActivity().getSupportFragmentManager());
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getActivity().getSupportFragmentManager());
         ViewPager viewPager =  getActivity().findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
 

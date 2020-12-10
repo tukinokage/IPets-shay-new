@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.model.entity.Pet;
 import com.example.petsandinfo.ui.main.AllPetsFragment.OnListFragmentInteractionListener;
 import com.example.petsandinfo.ui.main.dummy.DummyContent.DummyItem;
 
@@ -22,10 +23,10 @@ import butterknife.ButterKnife;
  */
 public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Pet> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MypetRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MypetRecyclerViewAdapter(List<Pet> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -39,7 +40,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
+        Pet pet = mValues.get(position);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +48,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                 //   mListener.onListFragmentInteraction(holder.mItem);
                 }
             }
         });
@@ -60,7 +61,6 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public DummyItem mItem;
 
         public ViewHolder(View view) {
             super(view);

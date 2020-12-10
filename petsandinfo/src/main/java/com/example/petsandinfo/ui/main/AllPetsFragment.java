@@ -59,6 +59,8 @@ public class AllPetsFragment extends Fragment {
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
         }
+
+
     }
 
     @Override
@@ -67,7 +69,7 @@ public class AllPetsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_all_pets, container, false);
 
         // Set the adapter
-        if (view instanceof RecyclerView) {
+      /*  if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
@@ -76,7 +78,7 @@ public class AllPetsFragment extends Fragment {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
             recyclerView.setAdapter(new MypetRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }
+        }*/
         return view;
     }
 
