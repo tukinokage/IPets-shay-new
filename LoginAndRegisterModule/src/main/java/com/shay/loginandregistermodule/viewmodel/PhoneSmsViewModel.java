@@ -74,9 +74,6 @@ public class PhoneSmsViewModel extends ViewModel {
     }
 
 
-    public String getCode(){
-        return codeParam;
-    }
     public LiveData<SmsResultStauts> getSmsResultLiveData() {
         return smsResultLiveData;
     }

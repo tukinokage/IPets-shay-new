@@ -27,13 +27,16 @@ import butterknife.ButterKnife;
 public class PhoneLoginRegisterActivity extends AppCompatActivity {
     private PhoneSmsViewModel phoneSmsViewModel;
 
-    @BindView(R.id.activtiy_phone_login_register_submit_btn)
-    private Button submitBtn;
+    @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
+    private Button submitSmsBtn;
+    @BindView(R.id.activtiy_phone_login_register_confrim_btn)
+    private Button confrimBtn;
     @BindView(R.id.activtiy_phone_login_register_smsCode_et)
     private EditText sgmCodeEt;
     @BindView(R.id.activtiy_phone_login_register_phoneNum_et)
     private EditText phoneNumEt;
 
+    //短信是否发送成功
     boolean sendMsgStatus = false;
     String rightCode = "";
 
@@ -63,6 +66,8 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             }
         });
 
+        initListenser();
+
     }
 
     public void msgConfirm(View v){
@@ -70,11 +75,11 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
         String phoneNum = phoneNumEt.getText().toString().trim();
         phoneSmsViewModel.sendSms(phoneNum);
 
-        submitBtn.setEnabled(false);
+        submitSmsBtn.setEnabled(false);
 
     }
 
-    public void confirm(View view){
+    public void confrim(View view){
         String inputCode = sgmCodeEt.getText().toString().trim();
 
         if(TextUtils.isEmpty(inputCode)){
@@ -103,6 +108,13 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
 
     private void initListenser(){
+        confrimBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               confrim(v);
+            }
+        });
+
         phoneNumEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -116,6 +128,13 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
+
+                if (phoneNumEt.getText().length() == 11){
+                    phoneNumEt.setVisibility(View.INVISIBLE);
+                }else {
+                    phoneNumEt.setVisibility(View.VISIBLE);
+                }
+
 
             }
         });
