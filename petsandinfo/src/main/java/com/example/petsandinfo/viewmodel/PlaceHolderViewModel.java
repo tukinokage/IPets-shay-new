@@ -1,15 +1,22 @@
 package com.example.petsandinfo.viewmodel;
 
+import android.os.HandlerThread;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.petsandinfo.model.entity.PetListLoadResult;
+import com.shay.baselibrary.enums.UIFilterParams.RankTypeEnum;
 import com.shay.baselibrary.enums.petInfo.FetchLevelEnum;
 import com.shay.baselibrary.enums.petInfo.ShapeLevelEnum;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 
 public class PlaceHolderViewModel extends ViewModel {
     private MutableLiveData<List<String>> fetchLevelSelection = new MutableLiveData<>();
@@ -35,7 +42,6 @@ public class PlaceHolderViewModel extends ViewModel {
     }
 
     public void LoadSelection(){
-
         List<String> fechLevelList = new ArrayList<>();
         List<String> shapeLevelList = new ArrayList<>();
         ArrayList<String> rankTypeList = new ArrayList<>();
@@ -50,12 +56,17 @@ public class PlaceHolderViewModel extends ViewModel {
             shapeLevelList.add(e.name());
         }
 
+        for (RankTypeEnum rankTypeEnum:
+        RankTypeEnum.values()){
+            rankTypeList.add(rankTypeEnum.getRankName());
+        }
+
         /**
         * *
         * */
         fetchLevelSelection.setValue(fechLevelList);
         shapeLevelSelection.setValue(shapeLevelList);
-        rankTypeSelection.setValue();
+        rankTypeSelection.setValue(rankTypeList);
 
     }
 
