@@ -22,8 +22,8 @@ import java.util.Map;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-    @StringRes
-    private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
+   // private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
+    private static final ArrayList<Fragment> fs = new ArrayList<>();
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -35,13 +35,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1);
+        return fs.get(position);
     }
 
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        Iterator<Map.Entry<String, Fragment>> iterator = fragmentsMap.entrySet().iterator();
+
+        /*Iterator<Map.Entry<String, Fragment>> iterator = fragmentsMap.entrySet().iterator();
 
         for (int i = 0; i < fragmentsMap.size(); i++){
             if(iterator.hasNext()){
@@ -51,16 +52,29 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                 }
             }
 
+        }*/
+        if(position == 0){
+            //第0默认为展示全部
+            return ((AllPetsFragment)(fs.get(position))).getName();
+        }else {
+           return  ((PlaceholderFragment)(fs.get(position))).getName();
         }
+
     }
 
-    public void addFragment(Fragment fragment, String petClassName){
+    /*public void addFragment(Fragment fragment, String petClassName){
         fragmentsMap.put(petClassName, fragment);
+    }*/
+
+    public void addFragment(Fragment fragment){
+        fs.add(fragment);
     }
 
     @Override
     public int getCount() {
-        // Show 2 total pages.
-        return fragmentsMap.size();
+        // Show  total pages.
+        //return fragmentsMap.size();
+
+        return fs.size();
     }
 }

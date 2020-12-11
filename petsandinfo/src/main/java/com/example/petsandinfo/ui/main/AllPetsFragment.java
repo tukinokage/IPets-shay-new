@@ -30,9 +30,14 @@ public class AllPetsFragment extends Fragment {
 
     List<Pet> allPets = new ArrayList<>();
     // TODO: Customize parameter argument names
-    private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_SECTION_NAME = "section_name";
     // TODO: Customize parameters
     private int mColumnCount = 1;
+
+
+
+    private String name = "";
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -41,13 +46,17 @@ public class AllPetsFragment extends Fragment {
      */
     public AllPetsFragment() {
     }
-
+    public String getName() {
+        return name;
+    }
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static AllPetsFragment newInstance(int columnCount) {
+    public static AllPetsFragment newInstance(int num, String name) {
         AllPetsFragment fragment = new AllPetsFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+        args.putInt(ARG_SECTION_NUMBER, num);
+        args.putString(ARG_SECTION_NAME, name);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,7 +66,8 @@ public class AllPetsFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+            mColumnCount = getArguments().getInt(ARG_SECTION_NUMBER);
+            name = getArguments().getString(ARG_SECTION_NAME);
         }
 
 

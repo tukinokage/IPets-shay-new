@@ -13,9 +13,13 @@ import android.view.ViewGroup;
 
 import com.example.petsandinfo.R;
 import com.google.android.material.tabs.TabLayout;
+import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,11 +33,17 @@ import java.util.List;
  */
 /*
 * 要在主activity销毁pagerAdapter
+* 第0固定为全部
 * */
 public class PetsContentFragment extends Fragment {
 
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
     //更换，种类
-    private List<String> petClasses = new ArrayList<>();
+    //private List<String> petClasses = new ArrayList<>();
+
+    private int classesNum = PetClassesEnum.values().length;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -70,6 +80,7 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ButterKnife.bind(this, getActivity());
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -86,8 +97,12 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getActivity().getSupportFragmentManager());
-        ViewPager viewPager =  getActivity().findViewById(R.id.view_pager);
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager());
+        sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
+
+        for (int i = 1; i <= classesNum; i++){
+            sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
+        }
         viewPager.setAdapter(sectionsPagerAdapter);
 
         TabLayout tabs =  getActivity().findViewById(R.id.tabs);
@@ -123,10 +138,6 @@ public class PetsContentFragment extends Fragment {
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

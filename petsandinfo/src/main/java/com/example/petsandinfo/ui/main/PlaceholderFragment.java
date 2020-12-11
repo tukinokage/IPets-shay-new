@@ -14,24 +14,32 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.viewmodel.PageViewModel;
+import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
+ *
+ * @Describe 用于展示通用界面
  */
 public class PlaceholderFragment extends Fragment {
+    private String name;
 
-    private List<String> petClasses = new ArrayList<>();
     private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_SECTION_NAME = "section_name";
 
     private PageViewModel pageViewModel;
 
-    public static PlaceholderFragment newInstance(int index) {
+    public String getName() {
+        return name;
+    }
+    public static PlaceholderFragment newInstance(int index, String className) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
+        bundle.putString(ARG_SECTION_NAME, className);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -43,6 +51,7 @@ public class PlaceholderFragment extends Fragment {
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
+            name = getArguments().getString(ARG_SECTION_NAME);
         }
         pageViewModel.setIndex(index);
     }
@@ -62,4 +71,5 @@ public class PlaceholderFragment extends Fragment {
         });
         return root;
     }
+
 }
