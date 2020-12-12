@@ -14,10 +14,6 @@ import com.shay.baselibrary.enums.petInfo.ShapeLevelEnum;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-
 public class PlaceHolderViewModel extends ViewModel {
     private MutableLiveData<List<String>> fetchLevelSelection = new MutableLiveData<>();
     private MutableLiveData<List<String>> shapeLevelSelection = new MutableLiveData<>();

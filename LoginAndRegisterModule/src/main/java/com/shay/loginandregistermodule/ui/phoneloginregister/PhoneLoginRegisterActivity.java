@@ -28,13 +28,13 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     private PhoneSmsViewModel phoneSmsViewModel;
 
     @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
-    private Button submitSmsBtn;
+    Button submitSmsBtn;
     @BindView(R.id.activtiy_phone_login_register_confrim_btn)
-    private Button confrimBtn;
+    Button confrimBtn;
     @BindView(R.id.activtiy_phone_login_register_smsCode_et)
-    private EditText sgmCodeEt;
+    EditText sgmCodeEt;
     @BindView(R.id.activtiy_phone_login_register_phoneNum_et)
-    private EditText phoneNumEt;
+    EditText phoneNumEt;
 
     //短信是否发送成功
     boolean sendMsgStatus = false;
