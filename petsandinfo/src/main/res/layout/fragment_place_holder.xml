@@ -36,13 +36,12 @@
               android:text="饲养难度"
               android:button="@null"
               android:layout_weight="1"
-                android:gravity="center"
+              android:gravity="center"
               android:textColor="@drawable/pets_selection_seletor"
               android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"/>
 
             <CheckBox
-
-                android:id="@+id/fragment_ph_rank_selection_cb"
+              android:id="@+id/fragment_ph_rank_selection_cb"
               android:layout_width="wrap_content"
               android:layout_height="30dp"
               android:text="热度排序"
@@ -55,8 +54,11 @@
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/fragment_ph_pull_down_linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/pull_down_selection_layout"/>
 
         </LinearLayout>
     </LinearLayout>

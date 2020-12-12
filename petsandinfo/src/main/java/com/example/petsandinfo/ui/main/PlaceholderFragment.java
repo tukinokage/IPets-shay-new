@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,8 @@ import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+
 /**
  * A placeholder fragment containing a simple view.
  *
@@ -26,6 +29,7 @@ import java.util.List;
  */
 public class PlaceholderFragment extends Fragment {
 
+    private GridView
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String ARG_SECTION_NAME = "section_name";
@@ -85,4 +89,9 @@ public class PlaceholderFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ButterKnife.bind(this, getActivity());
+    }
 }
