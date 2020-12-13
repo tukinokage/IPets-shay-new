@@ -14,10 +14,21 @@ import java.util.List;
 
 public class SelectionsAdapter extends BaseAdapter {
 
+
+
     private List<String> seletionList;
     private Context context;
 
     private SelectionOnclickListener selectionOnclickListener;
+
+    public SelectionsAdapter(List<String> seletionList, Context context) {
+        this.seletionList = seletionList;
+        this.context = context;
+    }
+
+    public void setSeletionList(List<String> seletionList) {
+        this.seletionList = seletionList;
+    }
 
     @Override
     public int getCount() {
@@ -61,7 +72,7 @@ public class SelectionsAdapter extends BaseAdapter {
         this.selectionOnclickListener = selectionOnclickListener;
     }
 
-    interface SelectionOnclickListener{
+    public interface SelectionOnclickListener{
         void onClick(int position);
     }
 

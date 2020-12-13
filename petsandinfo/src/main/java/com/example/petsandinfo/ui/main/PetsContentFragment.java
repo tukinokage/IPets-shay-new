@@ -39,6 +39,9 @@ public class PetsContentFragment extends Fragment {
 
     @BindView(R.id.view_pager)
     ViewPager viewPager;
+
+    SectionsPagerAdapter sectionsPagerAdapter;
+
     //更换，种类
     //private List<String> petClasses = new ArrayList<>();
 
@@ -96,7 +99,7 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager());
+        sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager());
         sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
 
         for (int i = 1; i <= classesNum; i++){

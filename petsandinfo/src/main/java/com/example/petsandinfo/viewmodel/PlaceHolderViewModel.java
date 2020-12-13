@@ -40,7 +40,12 @@ public class PlaceHolderViewModel extends ViewModel {
     public void LoadSelection(){
         List<String> fechLevelList = new ArrayList<>();
         List<String> shapeLevelList = new ArrayList<>();
-        ArrayList<String> rankTypeList = new ArrayList<>();
+        List<String> rankTypeList = new ArrayList<>();
+
+        //默认
+        fechLevelList.add("全部");
+        shapeLevelList.add("全部");
+        rankTypeList.add("全部");
 
         for (FetchLevelEnum e:
              FetchLevelEnum.values()) {
