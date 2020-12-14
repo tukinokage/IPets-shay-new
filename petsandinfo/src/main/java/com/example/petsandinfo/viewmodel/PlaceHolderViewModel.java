@@ -6,13 +6,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.petsandinfo.model.entity.LoadPetCondition;
 import com.example.petsandinfo.model.entity.PetListLoadResult;
+import com.example.petsandinfo.repository.LoadPetListRepository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shay.baselibrary.enums.UIFilterParams.RankTypeEnum;
 import com.shay.baselibrary.enums.petInfo.FetchLevelEnum;
 import com.shay.baselibrary.enums.petInfo.ShapeLevelEnum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlaceHolderViewModel extends ViewModel {
     private MutableLiveData<List<String>> fetchLevelSelection = new MutableLiveData<>();
@@ -20,6 +26,12 @@ public class PlaceHolderViewModel extends ViewModel {
     private MutableLiveData<List<String>> rankTypeSelection = new MutableLiveData<>();
 
     private LiveData<PetListLoadResult> petListLoadResultLiveData = new MutableLiveData<>();
+
+    private LoadPetListRepository loadPetListRepository;
+
+    public PlaceHolderViewModel(LoadPetListRepository loadPetListRepository) {
+        this.loadPetListRepository = loadPetListRepository;
+    }
 
     public LiveData<PetListLoadResult> getPetListLoadResultLiveData() {
         return petListLoadResultLiveData;
@@ -71,7 +83,17 @@ public class PlaceHolderViewModel extends ViewModel {
 
     }
 
-    public void LoadList(){
+    public void loadList(int shapeLevel, int fetchLevel, int rankType, int petClass){
+
+
+        LoadPetCondition loadPetCondition = new LoadPetCondition();
+        loadPetCondition.setFetchLevel(fetchLevel);
+        loadPetCondition.setShapeLevel(shapeLevel);
+        loadPetCondition.setRankType(rankType);
+        loadPetCondition.setPetClass(petClass);
+        String json = new Gson().toJson(loadPetCondition);
+        HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
+
 
     }
 

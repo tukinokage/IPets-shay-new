@@ -76,6 +76,7 @@ public class PlaceholderFragment extends Fragment {
     private static int mShapeLevel = 0;
     private static int mFetchLevel = 0;
     private static int mRankType = 0;
+    private static int mPetClass = 0;
 
     private PageViewModel pageViewModel;
     private PlaceHolderViewModel placeHolderViewModel;
@@ -94,6 +95,7 @@ public class PlaceholderFragment extends Fragment {
         bundle.putInt(ARG_PARAM2, mFetchLevel);
         bundle.putInt(ARG_PARAM3, mRankType);*/
         fragment.setArguments(bundle);
+        mPetClass = index;
         Log.d("当前界面标识", className +index);
         return fragment;
     }
@@ -226,16 +228,15 @@ public class PlaceholderFragment extends Fragment {
             public void onClick(int position) {
                 if (shapeCheck.isChecked()){
                     mShapeLevel = position;
-
+                    loadList(mShapeLevel, mFetchLevel, mRankType);
 
                 }else if(fetchCheck.isChecked()){
                     mFetchLevel = position;
-
+                    loadList(mShapeLevel, mFetchLevel, mRankType);
 
                 }else if(rankCheck.isChecked()){
                     mRankType = position;
-
-
+                    loadList(mShapeLevel, mFetchLevel, mRankType);
                 }
             }
         });
@@ -260,6 +261,10 @@ public class PlaceholderFragment extends Fragment {
         }
     }
 
+
+    private void loadList(int shapeLevel, int fetchLevel, int rankType){
+        placeHolderViewModel.loadList(shapeLevel, fetchLevel, rankType, mPetClass);
+    }
 
 
 }

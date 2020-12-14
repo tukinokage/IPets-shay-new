@@ -8,11 +8,6 @@
     tools:ignore="ResourceName">
 
     <include layout="@layout/fragment_pets_content" />
-    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
-        app:qmui_radius="10dp"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:text="选项"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
