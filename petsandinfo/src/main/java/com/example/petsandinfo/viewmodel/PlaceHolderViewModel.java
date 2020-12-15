@@ -37,7 +37,6 @@ public class PlaceHolderViewModel extends ViewModel {
 
     public class LoadPetListAsyncTask extends AsyncTask<LoadPetCondition, String, String>{
 
-
         @Override
         protected String doInBackground(LoadPetCondition... loadPetConditions) {
             LoadPetCondition loadPetCondition = loadPetConditions[0];

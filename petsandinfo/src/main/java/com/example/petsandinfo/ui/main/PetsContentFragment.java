@@ -40,6 +40,8 @@ public class PetsContentFragment extends Fragment {
     @BindView(R.id.view_pager)
     ViewPager viewPager;
 
+    @BindView(R.id.tabs)
+    TabLayout tabLayout;
     SectionsPagerAdapter sectionsPagerAdapter;
 
     //更换，种类
@@ -83,7 +85,7 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this, getActivity());
+
         if (getArguments() != null) {
 
         }
@@ -99,13 +101,17 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager());
-        /*sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
+        ButterKnife.bind(this, getActivity());
+        sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
+        sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
         for (int i = 1; i <= classesNum; i++){
             sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
-        }*/
+        }
+
+        viewPager.setOffscreenPageLimit(classesNum);
         viewPager.setAdapter(sectionsPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
 
         TabLayout tabs =  getActivity().findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
@@ -121,12 +127,6 @@ public class PetsContentFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override

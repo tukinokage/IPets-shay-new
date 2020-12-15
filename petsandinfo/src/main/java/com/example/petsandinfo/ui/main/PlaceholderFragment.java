@@ -11,6 +11,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ArrayRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -48,6 +49,8 @@ public class PlaceholderFragment extends Fragment {
     @BindView(R.id.fragment_ph_rank_selection_cb)
     CheckBox rankCheck;
 
+    @BindView(R.id.section_label)
+     TextView textView;
     LinearLayout.LayoutParams displayParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -95,9 +98,11 @@ public class PlaceholderFragment extends Fragment {
         bundle.putInt(ARG_PARAM3, mRankType);*/
         fragment.setArguments(bundle);
         mPetClass = index;
-        Log.d("当前界面标识", className +index);
+        Log.d("当前界面标识",  fragment+ className +index);
         return fragment;
     }
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,7 +111,7 @@ public class PlaceholderFragment extends Fragment {
         placeHolderViewModel =new ViewModelProvider(this, new PlaceHolderViewModelFactory())
                 .get(PlaceHolderViewModel.class);
 
-        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
+
         if (getArguments() != null) {
             classNum = getArguments().getInt(ARG_SECTION_NUMBER);
             name = getArguments().getString(ARG_SECTION_NAME);
@@ -119,21 +124,18 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_place_holder, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
 
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+        Log.d(this.getClass().getSimpleName(), "onCreateView()");
         return root;
     }
 
     @Override
     public void onStart() {
+        Log.d(this.getClass().getSimpleName(), "start（）" + name);
         super.onStart();
         ButterKnife.bind(this, getActivity());
+        mSeletionList = new ArrayList<>();
+        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
         gridView.setAdapter(selectionsAdapter);
         initListener();
         initObserver();
@@ -142,9 +144,19 @@ public class PlaceholderFragment extends Fragment {
 
     private void initSelection(){
 
+
+
         placeHolderViewModel.LoadSelection();
     }
     private void initObserver(){
+
+        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(@Nullable String s) {
+                textView.setText(s);
+            }
+        });
+
         placeHolderViewModel.getFetchLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
             public void onChanged(List<String> strings) {

@@ -3,10 +3,13 @@ package com.example.petsandinfo.debug;
 import android.os.Bundle;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.ui.main.PetsContentFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,7 +19,7 @@ import android.view.View;
 
 import com.example.petsandinfo.ui.main.SectionsPagerAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
+        Fragment fragment = PetsContentFragment.newInstance("ss", "xx");
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_content, fragment).commit();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

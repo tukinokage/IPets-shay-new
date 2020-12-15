@@ -14,8 +14,6 @@ import java.util.List;
 
 public class SelectionsAdapter extends BaseAdapter {
 
-
-
     private List<String> seletionList;
     private Context context;
 
