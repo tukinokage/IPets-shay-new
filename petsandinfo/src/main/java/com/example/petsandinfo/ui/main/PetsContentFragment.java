@@ -100,11 +100,11 @@ public class PetsContentFragment extends Fragment {
     public void onStart() {
         super.onStart();
         sectionsPagerAdapter = new SectionsPagerAdapter(getContext(), getChildFragmentManager());
-        sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
+        /*sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
 
         for (int i = 1; i <= classesNum; i++){
             sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
-        }
+        }*/
         viewPager.setAdapter(sectionsPagerAdapter);
 
         TabLayout tabs =  getActivity().findViewById(R.id.tabs);

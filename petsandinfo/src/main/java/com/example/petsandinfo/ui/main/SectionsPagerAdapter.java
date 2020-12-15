@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.petsandinfo.R;
+import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +25,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
    // private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
     private static final ArrayList<Fragment> fs = new ArrayList<>();
+    private int classesNum = PetClassesEnum.values().length;
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
+        addFragment(AllPetsFragment.newInstance(0, "全部"));
+
+        for (int i = 1; i <= classesNum; i++){
+           addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
+        }
     }
 
     @Override

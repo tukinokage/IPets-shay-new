@@ -1,5 +1,6 @@
 package com.example.petsandinfo.viewmodel;
 
+import android.os.AsyncTask;
 import android.os.HandlerThread;
 
 import androidx.lifecycle.LiveData;
@@ -11,9 +12,11 @@ import com.example.petsandinfo.model.entity.PetListLoadResult;
 import com.example.petsandinfo.repository.LoadPetListRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.enums.UIFilterParams.RankTypeEnum;
 import com.shay.baselibrary.enums.petInfo.FetchLevelEnum;
 import com.shay.baselibrary.enums.petInfo.ShapeLevelEnum;
+import com.shay.baselibrary.factorys.AsyncTaskFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +31,30 @@ public class PlaceHolderViewModel extends ViewModel {
     private LiveData<PetListLoadResult> petListLoadResultLiveData = new MutableLiveData<>();
 
     private LoadPetListRepository loadPetListRepository;
+
+    private LoadPetListAsyncTask loadPetListAsyncTask;
+    private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
+
+    public class LoadPetListAsyncTask extends AsyncTask<LoadPetCondition, String, String>{
+
+
+        @Override
+        protected String doInBackground(LoadPetCondition... loadPetConditions) {
+            LoadPetCondition loadPetCondition = loadPetConditions[0];
+            String json = new Gson().toJson(loadPetCondition);
+            HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
+
+            loadPetListRepository.loadPetList(paramsMap, new LoadPetListRepository.GetResultListener() {
+                @Override
+                public void getResult(Result result) {
+
+
+                }
+            });
+            return null;
+        }
+    }
+
 
     public PlaceHolderViewModel(LoadPetListRepository loadPetListRepository) {
         this.loadPetListRepository = loadPetListRepository;
@@ -85,17 +112,17 @@ public class PlaceHolderViewModel extends ViewModel {
 
     public void loadList(int shapeLevel, int fetchLevel, int rankType, int petClass){
 
-
         LoadPetCondition loadPetCondition = new LoadPetCondition();
         loadPetCondition.setFetchLevel(fetchLevel);
         loadPetCondition.setShapeLevel(shapeLevel);
         loadPetCondition.setRankType(rankType);
         loadPetCondition.setPetClass(petClass);
-        String json = new Gson().toJson(loadPetCondition);
-        HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
-
-
+        loadPetListAsyncTask = (LoadPetListAsyncTask) asyncTaskFactory.createAsyncTask(new LoadPetListAsyncTask());
+        loadPetListAsyncTask.execute(loadPetCondition);
     }
 
+    public void cancelAsync(){
+        asyncTaskFactory.cancelAsyncTask();
+    }
 
 }

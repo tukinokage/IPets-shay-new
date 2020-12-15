@@ -13,12 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.adapters.SelectionsAdapter;
 import com.example.petsandinfo.model.entity.Pet;
 import com.example.petsandinfo.ui.main.dummy.DummyContent;
 import com.example.petsandinfo.ui.main.dummy.DummyContent.DummyItem;
+import com.example.petsandinfo.viewmodel.PageViewModel;
+import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.ButterKnife;
 
 /**
  * A fragment representing a list of Items.
@@ -29,15 +34,35 @@ import java.util.List;
 public class AllPetsFragment extends Fragment {
 
     List<Pet> allPets = new ArrayList<>();
-    // TODO: Customize parameter argument names
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String ARG_SECTION_NAME = "section_name";
     // TODO: Customize parameters
     private int mColumnCount = 1;
 
+    SelectionsAdapter selectionsAdapter;
 
+    List<String> mSeletionList;
+    List<String> mShapeSelectionList;
+    List<String> mFetchSelectionList;
+    List<String> mRankSelectionList;
 
-    private String name = "";
+    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_SECTION_NAME = "section_name";
+    private static final String ARG_PARAM1 = "shapeLevel";
+    private static final String ARG_PARAM2 = "fetchLevel";
+    private static final String ARG_PARAM3 = "rankType";
+
+    //标识当前界面类型
+    private int classNum;
+    private String name;
+
+    //选项默认值
+    private static int mShapeLevel = 0;
+    private static int mFetchLevel = 0;
+    private static int mRankType = 0;
+    private static int mPetClass = 0;
+
+    private PageViewModel pageViewModel;
+    private PlaceHolderViewModel placeHolderViewModel;
+
     private OnListFragmentInteractionListener mListener;
 
     /**
@@ -54,6 +79,7 @@ public class AllPetsFragment extends Fragment {
     public static AllPetsFragment newInstance(int num, String name) {
         AllPetsFragment fragment = new AllPetsFragment();
         Bundle args = new Bundle();
+        mPetClass = num;
         args.putInt(ARG_SECTION_NUMBER, num);
         args.putString(ARG_SECTION_NAME, name);
 
@@ -78,6 +104,7 @@ public class AllPetsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_pets, container, false);
 
+        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
         // Set the adapter
       /*  if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -92,6 +119,11 @@ public class AllPetsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ButterKnife.bind(this, getActivity());
+    }
 
     @Override
     public void onAttach(Context context) {

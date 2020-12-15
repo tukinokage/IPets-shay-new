@@ -41,7 +41,6 @@ public class PlaceholderFragment extends Fragment {
 
     @BindView(R.id.selection_grid_view)
     GridView gridView;
-
     @BindView(R.id.fragment_ph_shape_selection_cb)
     CheckBox shapeCheck;
     @BindView(R.id.fragment_ph_fetch_selection_cb)
@@ -135,6 +134,7 @@ public class PlaceholderFragment extends Fragment {
     public void onStart() {
         super.onStart();
         ButterKnife.bind(this, getActivity());
+        gridView.setAdapter(selectionsAdapter);
         initListener();
         initObserver();
         initSelection();
@@ -266,5 +266,9 @@ public class PlaceholderFragment extends Fragment {
         placeHolderViewModel.loadList(shapeLevel, fetchLevel, rankType, mPetClass);
     }
 
-
+    @Override
+    public void onDestroy() {
+        placeHolderViewModel.cancelAsync();
+        super.onDestroy();
+    }
 }
