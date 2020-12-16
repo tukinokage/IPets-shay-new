@@ -16,10 +16,7 @@ import java.util.ArrayList;
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-   // private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
-    private static final ArrayList<Fragment> fs = new ArrayList<>();
     private FragmentManager fm;
-
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -62,4 +59,13 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Show  total pages.
         return fs.size();
     }
+
+    @Override
+    public long getItemId(int position) {
+        return fs.get(position).hashCode();
+    }
+
+    // private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
+    //坑
+    private static final ArrayList<Fragment> fs = new ArrayList<>();
 }

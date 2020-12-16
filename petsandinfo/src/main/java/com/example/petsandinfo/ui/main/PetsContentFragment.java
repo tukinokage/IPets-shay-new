@@ -83,6 +83,18 @@ public class PetsContentFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -109,7 +121,7 @@ public class PetsContentFragment extends Fragment {
             sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
         }
 
-        viewPager.setOffscreenPageLimit(classesNum);
+        viewPager.setOffscreenPageLimit(1);
         viewPager.setAdapter(sectionsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
