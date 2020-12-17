@@ -121,7 +121,7 @@ public class PetsContentFragment extends Fragment {
             sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
         }
 
-        viewPager.setOffscreenPageLimit(1);
+        viewPager.setOffscreenPageLimit(classesNum/2);
         viewPager.setAdapter(sectionsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 

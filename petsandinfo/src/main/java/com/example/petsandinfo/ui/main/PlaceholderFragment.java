@@ -137,7 +137,7 @@ public class PlaceholderFragment extends Fragment {
         mSeletionList = new ArrayList<>();
         selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
         gridView.setAdapter(selectionsAdapter);
-        Log.d(this.getClass().getSimpleName(), "onStart()");
+        Log.d(this.getClass().getSimpleName(), name +"onStart()");
         initListener();
         initObserver();
         initSelection();
@@ -146,14 +146,14 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(this.getClass().getSimpleName(), "onResume()");
+        Log.d(this.getClass().getSimpleName(), name + "onResume()");
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d(this.getClass().getSimpleName(), "onPause()");
+        Log.d(this.getClass().getSimpleName(), name + "onPause()");
     }
 
     private void initSelection(){
