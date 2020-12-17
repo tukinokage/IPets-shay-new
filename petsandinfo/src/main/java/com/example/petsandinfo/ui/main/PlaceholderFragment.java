@@ -159,6 +159,7 @@ public class PlaceholderFragment extends Fragment {
     private void initSelection(){
         placeHolderViewModel.LoadSelection();
     }
+
     private void initObserver(){
 
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {

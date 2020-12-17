@@ -12,6 +12,9 @@ import com.example.petsandinfo.R;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SelectionsAdapter extends BaseAdapter {
 
     private List<String> seletionList;
@@ -49,7 +52,7 @@ public class SelectionsAdapter extends BaseAdapter {
 
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.selection_item, parent, false);
-            viewholder = new SelectionViewholder();
+            viewholder = new SelectionViewholder(convertView);
             convertView.setTag(viewholder);
 
             //由于是固定的，只要在第一次初始化就可
@@ -75,7 +78,12 @@ public class SelectionsAdapter extends BaseAdapter {
     }
 
     class SelectionViewholder{
+        @BindView(R.id.selection_btn)
         Button btn;
+
+        public SelectionViewholder(View v){
+            ButterKnife.bind(this, v);
+        }
     }
 
 }
