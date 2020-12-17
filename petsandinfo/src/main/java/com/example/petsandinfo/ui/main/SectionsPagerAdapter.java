@@ -8,15 +8,17 @@ import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapter extends FragmentPagerAdapter {
+public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
     private FragmentManager fm;
+    private static final ArrayList<Fragment> fs = new ArrayList<>();
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -60,12 +62,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         return fs.size();
     }
 
-    @Override
-    public long getItemId(int position) {
-        return fs.get(position).hashCode();
-    }
+
 
     // private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();
-    //坑
-    private static final ArrayList<Fragment> fs = new ArrayList<>();
+
 }

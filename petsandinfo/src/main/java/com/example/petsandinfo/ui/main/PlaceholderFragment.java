@@ -32,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -83,11 +84,14 @@ public class PlaceholderFragment extends Fragment {
     private PageViewModel pageViewModel;
     private PlaceHolderViewModel placeHolderViewModel;
 
+    private Unbinder unbinder;
 
     boolean isShowSelectGridView = false;
+
     public String getName() {
         return name;
     }
+
     public static PlaceholderFragment newInstance(int index, String className) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
@@ -124,35 +128,38 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_place_holder, container, false);
-
-        Log.d(this.getClass().getSimpleName(), "onCreateView()");
+        Log.d(this.getClass().getSimpleName(), getName() + "onCreateView()");
         return root;
     }
 
     @Override
     public void onStart() {
-        Log.d(this.getClass().getSimpleName(), "start（）" + name);
         super.onStart();
-        ButterKnife.bind(this, getActivity());
-        mSeletionList = new ArrayList<>();
-        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
-        gridView.setAdapter(selectionsAdapter);
         Log.d(this.getClass().getSimpleName(), name +"onStart()");
-        initListener();
-        initObserver();
-        initSelection();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+       unbinder =  ButterKnife.bind(this, getActivity());
+        mSeletionList = new ArrayList<>();
+        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
+        gridView.setAdapter(selectionsAdapter);
+
+        initListener();
+        initObserver();
+        initSelection();
         Log.d(this.getClass().getSimpleName(), name + "onResume()");
+        Log.d(this.getClass().getSimpleName(), String.valueOf(shapeCheck.hashCode()));
 
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        unbinder.unbind();
         Log.d(this.getClass().getSimpleName(), name + "onPause()");
     }
 
@@ -201,47 +208,46 @@ public class PlaceholderFragment extends Fragment {
 
     private void initListener(){
 
-        shapeCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        shapeCheck.setOnCheckedChangeListener((compoundButton, b) -> {
 
-                if(b){
-                    //可触发OnCheckedChangeListener
-                    fetchCheck.setChecked(false);
-                    rankCheck.setChecked(false);
-                    setSelectionContent(mShapeSelectionList);
-                    showSelectGridView();
-                }else {
-                    hideSelectionView();
-                }
+            if(b){
+                //可触发OnCheckedChangeListener
+                fetchCheck.setChecked(false);
+                rankCheck.setChecked(false);
+                setSelectionContent(mShapeSelectionList);
+                showSelectGridView();
+
+                Log.d("shape", "check1");
+
+            }else {
+                hideSelectionView();
+                Log.d("shape", "check2");
+
             }
         });
 
-        fetchCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    shapeCheck.setChecked(false);
-                    rankCheck.setChecked(false);
-                    setSelectionContent(mFetchSelectionList);
-                    showSelectGridView();
-                }else {
-                    hideSelectionView();
-                }
+        fetchCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                shapeCheck.setChecked(false);
+                rankCheck.setChecked(false);
+                setSelectionContent(mFetchSelectionList);
+                showSelectGridView();
+                Log.d("fetch", "check1");
+
+            }else {
+                hideSelectionView();
+                Log.d("fetch", "check2");
             }
         });
 
-        rankCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(b){
-                    shapeCheck.setChecked(false);
-                    fetchCheck.setChecked(false);
-                    setSelectionContent(mRankSelectionList);
-                    showSelectGridView();
-                }else {
-                    hideSelectionView();
-                }
+        rankCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                shapeCheck.setChecked(false);
+                fetchCheck.setChecked(false);
+                setSelectionContent(mRankSelectionList);
+                showSelectGridView();
+            }else {
+                hideSelectionView();
             }
         });
 
@@ -261,6 +267,7 @@ public class PlaceholderFragment extends Fragment {
                 }else if(rankCheck.isChecked()){
                     mRankType = position;
                     loadList(mShapeLevel, mFetchLevel, mRankType);
+
                 }
             }
         });
@@ -276,12 +283,14 @@ public class PlaceholderFragment extends Fragment {
     private void hideSelectionView(){
         if (isShowSelectGridView){
             gridView.setLayoutParams(hideParams);
+            isShowSelectGridView = false;
         }
     }
 
     private void showSelectGridView(){
         if (!isShowSelectGridView){
             gridView.setLayoutParams(displayParams);
+            isShowSelectGridView = true;
         }
     }
 

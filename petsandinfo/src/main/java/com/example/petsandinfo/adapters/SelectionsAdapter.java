@@ -54,18 +54,20 @@ public class SelectionsAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.selection_item, parent, false);
             viewholder = new SelectionViewholder(convertView);
             convertView.setTag(viewholder);
-
-            //由于是固定的，只要在第一次初始化就可
-            viewholder.btn.setText(seletionList.get(position));
-            viewholder.btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    selectionOnclickListener.onClick(position);
-                }
-            });
-        }/*else {
+        }
+        else {
             viewholder = (SelectionViewholder) convertView.getTag();
-        }*/
+        }
+
+        //由于是固定的，只要在第一次初始化就可
+        viewholder.btn.setText(seletionList.get(position));
+        viewholder.btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectionOnclickListener.onClick(position);
+            }
+        });
+
         return convertView;
     }
 
