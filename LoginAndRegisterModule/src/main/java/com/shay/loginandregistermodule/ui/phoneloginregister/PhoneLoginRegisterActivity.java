@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -70,12 +72,45 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("StaticFieldLeak")
     public void msgConfirm(View v){
 
         String phoneNum = phoneNumEt.getText().toString().trim();
         phoneSmsViewModel.sendSms(phoneNum);
 
         submitSmsBtn.setEnabled(false);
+        new AsyncTask<Integer, Integer, Integer>(){
+
+            @Override
+            protected Integer doInBackground(Integer... integers) {
+                long ctime = 1000 * integers[0];
+                long mtime = 0;
+                while (mtime < ctime){
+                    try {
+                        Thread.sleep(1000);
+                        mtime += 1000;
+                        publishProgress((int) ((ctime - mtime)/1000));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        break;
+                    }
+                }
+                return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                super.onProgressUpdate(values);
+                submitSmsBtn.setText( values[0] + "秒");
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+                super.onPostExecute(integer);
+                submitSmsBtn.setText("发送");
+                submitSmsBtn.setEnabled(true);
+            }
+        }.execute(60);
 
     }
 

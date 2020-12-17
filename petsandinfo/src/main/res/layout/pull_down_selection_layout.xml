@@ -8,7 +8,9 @@
         android:id="@+id/selection_grid_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:numColumns="4"
-        android:horizontalSpacing="10dp"/>
+        />
 
 </LinearLayout>

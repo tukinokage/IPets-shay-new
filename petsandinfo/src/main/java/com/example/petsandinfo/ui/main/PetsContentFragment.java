@@ -10,6 +10,8 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.example.petsandinfo.R;
 import com.google.android.material.tabs.TabLayout;
@@ -47,7 +49,7 @@ public class PetsContentFragment extends Fragment {
     //更换，种类
     //private List<String> petClasses = new ArrayList<>();
 
-    private int classesNum = PetClassesEnum.values().length;
+    private int classesNum = PetClassesEnum.values().length ;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -121,12 +123,18 @@ public class PetsContentFragment extends Fragment {
             sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
         }
 
+        //viewpage
         viewPager.setOffscreenPageLimit(classesNum/2);
         viewPager.setAdapter(sectionsPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
 
+        //tabLayout
+        int tabLayoutWidth = 150 * (classesNum + 1);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tabLayoutWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
         TabLayout tabs =  getActivity().findViewById(R.id.tabs);
+        tabs.setLayoutParams(layoutParams);
         tabs.setupWithViewPager(viewPager);
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

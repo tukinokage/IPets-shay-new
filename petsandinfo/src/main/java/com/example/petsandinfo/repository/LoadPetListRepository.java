@@ -91,7 +91,6 @@ public class LoadPetListRepository {
                         }
                     });
 
-
     }
 
     //需要回调在主线程
@@ -101,6 +100,5 @@ public class LoadPetListRepository {
     public interface GetResultListener{
         void getResult(Result result);
     }
-
 
 }
