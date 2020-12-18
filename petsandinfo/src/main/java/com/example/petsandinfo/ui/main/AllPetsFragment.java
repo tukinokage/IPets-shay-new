@@ -4,22 +4,25 @@ import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.GridView;
+import android.widget.LinearLayout;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
 import com.example.petsandinfo.model.entity.Pet;
-import com.example.petsandinfo.ui.main.dummy.DummyContent;
+import com.example.petsandinfo.model.entity.PetListLoadResult;
 import com.example.petsandinfo.ui.main.dummy.DummyContent.DummyItem;
 import com.example.petsandinfo.viewmodel.PageViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
+import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +35,21 @@ import butterknife.ButterKnife;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
+
+
 public class AllPetsFragment extends Fragment {
 
-    List<Pet> allPets = new ArrayList<>();
-    // TODO: Customize parameters
-    private int mColumnCount = 1;
+
+    GridView gridView;
+    CheckBox shapeCheck;
+    CheckBox fetchCheck;
+    CheckBox rankCheck;
+
+    LinearLayout.LayoutParams displayParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT);
+
+    LinearLayout.LayoutParams hideParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+            0);
 
     SelectionsAdapter selectionsAdapter;
 
@@ -61,10 +74,10 @@ public class AllPetsFragment extends Fragment {
     private static int mRankType = 0;
     private static int mPetClass = 0;
 
-    private PageViewModel pageViewModel;
     private PlaceHolderViewModel placeHolderViewModel;
 
-    private OnListFragmentInteractionListener mListener;
+    boolean isShowSelectGridView = false;
+
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -92,8 +105,11 @@ public class AllPetsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        placeHolderViewModel =new ViewModelProvider(this, new PlaceHolderViewModelFactory())
+                .get(PlaceHolderViewModel.class);
+
         if (getArguments() != null) {
-            mColumnCount = getArguments().getInt(ARG_SECTION_NUMBER);
+            classNum = getArguments().getInt(ARG_SECTION_NUMBER);
             name = getArguments().getString(ARG_SECTION_NAME);
         }
 
@@ -103,21 +119,15 @@ public class AllPetsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_all_pets, container, false);
+        View root = inflater.inflate(R.layout.fragment_all_pets, container, false);
 
         selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
-        // Set the adapter
-      /*  if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (mColumnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            } else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
-            }
-            recyclerView.setAdapter(new MypetRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-        }*/
-        return view;
+        //1，组件在此处实例化 2，不可采用黄油刀
+        shapeCheck = root.findViewById(R.id.fragment_ph_shape_selection_cb);
+        fetchCheck = root.findViewById(R.id.fragment_ph_fetch_selection_cb);
+        rankCheck = root.findViewById(R.id.fragment_ph_rank_selection_cb);
+        gridView = root.findViewById(R.id.selection_grid_view);
+        return root;
     }
 
     @Override
@@ -126,6 +136,12 @@ public class AllPetsFragment extends Fragment {
         ButterKnife.bind(this, getActivity());
 
         Log.d("当前界面标识", "全部0");
+        mSeletionList = new ArrayList<>();
+        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
+        gridView.setAdapter(selectionsAdapter);
+        initListener();
+        initObserver();
+        initSelection();
     }
 
     @Override
@@ -136,7 +152,6 @@ public class AllPetsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
 
 
@@ -154,5 +169,141 @@ public class AllPetsFragment extends Fragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(DummyItem item);
+    }
+
+
+
+    private void initSelection(){
+        placeHolderViewModel.LoadSelection();
+    }
+
+    private void initObserver(){
+
+
+        placeHolderViewModel.getFetchLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                mFetchSelectionList = strings;
+            }
+        });
+
+        placeHolderViewModel.getShapeLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                mShapeSelectionList = strings;
+            }
+        });
+
+        placeHolderViewModel.getRankTypeSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                mRankSelectionList = strings;
+            }
+        });
+
+        //加载列表
+        placeHolderViewModel.getPetListLoadResultLiveData().observe(getViewLifecycleOwner(), new Observer<PetListLoadResult>() {
+            @Override
+            public void onChanged(PetListLoadResult petListLoadResult) {
+
+            }
+        });
+    }
+
+    private void initListener(){
+
+        shapeCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+
+            if(b){
+                //可触发OnCheckedChangeListener
+                fetchCheck.setChecked(false);
+                rankCheck.setChecked(false);
+                setSelectionContent(mShapeSelectionList);
+                showSelectGridView();
+
+                Log.d("shape", "check1");
+
+            }else {
+                hideSelectionView();
+                Log.d("shape", "check2");
+            }
+        });
+
+        fetchCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                shapeCheck.setChecked(false);
+                rankCheck.setChecked(false);
+                setSelectionContent(mFetchSelectionList);
+                showSelectGridView();
+                Log.d("fetch", "check1");
+
+            }else {
+                hideSelectionView();
+                Log.d("fetch", "check2");
+            }
+        });
+
+        rankCheck.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(b){
+                shapeCheck.setChecked(false);
+                fetchCheck.setChecked(false);
+                setSelectionContent(mRankSelectionList);
+                showSelectGridView();
+            }else {
+                hideSelectionView();
+            }
+        });
+
+        //选中筛选条件
+        selectionsAdapter.setSelectionOnclickListener(new SelectionsAdapter.SelectionOnclickListener(){
+
+            @Override
+            public void onClick(int position) {
+                if (shapeCheck.isChecked()){
+                    mShapeLevel = position;
+                    loadList(mShapeLevel, mFetchLevel, mRankType);
+
+                }else if(fetchCheck.isChecked()){
+                    mFetchLevel = position;
+                    loadList(mShapeLevel, mFetchLevel, mRankType);
+
+                }else if(rankCheck.isChecked()){
+                    mRankType = position;
+                    loadList(mShapeLevel, mFetchLevel, mRankType);
+
+                }
+            }
+        });
+
+    }
+
+    private void setSelectionContent(List list){
+        selectionsAdapter.setSeletionList(list);
+        selectionsAdapter.notifyDataSetChanged();
+    }
+
+    private void hideSelectionView(){
+        if (isShowSelectGridView){
+            gridView.setLayoutParams(hideParams);
+            isShowSelectGridView = false;
+        }
+    }
+
+    private void showSelectGridView(){
+        if (!isShowSelectGridView){
+            gridView.setLayoutParams(displayParams);
+            isShowSelectGridView = true;
+        }
+    }
+
+
+    private void loadList(int shapeLevel, int fetchLevel, int rankType){
+        placeHolderViewModel.loadList(shapeLevel, fetchLevel, rankType, mPetClass);
+    }
+
+    @Override
+    public void onDestroy() {
+        placeHolderViewModel.cancelAsync();
+        super.onDestroy();
     }
 }

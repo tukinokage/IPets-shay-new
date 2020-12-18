@@ -41,17 +41,14 @@ import butterknife.Unbinder;
  */
 public class PlaceholderFragment extends Fragment {
 
-    @BindView(R.id.selection_grid_view)
+
+    //cb为三大分类
+    //gridview通过观察cb切换更改详细设置内容
     GridView gridView;
-    @BindView(R.id.fragment_ph_shape_selection_cb)
     CheckBox shapeCheck;
-    @BindView(R.id.fragment_ph_fetch_selection_cb)
     CheckBox fetchCheck;
-    @BindView(R.id.fragment_ph_rank_selection_cb)
     CheckBox rankCheck;
 
-    @BindView(R.id.section_label)
-     TextView textView;
     LinearLayout.LayoutParams displayParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT);
 
@@ -84,8 +81,6 @@ public class PlaceholderFragment extends Fragment {
     private PageViewModel pageViewModel;
     private PlaceHolderViewModel placeHolderViewModel;
 
-    private Unbinder unbinder;
-
     boolean isShowSelectGridView = false;
 
     public String getName() {
@@ -97,9 +92,6 @@ public class PlaceholderFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         bundle.putString(ARG_SECTION_NAME, className);
-       /* bundle.putInt(ARG_PARAM1, mShapeLevel);
-        bundle.putInt(ARG_PARAM2, mFetchLevel);
-        bundle.putInt(ARG_PARAM3, mRankType);*/
         fragment.setArguments(bundle);
         mPetClass = index;
         Log.d("当前界面标识",  fragment+ className +index);
@@ -128,6 +120,13 @@ public class PlaceholderFragment extends Fragment {
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_place_holder, container, false);
+
+        //1，组件在此处实例化 2，不可采用黄油刀
+        shapeCheck = root.findViewById(R.id.fragment_ph_shape_selection_cb);
+        fetchCheck = root.findViewById(R.id.fragment_ph_fetch_selection_cb);
+        rankCheck = root.findViewById(R.id.fragment_ph_rank_selection_cb);
+        gridView = root.findViewById(R.id.selection_grid_view);
+
         Log.d(this.getClass().getSimpleName(), getName() + "onCreateView()");
         return root;
     }
@@ -136,21 +135,17 @@ public class PlaceholderFragment extends Fragment {
     public void onStart() {
         super.onStart();
         Log.d(this.getClass().getSimpleName(), name +"onStart()");
-
+        mSeletionList = new ArrayList<>();
+        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
+        gridView.setAdapter(selectionsAdapter);
+        initListener();
+        initObserver();
+        initSelection();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
-       unbinder =  ButterKnife.bind(this, getActivity());
-        mSeletionList = new ArrayList<>();
-        selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
-        gridView.setAdapter(selectionsAdapter);
-
-        initListener();
-        initObserver();
-        initSelection();
         Log.d(this.getClass().getSimpleName(), name + "onResume()");
         Log.d(this.getClass().getSimpleName(), String.valueOf(shapeCheck.hashCode()));
 
@@ -159,7 +154,6 @@ public class PlaceholderFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        unbinder.unbind();
         Log.d(this.getClass().getSimpleName(), name + "onPause()");
     }
 
@@ -169,12 +163,12 @@ public class PlaceholderFragment extends Fragment {
 
     private void initObserver(){
 
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        /*pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
-        });
+        });*/
 
         placeHolderViewModel.getFetchLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
@@ -222,7 +216,6 @@ public class PlaceholderFragment extends Fragment {
             }else {
                 hideSelectionView();
                 Log.d("shape", "check2");
-
             }
         });
 
@@ -271,7 +264,6 @@ public class PlaceholderFragment extends Fragment {
                 }
             }
         });
-
 
     }
 

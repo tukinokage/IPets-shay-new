@@ -5,6 +5,11 @@ public enum ShapeLevelEnum {
     middle(1, "中"),
     large(2, "大");
     private int num;
+
+    public String getChinese() {
+        return chinese;
+    }
+
     private String chinese;
 
     ShapeLevelEnum(int num, String chinese){
@@ -15,6 +20,8 @@ public enum ShapeLevelEnum {
     public int getNum() {
         return num;
     }
+
+
 
     public static ShapeLevelEnum getEnumByNum(int i){
         for (ShapeLevelEnum shapeLevelEnum:

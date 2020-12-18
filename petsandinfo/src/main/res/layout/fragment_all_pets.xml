@@ -8,28 +8,71 @@
     tools:context=".ui.main.PlaceholderFragment"
     tools:ignore="ResourceName">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/constraintLayout"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintTop_creator="1" />
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_ph_selection_linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <CheckBox android:id="@+id/fragment_ph_shape_selection_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="体型"
+                android:button="@null"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@drawable/pets_selection_seletor"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+            <CheckBox android:id="@+id/fragment_ph_fetch_selection_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="饲养难度"
+                android:button="@null"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textColor="@drawable/pets_selection_seletor"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+            <CheckBox
+                android:id="@+id/fragment_ph_rank_selection_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:text="热度排序"
+                android:button="@null"
+                android:layout_weight="1"
+
+                android:gravity="center"
+                android:textColor="@drawable/pets_selection_seletor"
+                android:drawableEnd="@drawable/ic_keyboard_arrow_down_black_24dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fragment_ph_pull_down_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/pull_down_selection_layout"/>
+
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/fragment_ph_listView_linearLayout"
+        app:layout_constraintTop_toBottomOf="@id/fragment_ph_selection_linearLayout"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fragment_all_pet_rcv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-
     </LinearLayout>
 
 

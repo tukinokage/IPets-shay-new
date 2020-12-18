@@ -1,5 +1,6 @@
 package com.example.petsandinfo.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -15,10 +16,11 @@ import java.util.ArrayList;
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private FragmentManager fm;
     private static final ArrayList<Fragment> fs = new ArrayList<>();
+
 
     public SectionsPagerAdapter(FragmentManager fm) {
         super(fm, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
@@ -41,11 +43,12 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-        if(position == 0){
+       Fragment mfragment = fs.get(position);
+        if(mfragment instanceof AllPetsFragment){
             //第0默认为展示全部
-            return ((AllPetsFragment)(fs.get(position))).getName();
+            return ((AllPetsFragment)mfragment).getName();
         }else {
-           return  ((PlaceholderFragment)(fs.get(position))).getName();
+           return  ((PlaceholderFragment)mfragment).getName();
         }
 
     }
@@ -61,7 +64,6 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         // Show  total pages.
         return fs.size();
     }
-
 
 
     // private static final Map<String, Fragment> fragmentsMap = new LinkedHashMap<>();

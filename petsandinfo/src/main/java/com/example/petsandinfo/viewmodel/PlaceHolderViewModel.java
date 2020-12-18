@@ -92,7 +92,7 @@ public class PlaceHolderViewModel extends ViewModel {
 
         for (ShapeLevelEnum e:
                 ShapeLevelEnum.values()) {
-            shapeLevelList.add(e.name());
+            shapeLevelList.add(e.getChinese());
         }
 
         for (RankTypeEnum rankTypeEnum:

@@ -23,17 +23,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PetsContentFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PetsContentFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
+/**@Describe
  * 承载viewpage的fragment
- */
-/*
 * 要在主activity销毁pagerAdapter
 * 第0固定为全部
 * */
@@ -66,14 +57,6 @@ public class PetsContentFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PetsContentFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static PetsContentFragment newInstance(String param1, String param2) {
         PetsContentFragment fragment = new PetsContentFragment();
@@ -108,32 +91,35 @@ public class PetsContentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View v = inflater.inflate(R.layout.fragment_pets_content, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pets_content, container, false);
+        ButterKnife.bind(this, v);
+        sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
+       //viewpage
+        viewPager.setOffscreenPageLimit(classesNum/2);
+
+        sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
+        for (int i = 1; i <= classesNum; i++){
+            sectionsPagerAdapter.addFragment(
+                    PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
+        }
+        viewPager.setAdapter(sectionsPagerAdapter);
+        return v;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        ButterKnife.bind(this, getActivity());
-        sectionsPagerAdapter = new SectionsPagerAdapter(getChildFragmentManager());
 
-        sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
-        for (int i = 1; i <= classesNum; i++){
-            sectionsPagerAdapter.addFragment(PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
-        }
 
-        //viewpage
-        viewPager.setOffscreenPageLimit(classesNum/2);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
+
 
         //tabLayout
-        int tabLayoutWidth = 150 * (classesNum + 1);
+        int tabLayoutWidth = 200 * (classesNum + 1);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tabLayoutWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
-        TabLayout tabs =  getActivity().findViewById(R.id.tabs);
-        tabs.setLayoutParams(layoutParams);
-        tabs.setupWithViewPager(viewPager);
+        tabLayout.setLayoutParams(layoutParams);
+        tabLayout.setupWithViewPager(viewPager);
 
     }
 
@@ -164,5 +150,11 @@ public class PetsContentFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        sectionsPagerAdapter = null;
     }
 }
