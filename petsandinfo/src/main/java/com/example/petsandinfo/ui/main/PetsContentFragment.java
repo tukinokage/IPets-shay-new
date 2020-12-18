@@ -112,9 +112,6 @@ public class PetsContentFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-
-
-
         //tabLayout
         int tabLayoutWidth = 200 * (classesNum + 1);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tabLayoutWidth, LinearLayout.LayoutParams.WRAP_CONTENT);

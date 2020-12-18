@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
@@ -62,6 +63,8 @@ public class PlaceholderFragment extends Fragment {
     List<String> mFetchSelectionList;
     List<String> mRankSelectionList;
 
+    RecyclerView recyclerView;
+
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String ARG_SECTION_NAME = "section_name";
     private static final String ARG_PARAM1 = "shapeLevel";
@@ -78,7 +81,6 @@ public class PlaceholderFragment extends Fragment {
     private static int mRankType = 0;
     private static int mPetClass = 0;
 
-    private PageViewModel pageViewModel;
     private PlaceHolderViewModel placeHolderViewModel;
 
     boolean isShowSelectGridView = false;
@@ -98,21 +100,16 @@ public class PlaceholderFragment extends Fragment {
         return fragment;
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
         placeHolderViewModel =new ViewModelProvider(this, new PlaceHolderViewModelFactory())
                 .get(PlaceHolderViewModel.class);
-
-
         if (getArguments() != null) {
             classNum = getArguments().getInt(ARG_SECTION_NUMBER);
             name = getArguments().getString(ARG_SECTION_NAME);
         }
-        pageViewModel.setIndex(classNum);
+
     }
 
     @Override
@@ -126,6 +123,7 @@ public class PlaceholderFragment extends Fragment {
         fetchCheck = root.findViewById(R.id.fragment_ph_fetch_selection_cb);
         rankCheck = root.findViewById(R.id.fragment_ph_rank_selection_cb);
         gridView = root.findViewById(R.id.selection_grid_view);
+        recyclerView = root.findViewById(R.id.fragment_ph_pet_rcv);
 
         Log.d(this.getClass().getSimpleName(), getName() + "onCreateView()");
         return root;
@@ -262,6 +260,25 @@ public class PlaceholderFragment extends Fragment {
                     loadList(mShapeLevel, mFetchLevel, mRankType);
 
                 }
+            }
+        });
+
+        //下拉刷新
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                //到底部
+                if(newState == RecyclerView.SCROLL_STATE_IDLE){
+
+                }
+
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
             }
         });
 

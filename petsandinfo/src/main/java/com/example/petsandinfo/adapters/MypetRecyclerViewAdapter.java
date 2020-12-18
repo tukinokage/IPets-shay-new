@@ -1,5 +1,6 @@
-package com.example.petsandinfo.ui.main;
+package com.example.petsandinfo.adapters;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import com.example.petsandinfo.ui.main.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -25,6 +27,9 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
 
     private final List<Pet> mValues;
     private final OnListFragmentInteractionListener mListener;
+
+    public static final int NORMAL_ITEM = 0;
+    public static final int FOOT_ITEM = 0;
 
     public MypetRecyclerViewAdapter(List<Pet> items, OnListFragmentInteractionListener listener) {
         mValues = items;
@@ -55,8 +60,16 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
     }
 
     @Override
+    public int getItemViewType(int position) {
+        if(position == getItemCount() + 1){
+
+        }
+        return super.getItemViewType(position);
+    }
+
+    @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues.size() + 1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -71,6 +84,19 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
         @Override
         public String toString() {
             return super.toString() + " '";
+        }
+    }
+
+    public class FootViewHolder extends RecyclerView.ViewHolder{
+
+        public final View view;
+        @BindView(R.id.pet_list_foot_tips)
+        TextView textView;
+
+
+        public FootViewHolder(@NonNull View itemView) {
+            super(itemView);
+            view = itemView;
         }
     }
 }
