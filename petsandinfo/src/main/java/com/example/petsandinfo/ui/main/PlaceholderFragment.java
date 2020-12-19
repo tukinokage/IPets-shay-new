@@ -118,7 +118,7 @@ public class PlaceholderFragment extends Fragment {
             Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_place_holder, container, false);
 
-        //1，组件在此处实例化 2，不可采用黄油刀
+        //1，组件在此处实例化 2，不采用黄油刀
         shapeCheck = root.findViewById(R.id.fragment_ph_shape_selection_cb);
         fetchCheck = root.findViewById(R.id.fragment_ph_fetch_selection_cb);
         rankCheck = root.findViewById(R.id.fragment_ph_rank_selection_cb);

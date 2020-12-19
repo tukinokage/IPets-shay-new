@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
@@ -23,48 +24,72 @@ import butterknife.ButterKnife;
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
-public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecyclerViewAdapter.ViewHolder> {
+public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<Pet> mValues;
+
+
+    private  List<Pet> mValues;
     private final OnListFragmentInteractionListener mListener;
 
     public static final int NORMAL_ITEM = 0;
     public static final int FOOT_ITEM = 0;
 
-    public MypetRecyclerViewAdapter(List<Pet> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+    private boolean isShowFootTip = false;
+    private boolean hasMoreData = true;
+
+    public static final String FOOT_ITEM_TIP_TEXT = "正在加载...";
+    public static final String FOOT_ITEM_TIP_NOT_MORE_TEXT = "下面没有了";
+
+    public MypetRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
         mListener = listener;
     }
 
+
+
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.pet_list_item_layout, parent, false);
-        return new ViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
+        if(viewType == FOOT_ITEM){
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.pet_list_item_layout, parent, false);
+        }else {
+            view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.pet_list_item_layout, parent, false);
+        }
+
+        return new NormalViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Pet pet = mValues.get(position);
-
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                 //   mListener.onListFragmentInteraction(holder.mItem);
-                }
+        if (holder instanceof FootViewHolder) {
+            FootViewHolder footViewHolder = (FootViewHolder) holder;
+            if(hasMoreData){
+                footViewHolder.textView.setText(FOOT_ITEM_TIP_TEXT);
+            }else {
+                footViewHolder.textView.setText(FOOT_ITEM_TIP_NOT_MORE_TEXT);
             }
-        });
+
+            if(isShowFootTip){
+                footViewHolder.view.setVisibility(View.VISIBLE);
+            }else {
+                footViewHolder.view.setVisibility(View.INVISIBLE);
+            }
+
+        } else {
+            NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
+            normalViewHolder.nameView.setText(pet.getPetName());
+            normalViewHolder.numView.setText(pet.getViewNum());
+        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if(position == getItemCount() + 1){
-
+        if(position == getItemCount()){
+            return FOOT_ITEM;
         }
-        return super.getItemViewType(position);
+        return NORMAL_ITEM;
     }
 
     @Override
@@ -72,10 +97,19 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
         return mValues.size() + 1;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        public ViewHolder(View view) {
+        @BindView(R.id.pet_list_item_iv)
+        ImageView imageView;
+
+        @BindView(R.id.pet_list_item_name_tv)
+        TextView nameView;
+
+        @BindView(R.id.pet_list_item_view_num_tv)
+        TextView numView;
+
+        public NormalViewHolder(View view) {
             super(view);
             mView = view;
             ButterKnife.bind(this, mView);
@@ -90,13 +124,34 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<MypetRecycler
     public class FootViewHolder extends RecyclerView.ViewHolder{
 
         public final View view;
+
         @BindView(R.id.pet_list_foot_tips)
         TextView textView;
-
-
         public FootViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
         }
+    }
+
+    public void showFootTip(){
+        isShowFootTip = true;
+        notifyDataSetChanged();
+    }
+
+    public void hideFootTip(){
+        isShowFootTip = false;
+        notifyDataSetChanged();
+    }
+
+    public  void hasMoreData() {
+        hasMoreData = true;
+    }
+    public  void noMoreData() {
+        hasMoreData = false;
+    }
+
+
+    public void setmValues(List<Pet> mValues) {
+        this.mValues = mValues;
     }
 }

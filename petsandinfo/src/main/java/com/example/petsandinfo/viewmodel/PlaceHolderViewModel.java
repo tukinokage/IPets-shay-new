@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.petsandinfo.model.entity.LoadPetCondition;
+import com.example.petsandinfo.model.entity.Pet;
 import com.example.petsandinfo.model.entity.PetListLoadResult;
 import com.example.petsandinfo.repository.LoadPetListRepository;
 import com.google.gson.Gson;
@@ -28,7 +29,9 @@ public class PlaceHolderViewModel extends ViewModel {
     private MutableLiveData<List<String>> shapeLevelSelection = new MutableLiveData<>();
     private MutableLiveData<List<String>> rankTypeSelection = new MutableLiveData<>();
 
-    private LiveData<PetListLoadResult> petListLoadResultLiveData = new MutableLiveData<>();
+
+
+    private MutableLiveData<PetListLoadResult> petListLoadResultLiveData = new MutableLiveData<>();
 
     private LoadPetListRepository loadPetListRepository;
 
@@ -47,6 +50,17 @@ public class PlaceHolderViewModel extends ViewModel {
                 @Override
                 public void getResult(Result result) {
 
+                    if(result instanceof Result.Error){
+                        Result.Error errorResult = (Result.Error) result;
+                        PetListLoadResult petListLoadResult = new PetListLoadResult();
+                        petListLoadResult.setErrorMsg(errorResult.getError().getMessage());
+                        petListLoadResultLiveData.setValue(petListLoadResult);
+                    }else if(result instanceof Result.Success){
+                        Result.Success successResult = (Result.Success<List<Pet>>) result;
+                        PetListLoadResult petListLoadResult = new PetListLoadResult();
+                        petListLoadResult.setData((List<Pet>) successResult.getData());
+                        petListLoadResultLiveData.setValue(petListLoadResult);
+                    }
 
                 }
             });
@@ -58,6 +72,7 @@ public class PlaceHolderViewModel extends ViewModel {
     public PlaceHolderViewModel(LoadPetListRepository loadPetListRepository) {
         this.loadPetListRepository = loadPetListRepository;
     }
+
 
     public LiveData<PetListLoadResult> getPetListLoadResultLiveData() {
         return petListLoadResultLiveData;

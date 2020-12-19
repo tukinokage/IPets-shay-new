@@ -29,7 +29,7 @@ public class Result<T> {
         }
 
         public T getData() {
-            return this.data;
+            return  this.data;
         }
     }
 
