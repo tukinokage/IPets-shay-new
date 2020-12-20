@@ -26,13 +26,13 @@ import butterknife.ButterKnife;
  */
 public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-
-
     private  List<Pet> mValues;
-    private final OnListFragmentInteractionListener mListener;
+
+
+    private PetItemOnclickListener petItemOnclickListener;
 
     public static final int NORMAL_ITEM = 0;
-    public static final int FOOT_ITEM = 0;
+    public static final int FOOT_ITEM = 1;
 
     private boolean isShowFootTip = false;
     private boolean hasMoreData = true;
@@ -40,30 +40,31 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public static final String FOOT_ITEM_TIP_TEXT = "正在加载...";
     public static final String FOOT_ITEM_TIP_NOT_MORE_TEXT = "下面没有了";
 
-    public MypetRecyclerViewAdapter(OnListFragmentInteractionListener listener) {
-        mListener = listener;
+    public MypetRecyclerViewAdapter() {
+
     }
-
-
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = null;
+        RecyclerView.ViewHolder viewHolder = null;
         if(viewType == FOOT_ITEM){
-            view = LayoutInflater.from(parent.getContext())
+          View  view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.pet_list_foot_view_layout, parent, false);
+            viewHolder = new FootViewHolder(view);
+        }else if(viewType == NORMAL_ITEM){
+            View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pet_list_item_layout, parent, false);
-        }else {
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pet_list_item_layout, parent, false);
+            viewHolder = new NormalViewHolder(view);
         }
 
-        return new NormalViewHolder(view);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Pet pet = mValues.get(position);
+
         if (holder instanceof FootViewHolder) {
+
             FootViewHolder footViewHolder = (FootViewHolder) holder;
             if(hasMoreData){
                 footViewHolder.textView.setText(FOOT_ITEM_TIP_TEXT);
@@ -78,9 +79,17 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             }
 
         } else {
+
+            Pet pet = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
             normalViewHolder.nameView.setText(pet.getPetName());
             normalViewHolder.numView.setText(pet.getViewNum());
+            normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    petItemOnclickListener.onClick(position);
+                }
+            });
         }
     }
 
@@ -88,15 +97,26 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public int getItemViewType(int position) {
         if(position == getItemCount()){
             return FOOT_ITEM;
+        }else {
+
+            return NORMAL_ITEM;
         }
-        return NORMAL_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size() + 1;
+        return mValues.size();
     }
 
+    public void setPetItemOnclickListener(PetItemOnclickListener petItemOnclickListener) {
+            this.petItemOnclickListener = petItemOnclickListener;
+
+    }
+
+
+    public interface PetItemOnclickListener{
+        void onClick(int position);
+    }
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
@@ -127,9 +147,11 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         @BindView(R.id.pet_list_foot_tips)
         TextView textView;
+
         public FootViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
+            ButterKnife.bind(this, view);
         }
     }
 

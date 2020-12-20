@@ -18,14 +18,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.adapters.MypetRecyclerViewAdapter;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
+import com.example.petsandinfo.model.entity.Pet;
 import com.example.petsandinfo.model.entity.PetListLoadResult;
 import com.example.petsandinfo.viewmodel.PageViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
+import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 
 import java.util.ArrayList;
@@ -46,6 +50,7 @@ public class PlaceholderFragment extends Fragment {
     //cb为三大分类
     //gridview通过观察cb切换更改详细设置内容
     GridView gridView;
+
     CheckBox shapeCheck;
     CheckBox fetchCheck;
     CheckBox rankCheck;
@@ -63,6 +68,9 @@ public class PlaceholderFragment extends Fragment {
     List<String> mFetchSelectionList;
     List<String> mRankSelectionList;
 
+    List<Pet> petList ;
+
+    MypetRecyclerViewAdapter petRecylerAdapter;
     RecyclerView recyclerView;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
@@ -134,6 +142,21 @@ public class PlaceholderFragment extends Fragment {
         super.onStart();
         Log.d(this.getClass().getSimpleName(), name +"onStart()");
         mSeletionList = new ArrayList<>();
+        petList = new ArrayList<>();
+        for (int i = 0; i < 10; i++){
+            Pet pet = new Pet();
+            pet.setPetName(String.valueOf(i));
+            pet.setViewNum(String.valueOf(50));
+            petList.add(pet);
+        }
+
+        petRecylerAdapter = new MypetRecyclerViewAdapter();
+        petRecylerAdapter.setmValues(petList);
+        LinearLayoutManager layoutManager= new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(petRecylerAdapter);
+
         selectionsAdapter = new SelectionsAdapter(mSeletionList, getActivity());
         gridView.setAdapter(selectionsAdapter);
         initListener();
@@ -161,12 +184,6 @@ public class PlaceholderFragment extends Fragment {
 
     private void initObserver(){
 
-        /*pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
 
         placeHolderViewModel.getFetchLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
             @Override
@@ -193,7 +210,8 @@ public class PlaceholderFragment extends Fragment {
         placeHolderViewModel.getPetListLoadResultLiveData().observe(getViewLifecycleOwner(), new Observer<PetListLoadResult>() {
             @Override
             public void onChanged(PetListLoadResult petListLoadResult) {
-
+                petRecylerAdapter.hideFootTip();
+                petRecylerAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -269,9 +287,15 @@ public class PlaceholderFragment extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                //到底部
+
+                //
                 if(newState == RecyclerView.SCROLL_STATE_IDLE){
 
+                }
+
+                //到底部
+                if(!recyclerView.canScrollVertically(-1)){
+                    petRecylerAdapter.showFootTip();
                 }
 
             }
@@ -279,7 +303,14 @@ public class PlaceholderFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
             }
+        });
+
+
+        petRecylerAdapter.setPetItemOnclickListener(position -> {
+
+            ToastUntil.showToast(petList.get(position).getPetName(), getContext());
         });
 
     }

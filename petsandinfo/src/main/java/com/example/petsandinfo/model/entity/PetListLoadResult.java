@@ -8,7 +8,7 @@ public class PetListLoadResult {
     private List<Pet> data;
     private String errorMsg = "";
 
-    public Result<Pet> getData() {
+    public List<Pet> getData() {
         return data;
     }
 
