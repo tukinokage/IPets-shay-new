@@ -19,7 +19,6 @@ import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
 import com.example.petsandinfo.model.entity.Pet;
 import com.example.petsandinfo.model.entity.PetListLoadResult;
-import com.example.petsandinfo.ui.main.dummy.DummyContent.DummyItem;
 import com.example.petsandinfo.viewmodel.PageViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
@@ -28,14 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
-
-/**
- * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
- */
-
 
 public class AllPetsFragment extends Fragment {
 
@@ -166,10 +157,6 @@ public class AllPetsFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
-    }
 
 
 
