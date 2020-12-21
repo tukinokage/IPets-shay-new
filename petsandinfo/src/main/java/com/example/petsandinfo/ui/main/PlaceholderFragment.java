@@ -184,35 +184,20 @@ public class PlaceholderFragment extends Fragment {
 
     private void initObserver(){
 
+        placeHolderViewModel.getFetchLevelSelection().observe(getViewLifecycleOwner(),
+                strings -> mFetchSelectionList = strings);
 
-        placeHolderViewModel.getFetchLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                mFetchSelectionList = strings;
-            }
-        });
+        placeHolderViewModel.getShapeLevelSelection().observe(getViewLifecycleOwner(),
+                strings -> mShapeSelectionList = strings);
 
-        placeHolderViewModel.getShapeLevelSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                mShapeSelectionList = strings;
-            }
-        });
-
-        placeHolderViewModel.getRankTypeSelection().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
-            @Override
-            public void onChanged(List<String> strings) {
-                mRankSelectionList = strings;
-            }
-        });
+        placeHolderViewModel.getRankTypeSelection().observe(getViewLifecycleOwner(),
+                strings -> mRankSelectionList = strings);
 
         //加载列表
-        placeHolderViewModel.getPetListLoadResultLiveData().observe(getViewLifecycleOwner(), new Observer<PetListLoadResult>() {
-            @Override
-            public void onChanged(PetListLoadResult petListLoadResult) {
-                petRecylerAdapter.hideFootTip();
-                petRecylerAdapter.notifyDataSetChanged();
-            }
+        placeHolderViewModel.getPetListLoadResultLiveData().observe(getViewLifecycleOwner(),
+                petListLoadResult -> {
+            petRecylerAdapter.hideFootTip();
+            petRecylerAdapter.notifyDataSetChanged();
         });
     }
 
