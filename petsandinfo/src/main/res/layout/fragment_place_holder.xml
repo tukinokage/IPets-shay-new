@@ -71,7 +71,8 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/fragment_ph_swipe_refresh_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:background="@color/material_grey_200">
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fragment_ph_pet_rcv"
                 android:layout_width="match_parent"

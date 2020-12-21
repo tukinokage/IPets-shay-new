@@ -11,19 +11,12 @@ import android.widget.TextView;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.model.entity.Pet;
-import com.example.petsandinfo.ui.main.AllPetsFragment.OnListFragmentInteractionListener;
-import com.example.petsandinfo.ui.main.dummy.DummyContent.DummyItem;
-
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
- * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
- */
+
 public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private  List<Pet> mValues;
@@ -47,12 +40,13 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
+        View  view = null;
         if(viewType == FOOT_ITEM){
-          View  view = LayoutInflater.from(parent.getContext())
+            view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pet_list_foot_view_layout, parent, false);
             viewHolder = new FootViewHolder(view);
         }else if(viewType == NORMAL_ITEM){
-            View view = LayoutInflater.from(parent.getContext())
+            view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.pet_list_item_layout, parent, false);
             viewHolder = new NormalViewHolder(view);
         }
@@ -95,7 +89,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemViewType(int position) {
-        if(position == getItemCount()){
+        if(position == getItemCount()-1){
             return FOOT_ITEM;
         }else {
 
@@ -105,7 +99,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues.size() + 1;
     }
 
     public void setPetItemOnclickListener(PetItemOnclickListener petItemOnclickListener) {
@@ -165,7 +159,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         notifyDataSetChanged();
     }
 
-    public  void hasMoreData() {
+    public void hasMoreData() {
         hasMoreData = true;
     }
     public  void noMoreData() {

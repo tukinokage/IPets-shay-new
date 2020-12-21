@@ -278,17 +278,23 @@ public class PlaceholderFragment extends Fragment {
 
                 }
 
-                //到底部
-                if(!recyclerView.canScrollVertically(-1)){
-                    petRecylerAdapter.showFootTip();
-                }
+
 
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
+                //到底部
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                Log.i("刷新", "lastCompletelyVisibleItemPosition: "+lastCompletelyVisibleItemPosition);
+                if(lastCompletelyVisibleItemPosition==layoutManager.getItemCount()-1)
+                    Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
+                //-2减去footview和layoutcout的
+                    if(layoutManager.getItemCount() == petRecylerAdapter.getItemCount() - 2){
+                        petRecylerAdapter.showFootTip();
+                    }
             }
         });
 
@@ -318,7 +324,6 @@ public class PlaceholderFragment extends Fragment {
             isShowSelectGridView = true;
         }
     }
-
 
     private void loadList(int shapeLevel, int fetchLevel, int rankType){
         placeHolderViewModel.loadList(shapeLevel, fetchLevel, rankType, mPetClass);

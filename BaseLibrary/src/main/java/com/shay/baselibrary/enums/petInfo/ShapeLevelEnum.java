@@ -20,9 +20,6 @@ public enum ShapeLevelEnum {
     public int getNum() {
         return num;
     }
-
-
-
     public static ShapeLevelEnum getEnumByNum(int i){
         for (ShapeLevelEnum shapeLevelEnum:
              ShapeLevelEnum.values()) {
