@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,19 +12,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/material_white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-            </ScrollView>
 
-        </LinearLayout>
-        <LinearLayout
-            android:layout_height="300dp"
+        <com.google.android.material.appbar.AppBarLayout
+
+            android:layout_height="350dp"
             android:layout_width="match_parent"
             android:background="@color/material_grey_500">
             <ImageView
@@ -32,15 +24,71 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/info_bg"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 >
 
             </ImageView>
-        </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/material_white">
+            android:layout_height="match_parent"
+            >
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <Space
+                        android:layout_width="1dp"
+                        android:layout_height="300dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/pet_info_text_bg_shape">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="1000dp"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/activity_pet_info_name_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="啊我是驴"
+                                android:theme="@style/PetInfoText"
+                                android:textSize="20sp"
+                                />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="0.5dp"
+
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:background="@color/material_grey_500">
+                        </LinearLayout>
+
+                        </LinearLayout>
+
+                </LinearLayout>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/activity_pet_info_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <Button
                 android:layout_width="30dp"
@@ -50,7 +98,7 @@
                 android:id="@+id/pet_info_top_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/material_grey_500"
+                android:textColor="@color/material_white"
                 android:gravity="center"
                 android:minHeight="?actionBarSize"
                 android:padding="@dimen/appbar_padding"
@@ -58,4 +106,4 @@
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
         </LinearLayout>
     </FrameLayout>
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

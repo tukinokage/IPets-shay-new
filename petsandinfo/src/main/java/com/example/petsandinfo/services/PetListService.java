@@ -11,7 +11,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
-public interface PetListService {
+public interface   PetListService {
     @POST
     @FormUrlEncoded
     Observable<BaseResponse<List<Pet>>> loadPetsListData(@FieldMap HashMap<String, Object> map);
