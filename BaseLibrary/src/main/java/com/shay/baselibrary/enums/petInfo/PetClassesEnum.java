@@ -2,6 +2,7 @@ package com.shay.baselibrary.enums.petInfo;
 
 public enum PetClassesEnum {
     //0为全部
+//    all(0, "全部"),
     cat(1, "猫类"),
     dog(2, "犬类"),
     mouse(3, "啮齿类"),
