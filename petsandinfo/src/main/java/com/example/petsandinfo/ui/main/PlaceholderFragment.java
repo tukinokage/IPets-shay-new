@@ -278,8 +278,6 @@ public class PlaceholderFragment extends Fragment {
 
                 }
 
-
-
             }
 
             @Override

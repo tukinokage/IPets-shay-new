@@ -5,8 +5,8 @@
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item> //去掉标题
     </style>
-    <style name="PetInfoText" parent="QMUI.Compat" xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="PetInfoText" tools:ignore="ResourceName">
         <item name = "android:textColor">@color/material_grey_800</item>
     </style>
 </resources>
