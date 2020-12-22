@@ -3,10 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="QMUI.Compat" tools:ignore="ResourceName">
         <!-- Customize your theme here. -->
-        <item name="windowNoTitle">true</item> //去掉标题
+        <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="PetInfoText" tools:ignore="ResourceName">
+    <style name="PetInfoText" parent="QMUI.Compat" tools:ignore="ResourceName">
         <item name = "android:textColor">@color/material_grey_800</item>
+    </style>
+
+    <style name="CurrentThemeColor" parent="QMUI.Compat" tools:ignore = "ResourceName">
+        <item name="color" >@color/material_orange_400</item>
+        <item name="background" >@color/material_orange_400</item>
     </style>
 </resources>

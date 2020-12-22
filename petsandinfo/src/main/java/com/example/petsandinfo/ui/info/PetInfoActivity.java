@@ -19,8 +19,8 @@ public class PetInfoActivity extends AppCompatActivity {
     @BindView(R.id.activity_pet_info_nest_scroll_view)
     NestedScrollView nestedScrollView;
 
-    @BindView(R.id.activity_pet_info_appbar)
-    AppBarLayout appBarLayout;
+   /* @BindView(R.id.activity_pet_info_appbar)
+    AppBarLayout appBarLayout;*/
 
     @BindView(R.id.activity_pet_info_top_layout)
     LinearLayout topLayout;

@@ -27,19 +27,20 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1000dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/activity_pet_info_name_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="啊我是驴"
-                        android:textSize="20sp"
-                        android:theme="@style/PetInfoText" />
+
+                        <TextView
+                            android:id="@+id/activity_pet_info_name_textview"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="啊我是驴"
+                            android:textSize="20sp"
+                            android:theme="@style/PetInfoText" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -48,15 +49,158 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:background="@color/material_grey_500"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                    <TextView
-                        android:id="@+id/pet_info_introduces_tv"
+                        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                            app:qmui_corner_radius="20dp"
+                            app:qmui_border_color="@color/colorPrimary"
+                            app:qmui_border_width="0dp"
+                            android:id="@+id/pet_info_introduces_head_ic"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="right"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintRight_toRightOf="parent"
+                            android:src="@drawable/icon_info" />
+                        <TextView
+                            android:id="@+id/pet_info_introduces_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:lineSpacingExtra="5dp"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:text="全名：测试文本\n英文名：abababa\n产地：英格兰\n成年雄性体重：2kg\n成年雌性体重：2.5kg\n"
+                            android:textColor="@color/material_grey_600"
+                            android:textSize="14sp"
+                            />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/material_grey_500"/>
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="全名：测试文本\n英文名：abababa"
-                        android:textColor="@color/material_grey_600"
+                        android:gravity="center_vertical">
+                        <ImageView android:layout_height="30dp"
+                            android:layout_width="30dp"
+                            android:src="@drawable/ic_lion"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="宠物故事"
+                            android:textSize="14sp"
+                            android:theme="@style/PetInfoText" />
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:id="@+id/activity_pet_info_story_textview"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="哎呀呀？你就是指挥官啊！你在“格里芬吐槽匿名版”里可是个名人呢！等会儿让我拍个照发上去炫耀一下吧！"
                         android:textSize="14sp"
-                        >
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="@color/material_grey_600" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/material_grey_500"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <ImageView android:layout_height="30dp"
+                            android:layout_width="30dp"
+                            android:src="@drawable/ic_warning"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="饲养注意事项"
+                            android:textSize="14sp"
+                            android:theme="@style/PetInfoText"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/activity_pet_info_warning_tv"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="有些虚荣自信，好为人师，相信各种网上不知哪来的冷知识和都市传说，有着一部自改装的老款按键手机，认为“手机按键的发射感很重要”。“格里芬匿名吐槽版”常驻马甲喷子，一有空就会拿手机刷个人博客。"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="5dp"
+                        android:textColor="@color/material_grey_600" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/material_grey_500"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <ImageView android:layout_height="30dp"
+                            android:layout_width="30dp"
+                            android:src="@drawable/ic_store"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="推荐用品/饲料"
+                            android:textSize="14sp"
+                            android:theme="@style/PetInfoText" />
+                    </LinearLayout>
+                    <GridView
+                        android:id="@+id/activity_pet_info_store_gridview"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:numColumns="5"
+                        android:verticalSpacing="10dp"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@color/material_grey_500"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_height="30dp"
+                            android:layout_width="30dp"
+                            android:src="@drawable/ic_hospital"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="咨询宠物医院"
+                            android:textSize="14sp"
+                            android:theme="@style/PetInfoText" />
+                    </LinearLayout>
+
+                    <GridView
+                        android:id="@+id/activity_pet_info_hospital_gv"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:numColumns="5"
+                        android:verticalSpacing="10dp"
+                        />
 
                 </LinearLayout>
 
