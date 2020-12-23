@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="80dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:gravity="center">
+    <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+        android:id="@+id/pet_hospital_icon_iv"
+        android:layout_height="50dp"
+        android:layout_width="50dp"
+        android:scaleType="center"
+        app:qmui_corner_radius="50dp"
+        android:src="@drawable/icon_pet_item"
+        android:layout_marginTop="5dp"/>
+    <LinearLayout
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pet_hospital_name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="格里芬后勤处"
+            android:textColor="@color/material_grey_600"
+            android:layout_marginTop="5dp"/>
+        <EditText
+            android:id="@+id/pet_hospital_phone_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1305584823"
+            android:textColor="@color/material_grey_600"
+            android:layout_marginTop="5dp"
+            android:background="null"
+            android:enabled="false"/>
+
+    </LinearLayout>
 
 </LinearLayout>

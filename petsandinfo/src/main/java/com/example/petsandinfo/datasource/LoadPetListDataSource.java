@@ -1,6 +1,6 @@
 package com.example.petsandinfo.datasource;
 
-import com.example.petsandinfo.model.entity.Pet;
+import com.shay.baselibrary.dto.Pet;
 import com.example.petsandinfo.services.PetListService;
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;

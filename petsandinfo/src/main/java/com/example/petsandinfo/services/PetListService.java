@@ -1,6 +1,6 @@
 package com.example.petsandinfo.services;
 
-import com.example.petsandinfo.model.entity.Pet;
+import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.dto.BaseResponse;
 
 import java.util.HashMap;

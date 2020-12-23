@@ -6,38 +6,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.annotation.ArrayRes;
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.MypetRecyclerViewAdapter;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
-import com.example.petsandinfo.model.entity.Pet;
-import com.example.petsandinfo.model.entity.PetListLoadResult;
-import com.example.petsandinfo.viewmodel.PageViewModel;
+import com.shay.baselibrary.dto.Pet;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
 import com.shay.baselibrary.ToastUntil;
-import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * A placeholder fragment containing a simple view.

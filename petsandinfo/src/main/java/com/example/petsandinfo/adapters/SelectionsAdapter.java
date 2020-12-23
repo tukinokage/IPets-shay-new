@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.petsandinfo.R;
 
@@ -81,7 +82,7 @@ public class SelectionsAdapter extends BaseAdapter {
 
     class SelectionViewholder{
         @BindView(R.id.selection_btn)
-        Button btn;
+        TextView btn;
 
         public SelectionViewholder(View v){
             ButterKnife.bind(this, v);

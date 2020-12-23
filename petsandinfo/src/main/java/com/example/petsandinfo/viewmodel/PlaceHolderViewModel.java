@@ -1,14 +1,13 @@
 package com.example.petsandinfo.viewmodel;
 
 import android.os.AsyncTask;
-import android.os.HandlerThread;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.petsandinfo.model.entity.LoadPetCondition;
-import com.example.petsandinfo.model.entity.Pet;
+import com.shay.baselibrary.dto.Pet;
 import com.example.petsandinfo.model.entity.PetListLoadResult;
 import com.example.petsandinfo.repository.LoadPetListRepository;
 import com.google.gson.Gson;

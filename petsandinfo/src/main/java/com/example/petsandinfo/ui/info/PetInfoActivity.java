@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.example.petsandinfo.R;
 import com.google.android.material.appbar.AppBarLayout;
+import com.shay.baselibrary.dto.Pet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,11 +29,16 @@ public class PetInfoActivity extends AppCompatActivity {
     //滑动隐藏距离
     private int fadingHeight = 400;
 
+    private Pet mPet;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_info);
         ButterKnife.bind(this);
+
+
+
 
         init();
         initListener();
@@ -49,7 +55,15 @@ public class PetInfoActivity extends AppCompatActivity {
     }
 
     public void init(){
+        //top默认透明
         topLayout.setAlpha(0);
+
+        Bundle extras = getIntent().getExtras();
+        /*
+        mPet = (Pet) extras.get("pet");
+        * */
+
+        mPet = new Pet();
     }
 
     private void updateTopAlpha(float alpha){

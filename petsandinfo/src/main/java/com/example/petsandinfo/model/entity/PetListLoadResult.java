@@ -1,6 +1,6 @@
 package com.example.petsandinfo.model.entity;
 
-import com.shay.baselibrary.dto.Result;
+import com.shay.baselibrary.dto.Pet;
 
 import java.util.List;
 

@@ -17,9 +17,7 @@ import android.widget.LinearLayout;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
-import com.example.petsandinfo.model.entity.Pet;
 import com.example.petsandinfo.model.entity.PetListLoadResult;
-import com.example.petsandinfo.viewmodel.PageViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
 

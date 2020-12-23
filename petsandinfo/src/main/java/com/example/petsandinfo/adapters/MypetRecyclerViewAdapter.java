@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
-import com.example.petsandinfo.model.entity.Pet;
+import com.shay.baselibrary.dto.Pet;
 import java.util.List;
 
 import butterknife.BindView;

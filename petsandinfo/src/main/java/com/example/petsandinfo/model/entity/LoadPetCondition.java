@@ -6,6 +6,7 @@ public class LoadPetCondition implements Serializable {
     int shapeLevel;
     int fetchLevel;
     int rankType;
+    int petClass;
 
     public int getShapeLevel() {
         return shapeLevel;
@@ -39,5 +40,5 @@ public class LoadPetCondition implements Serializable {
         this.petClass = petClass;
     }
 
-    int petClass;
+
 }

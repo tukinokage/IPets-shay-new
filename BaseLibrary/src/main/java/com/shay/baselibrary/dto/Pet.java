@@ -1,8 +1,10 @@
-package com.example.petsandinfo.model.entity;
+package com.shay.baselibrary.dto;
 
 import java.io.Serializable;
 
 public class Pet implements Serializable {
+    private String petId;
+    private String petHeadImg;
     private String petName;
     private String petEnglishName;
     private String femaleWeight;
@@ -10,6 +12,21 @@ public class Pet implements Serializable {
     private String viewNum;
     private String originPlace;
 
+    public String getPetId() {
+        return petId;
+    }
+
+    public void setPetId(String petId) {
+        this.petId = petId;
+    }
+
+    public String getPetHeadImg() {
+        return petHeadImg;
+    }
+
+    public void setPetHeadImg(String petHeadImg) {
+        this.petHeadImg = petHeadImg;
+    }
     public String getPetName() {
         return petName;
     }

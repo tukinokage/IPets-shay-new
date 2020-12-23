@@ -1,7 +1,7 @@
 package com.example.petsandinfo.repository;
 
 import com.example.petsandinfo.datasource.LoadPetListDataSource;
-import com.example.petsandinfo.model.entity.Pet;
+import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
@@ -9,10 +9,8 @@ import com.shay.baselibrary.myexceptions.MyException;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

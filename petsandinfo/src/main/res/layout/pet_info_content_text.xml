@@ -198,7 +198,7 @@
                         android:id="@+id/activity_pet_info_hospital_gv"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:numColumns="5"
+                        android:numColumns="2"
                         android:verticalSpacing="10dp"
                         />
 
