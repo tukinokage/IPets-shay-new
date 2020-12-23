@@ -19,10 +19,9 @@ public class PetInfoRepository {
     public void loadPetIntroduce(Map<String, Object> params, PetIntroduceResultListener petIntroduceResultListener){
 
 
-
     }
 
     public interface PetIntroduceResultListener{
-        void getResutl(Result result);
+        void getResult(Result result);
     }
 }

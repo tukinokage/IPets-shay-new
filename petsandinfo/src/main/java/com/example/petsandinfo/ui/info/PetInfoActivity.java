@@ -16,7 +16,6 @@ import butterknife.ButterKnife;
 
 public class PetInfoActivity extends AppCompatActivity {
 
-
     @BindView(R.id.activity_pet_info_nest_scroll_view)
     NestedScrollView nestedScrollView;
 
@@ -36,9 +35,6 @@ public class PetInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_info);
         ButterKnife.bind(this);
-
-
-
 
         init();
         initListener();
