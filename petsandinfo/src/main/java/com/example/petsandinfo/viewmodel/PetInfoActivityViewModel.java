@@ -14,7 +14,12 @@ import com.example.petsandinfo.model.entity.LoadIntroduceResult;
 import com.example.petsandinfo.model.entity.LoadPetPicNameResult;
 import com.example.petsandinfo.model.entity.LoadStoreResult;
 import com.example.petsandinfo.repository.PetInfoRepository;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
+
+import java.util.HashMap;
 
 
 public class PetInfoActivityViewModel extends ViewModel {
@@ -54,6 +59,14 @@ public class PetInfoActivityViewModel extends ViewModel {
         @Override
         protected String doInBackground(LoadPetHospitalCondition... LoadPetHospitalConditions) {
             LoadPetHospitalCondition petHospitalCondition = LoadPetHospitalConditions[0];
+            String json = new Gson().toJson(petHospitalCondition);
+            HashMap<String, Object> params = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+            petInfoRepository.loadPetHospital(params, new PetInfoRepository.PetHospitalResultListener() {
+                @Override
+                public void getResult(Result result) {
+
+                }
+            });
             return null;
         }
     }
@@ -109,9 +122,9 @@ public class PetInfoActivityViewModel extends ViewModel {
 
     }
 
+    public void loadPic(String url){
 
-
-
+    }
 
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();

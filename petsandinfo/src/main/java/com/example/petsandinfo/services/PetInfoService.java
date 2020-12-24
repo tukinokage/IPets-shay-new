@@ -20,7 +20,6 @@ public interface PetInfoService {
     @FormUrlEncoded
     Observable<BaseResponse<PetIntroduce>> getPetIntroduction(@FieldMap HashMap<String, Object> map);
 
-
     @POST
     @FormUrlEncoded
     Observable<BaseResponse<PetInfoImg>> getPetPicNameList(@FieldMap HashMap<String, Object> map);
