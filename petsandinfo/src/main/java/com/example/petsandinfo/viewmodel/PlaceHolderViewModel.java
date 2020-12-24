@@ -45,23 +45,21 @@ public class PlaceHolderViewModel extends ViewModel {
             String json = new Gson().toJson(loadPetCondition);
             HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 
-            loadPetListRepository.loadPetList(paramsMap, new LoadPetListRepository.GetResultListener() {
-                @Override
-                public void getResult(Result result) {
+            loadPetListRepository.loadPetList(paramsMap, result -> {
 
-                    if(result instanceof Result.Error){
-                        Result.Error errorResult = (Result.Error) result;
-                        PetListLoadResult petListLoadResult = new PetListLoadResult();
-                        petListLoadResult.setErrorMsg(errorResult.getError().getMessage());
-                        petListLoadResultLiveData.setValue(petListLoadResult);
-                    }else if(result instanceof Result.Success){
-                        Result.Success successResult = (Result.Success<List<Pet>>) result;
-                        PetListLoadResult petListLoadResult = new PetListLoadResult();
-                        petListLoadResult.setData((List<Pet>) successResult.getData());
-                        petListLoadResultLiveData.setValue(petListLoadResult);
-                    }
-
+                //rxjava回调在主线程
+                if(result instanceof Result.Error){
+                    Result.Error errorResult = (Result.Error) result;
+                    PetListLoadResult petListLoadResult = new PetListLoadResult();
+                    petListLoadResult.setErrorMsg(errorResult.getError().getMessage());
+                    petListLoadResultLiveData.setValue(petListLoadResult);
+                }else if(result instanceof Result.Success){
+                    Result.Success successResult = (Result.Success<List<Pet>>) result;
+                    PetListLoadResult petListLoadResult = new PetListLoadResult();
+                    petListLoadResult.setData((List<Pet>) successResult.getData());
+                    petListLoadResultLiveData.setValue(petListLoadResult);
                 }
+
             });
             return null;
         }

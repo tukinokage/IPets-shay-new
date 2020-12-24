@@ -1,6 +1,7 @@
 package com.example.petsandinfo.services;
 
 import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.PetInfoImg;
 import com.shay.baselibrary.dto.PetIntroduce;
 
 import java.util.HashMap;
@@ -16,4 +17,8 @@ public interface PetInfoService {
     @FormUrlEncoded
     Observable<BaseResponse<PetIntroduce>> getPetIntroduction(@FieldMap HashMap<String, Object> map);
 
+
+    @POST
+    @FormUrlEncoded
+    Observable<BaseResponse<PetInfoImg>> getPetPicNameList(@FieldMap HashMap<String, Object> map);
 }

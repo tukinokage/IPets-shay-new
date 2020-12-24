@@ -198,7 +198,6 @@ public class PlaceholderFragment extends Fragment {
                 rankCheck.setChecked(false);
                 setSelectionContent(mShapeSelectionList);
                 showSelectGridView();
-
                 Log.d("shape", "check1");
 
             }else {
