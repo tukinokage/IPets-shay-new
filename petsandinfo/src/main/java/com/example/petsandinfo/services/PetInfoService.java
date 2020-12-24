@@ -1,10 +1,13 @@
 package com.example.petsandinfo.services;
 
+import com.example.petsandinfo.model.entity.Hospital;
+import com.example.petsandinfo.model.entity.Store;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.PetInfoImg;
 import com.shay.baselibrary.dto.PetIntroduce;
 
 import java.util.HashMap;
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.FieldMap;
@@ -21,4 +24,14 @@ public interface PetInfoService {
     @POST
     @FormUrlEncoded
     Observable<BaseResponse<PetInfoImg>> getPetPicNameList(@FieldMap HashMap<String, Object> map);
+
+    @POST
+    @FormUrlEncoded
+    Observable<BaseResponse<List<Hospital>>> getPetHospitalList(@FieldMap HashMap<String, Object> map);
+
+    @POST
+    @FormUrlEncoded
+    Observable<BaseResponse<List<Store>>> getPetStoreList(@FieldMap HashMap<String, Object> map);
+
+
 }

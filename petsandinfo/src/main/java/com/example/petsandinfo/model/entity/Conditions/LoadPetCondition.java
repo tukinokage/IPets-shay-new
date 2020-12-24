@@ -1,4 +1,4 @@
-package com.example.petsandinfo.model.entity;
+package com.example.petsandinfo.model.entity.Conditions;
 
 import java.io.Serializable;
 
