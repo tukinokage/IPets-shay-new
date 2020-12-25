@@ -5,11 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
-import com.example.petsandinfo.model.entity.Store;
+import com.example.petsandinfo.model.Store;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 
 import java.util.List;

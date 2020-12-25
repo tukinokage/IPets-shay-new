@@ -1,4 +1,4 @@
-package com.example.petsandinfo.model.entity;
+package com.example.petsandinfo.model;
 
 public class Hospital {
     private String hospitalId;

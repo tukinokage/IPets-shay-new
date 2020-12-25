@@ -5,12 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
-import com.example.petsandinfo.model.entity.Hospital;
+import com.example.petsandinfo.model.Hospital;
 
 import java.util.List;
 

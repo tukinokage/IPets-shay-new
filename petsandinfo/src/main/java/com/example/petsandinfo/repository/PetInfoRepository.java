@@ -1,21 +1,19 @@
 package com.example.petsandinfo.repository;
 
 import com.example.petsandinfo.datasource.PetInfoDataSource;
-import com.example.petsandinfo.model.entity.Hospital;
-import com.example.petsandinfo.model.entity.Store;
+import com.example.petsandinfo.model.Hospital;
+import com.example.petsandinfo.model.Store;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.dto.BaseResponse;
-import com.shay.baselibrary.dto.PetInfoImg;
-import com.shay.baselibrary.dto.PetIntroduce;
+import com.example.petsandinfo.entity.PetInfoImg;
+import com.example.petsandinfo.model.PetIntroduce;
 import com.shay.baselibrary.dto.Result;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

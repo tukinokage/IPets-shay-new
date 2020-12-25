@@ -1,8 +1,8 @@
 package com.example.petsandinfo.ui.info;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.NestedScrollingChild;
 import androidx.core.widget.NestedScrollView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
@@ -12,9 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.entity.Conditions.LoadPetHospitalCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetIntroductionCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetPicCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetStoreCondition;
+import com.example.petsandinfo.entity.result.LoadHospitalResult;
+import com.example.petsandinfo.entity.result.LoadIntroduceResult;
+import com.example.petsandinfo.entity.result.LoadPetPicNameResult;
+import com.example.petsandinfo.entity.result.LoadStoreResult;
 import com.example.petsandinfo.viewmodel.PetInfoActivityViewModel;
 import com.example.petsandinfo.viewmodel.PetInfoActivityViewModelFactory;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.qmuiteam.qmui.alpha.QMUIAlphaTextView;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
@@ -22,6 +29,7 @@ import com.shay.baselibrary.dto.Pet;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class PetInfoActivity extends AppCompatActivity {
 
@@ -62,6 +70,7 @@ public class PetInfoActivity extends AppCompatActivity {
     @BindView(R.id.activity_pet_info_hospital_gv)
     GridView hospitalGridView;
 
+    private Unbinder unbinder;
     private PetInfoActivityViewModel petInfoActivityViewModel;
     //滑动隐藏距离
     private int fadingHeight = 400;
@@ -71,7 +80,7 @@ public class PetInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_info);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         petInfoActivityViewModel = new ViewModelProvider(this, new PetInfoActivityViewModelFactory())
                 .get(PetInfoActivityViewModel.class);
@@ -86,7 +95,7 @@ public class PetInfoActivity extends AppCompatActivity {
         });
     }
 
-    public void init(){
+    private void init(){
         //top默认透明
         topLayout.setAlpha(0);
 
@@ -96,10 +105,52 @@ public class PetInfoActivity extends AppCompatActivity {
         * */
 
         mPet = new Pet();
+
+        petInfoActivityViewModel.loadPetIntroduction(new LoadPetIntroductionCondition(mPet.getPetId()));
+        petInfoActivityViewModel.loadPetHospitalList(new LoadPetHospitalCondition(mPet.getPetId()));
+        petInfoActivityViewModel.loadPetPicNameList(new LoadPetPicCondition(mPet.getPetId()));
+        petInfoActivityViewModel.loadPetStoreList(new LoadPetStoreCondition(mPet.getPetId()));
+    }
+
+    private void initObserver(){
+        petInfoActivityViewModel.getIntroduceResultMutableLiveData().observe(this, new Observer<LoadIntroduceResult>() {
+            @Override
+            public void onChanged(LoadIntroduceResult loadIntroduceResult) {
+
+            }
+        });
+
+        petInfoActivityViewModel.getLoadHospitalResultMutableLiveData().observe(this, new Observer<LoadHospitalResult>() {
+            @Override
+            public void onChanged(LoadHospitalResult loadHospitalResult) {
+
+            }
+        });
+
+        petInfoActivityViewModel.getLoadPetPicNameResulticMutableLiveData().observe(this, new Observer<LoadPetPicNameResult>() {
+            @Override
+            public void onChanged(LoadPetPicNameResult loadPetPicNameResult) {
+
+            }
+        });
+
+        petInfoActivityViewModel.getLoadStoreResultMutableLiveData().observe(this, new Observer<LoadStoreResult>() {
+            @Override
+            public void onChanged(LoadStoreResult loadStoreResult) {
+
+            }
+        });
+
     }
 
     private void updateTopAlpha(float alpha){
         topLayout.setAlpha(alpha);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        petInfoActivityViewModel.cancelAsyncTask();
+        unbinder.unbind();
+    }
 }

@@ -1,6 +1,8 @@
-package com.example.petsandinfo.model.entity.Conditions;
+package com.example.petsandinfo.entity.Conditions;
 
 public class LoadPetPicCondition {
+
+
     public String getPetId() {
         return petId;
     }
@@ -10,4 +12,8 @@ public class LoadPetPicCondition {
     }
 
     private String petId;
+
+    public LoadPetPicCondition(String petId) {
+        this.petId = petId;
+    }
 }

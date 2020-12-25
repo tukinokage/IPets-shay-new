@@ -5,14 +5,14 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.petsandinfo.model.entity.Conditions.LoadPetHospitalCondition;
-import com.example.petsandinfo.model.entity.Conditions.LoadPetIntroductionCondition;
-import com.example.petsandinfo.model.entity.Conditions.LoadPetPicCondition;
-import com.example.petsandinfo.model.entity.Conditions.LoadPetStoreCondition;
-import com.example.petsandinfo.model.entity.LoadHospitalResult;
-import com.example.petsandinfo.model.entity.LoadIntroduceResult;
-import com.example.petsandinfo.model.entity.LoadPetPicNameResult;
-import com.example.petsandinfo.model.entity.LoadStoreResult;
+import com.example.petsandinfo.entity.Conditions.LoadPetHospitalCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetIntroductionCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetPicCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetStoreCondition;
+import com.example.petsandinfo.entity.result.LoadHospitalResult;
+import com.example.petsandinfo.entity.result.LoadIntroduceResult;
+import com.example.petsandinfo.entity.result.LoadPetPicNameResult;
+import com.example.petsandinfo.entity.result.LoadStoreResult;
 import com.example.petsandinfo.repository.PetInfoRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -118,7 +118,7 @@ public class PetInfoActivityViewModel extends ViewModel {
 
     }
 
-    public void loadPetStoreHospitalList(LoadPetStoreCondition condition){
+    public void loadPetStoreList(LoadPetStoreCondition condition){
 
     }
 

@@ -6,9 +6,9 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.petsandinfo.model.entity.Conditions.LoadPetCondition;
+import com.example.petsandinfo.entity.Conditions.LoadPetCondition;
 import com.shay.baselibrary.dto.Pet;
-import com.example.petsandinfo.model.entity.PetListLoadResult;
+import com.example.petsandinfo.entity.result.PetListLoadResult;
 import com.example.petsandinfo.repository.LoadPetListRepository;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

@@ -1,10 +1,10 @@
 package com.example.petsandinfo.services;
 
-import com.example.petsandinfo.model.entity.Hospital;
-import com.example.petsandinfo.model.entity.Store;
+import com.example.petsandinfo.model.Hospital;
+import com.example.petsandinfo.model.Store;
 import com.shay.baselibrary.dto.BaseResponse;
-import com.shay.baselibrary.dto.PetInfoImg;
-import com.shay.baselibrary.dto.PetIntroduce;
+import com.example.petsandinfo.entity.PetInfoImg;
+import com.example.petsandinfo.model.PetIntroduce;
 
 import java.util.HashMap;
 import java.util.List;

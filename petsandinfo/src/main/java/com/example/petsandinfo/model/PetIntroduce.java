@@ -1,4 +1,4 @@
-package com.shay.baselibrary.dto;
+package com.example.petsandinfo.model;
 
 import java.io.Serializable;
 
