@@ -4,9 +4,10 @@ import android.text.TextUtils;
 
 import java.util.List;
 
-public class LoadPetPicNameResult {
+public class LoadPetPicNameResult extends TestAbsClass<String>{
         private List<String> data;
         private String errorMsg = "";
+
 
         public boolean hasError(){
             if (TextUtils.isEmpty(errorMsg)){

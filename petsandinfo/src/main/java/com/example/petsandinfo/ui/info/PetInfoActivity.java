@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.adapters.HospitalGridViewAdapter;
+import com.example.petsandinfo.adapters.PetInfoPicRvAdapter;
+import com.example.petsandinfo.adapters.StoreGridViewAdapter;
 import com.example.petsandinfo.entity.Conditions.LoadPetHospitalCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetIntroductionCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetPicCondition;
@@ -20,6 +23,7 @@ import com.example.petsandinfo.entity.result.LoadHospitalResult;
 import com.example.petsandinfo.entity.result.LoadIntroduceResult;
 import com.example.petsandinfo.entity.result.LoadPetPicNameResult;
 import com.example.petsandinfo.entity.result.LoadStoreResult;
+import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.viewmodel.PetInfoActivityViewModel;
 import com.example.petsandinfo.viewmodel.PetInfoActivityViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -76,6 +80,10 @@ public class PetInfoActivity extends AppCompatActivity {
     private int fadingHeight = 400;
     private Pet mPet;
 
+    private HospitalGridViewAdapter hospitalGridViewAdapter;
+    private PetInfoPicRvAdapter petInfoPicRvAdapter;
+    private StoreGridViewAdapter storeGridViewAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +93,8 @@ public class PetInfoActivity extends AppCompatActivity {
         petInfoActivityViewModel = new ViewModelProvider(this, new PetInfoActivityViewModelFactory())
                 .get(PetInfoActivityViewModel.class);
         init();
+        initIntroductionParam();
+        initObserver();
         initListener();
     }
     public void initListener(){
@@ -106,38 +116,55 @@ public class PetInfoActivity extends AppCompatActivity {
 
         mPet = new Pet();
 
+        petInfoActivityViewModel.loadHeadPic(mPet.getPetId() +".jpg");
         petInfoActivityViewModel.loadPetIntroduction(new LoadPetIntroductionCondition(mPet.getPetId()));
         petInfoActivityViewModel.loadPetHospitalList(new LoadPetHospitalCondition(mPet.getPetId()));
         petInfoActivityViewModel.loadPetPicNameList(new LoadPetPicCondition(mPet.getPetId()));
         petInfoActivityViewModel.loadPetStoreList(new LoadPetStoreCondition(mPet.getPetId()));
     }
 
+    private void initIntroductionParam(){
+
+    }
+
     private void initObserver(){
-        petInfoActivityViewModel.getIntroduceResultMutableLiveData().observe(this, new Observer<LoadIntroduceResult>() {
-            @Override
-            public void onChanged(LoadIntroduceResult loadIntroduceResult) {
+        petInfoActivityViewModel.getIntroduceResultMutableLiveData().observe(this, loadIntroduceResult -> {
 
+            if(loadIntroduceResult.hasError()){
+
+            }else {
+                warningTv.setText(loadIntroduceResult.getData().getPetAttention());
+                storyTextView.setText(loadIntroduceResult.getData().getPetStory());
             }
         });
 
-        petInfoActivityViewModel.getLoadHospitalResultMutableLiveData().observe(this, new Observer<LoadHospitalResult>() {
-            @Override
-            public void onChanged(LoadHospitalResult loadHospitalResult) {
+        petInfoActivityViewModel.getLoadHospitalResultMutableLiveData().observe(this, loadHospitalResult -> {
 
+            if(loadHospitalResult.hasError()){
+
+            }else {
+                hospitalGridViewAdapter.setSeletionList(loadHospitalResult.getData());
+                hospitalGridViewAdapter.notifyDataSetChanged();
             }
         });
 
-        petInfoActivityViewModel.getLoadPetPicNameResulticMutableLiveData().observe(this, new Observer<LoadPetPicNameResult>() {
-            @Override
-            public void onChanged(LoadPetPicNameResult loadPetPicNameResult) {
+        petInfoActivityViewModel.getLoadPetPicNameResulticMutableLiveData().observe(this, loadPetPicNameResult -> {
 
+            if(loadPetPicNameResult.hasError()){
+
+            }else {
+                petInfoPicRvAdapter.setPicNameList(loadPetPicNameResult.getData());
+                petInfoPicRvAdapter.notifyDataSetChanged();
             }
         });
 
-        petInfoActivityViewModel.getLoadStoreResultMutableLiveData().observe(this, new Observer<LoadStoreResult>() {
-            @Override
-            public void onChanged(LoadStoreResult loadStoreResult) {
+        petInfoActivityViewModel.getLoadStoreResultMutableLiveData().observe(this, loadStoreResult -> {
 
+            if(loadStoreResult.hasError()){
+
+            }else {
+                storeGridViewAdapter.setStoreList(loadStoreResult.getData());
+                storeGridViewAdapter.notifyDataSetChanged();
             }
         });
 

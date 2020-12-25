@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,6 +59,7 @@ public class PetInfoPicRvAdapter extends RecyclerView.Adapter {
     class PetInfoPicRvViewHolder extends RecyclerView.ViewHolder{
 
         View view;
+        ImageView imageView;
         public PetInfoPicRvViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;

@@ -118,7 +118,6 @@ public class PlaceHolderViewModel extends ViewModel {
         fetchLevelSelection.setValue(fechLevelList);
         shapeLevelSelection.setValue(shapeLevelList);
         rankTypeSelection.setValue(rankTypeList);
-
     }
 
     public void loadList(int shapeLevel, int fetchLevel, int rankType, int petClass){

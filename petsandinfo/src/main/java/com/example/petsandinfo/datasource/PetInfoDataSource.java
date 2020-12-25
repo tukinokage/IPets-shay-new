@@ -1,5 +1,7 @@
 package com.example.petsandinfo.datasource;
 
+import android.graphics.Bitmap;
+
 import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.model.Store;
 import com.example.petsandinfo.services.PetInfoService;
@@ -40,4 +42,5 @@ public class PetInfoDataSource {
         PetInfoService petInfoService = new HttpUtil().getService(PetInfoService.class, UrlUtil.PET_URL.GET_PET_LIST_URL);
         return petInfoService.getPetHospitalList(paramsMasp);
     }
+
 }

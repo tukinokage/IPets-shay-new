@@ -1,10 +1,18 @@
 package com.example.petsandinfo.repository;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.petsandinfo.datasource.PetInfoDataSource;
 import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.model.Store;
+import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.example.petsandinfo.entity.PetInfoImg;
 import com.example.petsandinfo.model.PetIntroduce;
@@ -39,6 +47,14 @@ public class PetInfoRepository {
         return instance;
     }
 
+    public void loadHeadIcon(String picName){
+        Glide.with(AppContext.getContext()).load(UrlUtil.PET_PIC_URL.HEAD_ICON_URL + picName).into(new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+
+            }
+        });
+    }
 
     public void loadPetHospital(HashMap<String, Object> params, PetHospitalResultListener petHospitalResultListener){
         this.petHospitalResultListener = petHospitalResultListener;

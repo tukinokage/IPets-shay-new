@@ -28,7 +28,6 @@ import butterknife.ButterKnife;
 
 public class AllPetsFragment extends Fragment {
 
-
     GridView gridView;
     CheckBox shapeCheck;
     CheckBox fetchCheck;

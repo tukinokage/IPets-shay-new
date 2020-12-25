@@ -7,7 +7,7 @@ import com.example.petsandinfo.model.PetIntroduce;
 import java.util.List;
 
 public class LoadIntroduceResult {
-        private List<PetIntroduce> data;
+        private PetIntroduce data;
         private String errorMsg = "";
 
 
@@ -18,11 +18,11 @@ public class LoadIntroduceResult {
             return true;
         }
     }
-        public List<PetIntroduce> getData() {
+        public PetIntroduce getData() {
             return data;
         }
 
-        public void setData(List<PetIntroduce> data) {
+        public void setData(PetIntroduce data) {
             this.data = data;
         }
 
