@@ -1,8 +1,11 @@
 package com.example.petsandinfo.ui.main;
 
+import android.annotation.SuppressLint;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -10,14 +13,17 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.motion.widget.Debug;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.MypetRecyclerViewAdapter;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
+import com.example.petsandinfo.views.AdvanceSwipeRefreshLayout;
 import com.shay.baselibrary.dto.Pet;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
@@ -32,8 +38,6 @@ import java.util.List;
  * @Describe 用于展示通用界面
  */
 public class PlaceholderFragment extends Fragment {
-
-
     //cb为三大分类
     //gridview通过观察cb切换更改详细设置内容
     GridView gridView;
@@ -41,6 +45,7 @@ public class PlaceholderFragment extends Fragment {
     CheckBox shapeCheck;
     CheckBox fetchCheck;
     CheckBox rankCheck;
+    AdvanceSwipeRefreshLayout swipeRefreshLayout;
 
     LinearLayout.LayoutParams displayParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -119,6 +124,8 @@ public class PlaceholderFragment extends Fragment {
         rankCheck = root.findViewById(R.id.fragment_ph_rank_selection_cb);
         gridView = root.findViewById(R.id.selection_grid_view);
         recyclerView = root.findViewById(R.id.fragment_ph_pet_rcv);
+        swipeRefreshLayout = root.findViewById(R.id.fragment_ph_swipe_refresh_layout);
+
 
         Log.d(this.getClass().getSimpleName(), getName() + "onCreateView()");
         return root;
@@ -190,6 +197,8 @@ public class PlaceholderFragment extends Fragment {
 
     private void initListener(){
 
+
+
         shapeCheck.setOnCheckedChangeListener((compoundButton, b) -> {
 
             if(b){
@@ -252,7 +261,54 @@ public class PlaceholderFragment extends Fragment {
             }
         });
 
+
         //下拉刷新
+        swipeRefreshLayout.setInterceptEventConditionListener(new AdvanceSwipeRefreshLayout.InterceptEventConditionListener() {
+            @Override
+            public boolean isInterceptTouchEvent() {
+               LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                assert layoutManager != null;
+                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                return lastCompletelyVisibleItemPosition <= 0;
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @SuppressLint("StaticFieldLeak")
+            @Override
+            public void onRefresh() {
+                new AsyncTask<String, String, String>(){
+
+                    @SuppressLint("StaticFieldLeak")
+                    @Override
+                    protected String doInBackground(String... strings) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        int mSize = petList.size();
+                        for(int i = mSize; i < mSize + 5; i++){
+                            Pet pet = new Pet();
+                            pet.setPetName(String.valueOf(i));
+                            pet.setViewNum(String.valueOf(23445));
+                            petList.add(pet);
+                        }
+                        ToastUntil.showToast("刷新完毕", getContext());
+                        swipeRefreshLayout.setRefreshing(false);
+                        petRecylerAdapter.setmValues(petList);
+
+                    }
+                }.execute();
+            }
+        });
+
+        //上拉刷新
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -266,19 +322,51 @@ public class PlaceholderFragment extends Fragment {
 
             }
 
+            @SuppressLint("StaticFieldLeak")
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 //到底部
                 LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                assert layoutManager != null;
                 int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
                 Log.i("刷新", "lastCompletelyVisibleItemPosition: "+lastCompletelyVisibleItemPosition);
-                if(lastCompletelyVisibleItemPosition==layoutManager.getItemCount()-1)
+                if(lastCompletelyVisibleItemPosition==layoutManager.getItemCount()-1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
-                //-2减去footview和layoutcout的
-                    if(layoutManager.getItemCount() == petRecylerAdapter.getItemCount() - 2){
+                    if(layoutManager.getItemCount() == petRecylerAdapter.getItemCount()){
+                        ToastUntil.showToast("已到底部", getContext());
+                       // placeHolderViewModel.loadList(mShapeLevel, mFetchLevel, mRankType, mPetClass);
                         petRecylerAdapter.showFootTip();
+                        new AsyncTask<String, String, String>(){
+
+                            @Override
+                            protected String doInBackground(String... strings) {
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                return null;
+                            }
+
+                            @Override
+                            protected void onPostExecute(String s) {
+                               int mSize = petList.size();
+                                for(int i = mSize; i < mSize + 5; i++){
+                                    Pet pet = new Pet();
+                                    pet.setPetName(String.valueOf(i));
+                                    pet.setViewNum(String.valueOf(23445));
+                                    petList.add(pet);
+                                }
+
+                                petRecylerAdapter.setmValues(petList);
+                                petRecylerAdapter.hideFootTip();
+
+                            }
+                        }.execute();
+
                     }
+                }
             }
         });
 

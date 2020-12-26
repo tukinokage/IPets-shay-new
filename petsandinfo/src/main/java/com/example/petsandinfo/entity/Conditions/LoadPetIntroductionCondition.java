@@ -5,8 +5,6 @@ public class LoadPetIntroductionCondition {
         return petId;
     }
 
-
-
     public void setPetId(String petId) {
         this.petId = petId;
     }

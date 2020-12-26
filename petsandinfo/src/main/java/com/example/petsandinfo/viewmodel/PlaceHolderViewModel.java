@@ -43,7 +43,7 @@ public class PlaceHolderViewModel extends ViewModel {
         protected String doInBackground(LoadPetCondition... loadPetConditions) {
             LoadPetCondition loadPetCondition = loadPetConditions[0];
             String json = new Gson().toJson(loadPetCondition);
-            HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
+            HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
 
             loadPetListRepository.loadPetList(paramsMap, result -> {
 

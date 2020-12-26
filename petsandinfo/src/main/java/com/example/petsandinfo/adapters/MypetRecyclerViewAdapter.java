@@ -151,12 +151,12 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     public void showFootTip(){
         isShowFootTip = true;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     public void hideFootTip(){
         isShowFootTip = false;
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     public void hasMoreData() {
