@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,30 +20,46 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shay.loginandregistermodule.R;
+import com.shay.loginandregistermodule.ui.phoneloginregister.PhoneLoginRegisterActivity;
 import com.shay.loginandregistermodule.viewmodel.LoginViewModel;
 import com.shay.loginandregistermodule.viewmodel.LoginViewModelFactory;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    @BindView(R.id.login_activity_phone_linearLayout)
+    LinearLayout phoneLayout;
+    @BindView(R.id.login_activity_weibo_linearLayout)
+    LinearLayout weiboLayout;
+    @BindView(R.id.login_activity_go_register_tv)
+    TextView backTextView;
+    @BindView(R.id.login_activity_account_et)
+    EditText usernameEditText ;
+    @BindView(R.id.login_activity_password_tv)
+    EditText passwordEditText ;
+    @BindView(R.id.login_activity_login_bt)
+    Button loginButton;
+    @BindView(R.id.login_activity_loading_pb)
+    ProgressBar loadingProgressBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
+
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
-
-
-        final EditText usernameEditText = findViewById(R.id.login_activity_account_et);
-        final EditText passwordEditText = findViewById(R.id.login_activity_password_tv);
-        final Button loginButton = findViewById(R.id.login_activity_login_bt);
-        final ProgressBar loadingProgressBar = findViewById(R.id.login_activity_loading_pb);
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
@@ -112,6 +129,34 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        initListener();
+
+    }
+
+    private void initListener(){
+        weiboLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        phoneLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(LoginActivity.this, PhoneLoginRegisterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,6 +165,7 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
+
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

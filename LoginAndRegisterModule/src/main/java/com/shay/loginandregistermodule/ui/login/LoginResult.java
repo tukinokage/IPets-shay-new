@@ -15,10 +15,9 @@ public class LoginResult {
         this.error = error;
     }
 
-   public LoginResult(@Nullable LoggedInUserView success) {
+    public LoginResult(@Nullable LoggedInUserView success) {
         this.success = success;
     }
-
 
     @Nullable
     LoggedInUserView getSuccess() {

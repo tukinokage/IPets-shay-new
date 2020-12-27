@@ -5,7 +5,6 @@ import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
-import com.shay.loginandregistermodule.data.model.LoggedInUser;
 import com.shay.loginandregistermodule.data.services.UserUrlService;
 
 import java.util.HashMap;

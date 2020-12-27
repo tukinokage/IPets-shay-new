@@ -10,12 +10,11 @@ import com.google.gson.Gson;
 import com.shay.baselibrary.apiinfoparamsUtils.AliApiParams;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
-import com.shay.loginandregistermodule.data.model.AliSmsRequestParam;
-import com.shay.loginandregistermodule.data.model.SmsResultStauts;
+import com.shay.loginandregistermodule.data.entity.AliSmsRequestParam;
+import com.shay.loginandregistermodule.data.entity.SmsResultStauts;
 import com.shay.loginandregistermodule.data.repository.PhoneSmsRepository;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class PhoneSmsViewModel extends ViewModel {

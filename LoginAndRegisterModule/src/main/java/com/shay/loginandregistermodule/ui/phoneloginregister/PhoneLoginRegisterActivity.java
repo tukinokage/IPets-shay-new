@@ -13,13 +13,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.data.datasource.PhoneSmsDataSource;
-import com.shay.loginandregistermodule.data.model.SmsResultStauts;
-import com.shay.loginandregistermodule.data.repository.PhoneSmsRepository;
+import com.shay.loginandregistermodule.data.entity.SmsResultStauts;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModel;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModelFactory;
 
@@ -27,8 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PhoneLoginRegisterActivity extends AppCompatActivity {
-    private PhoneSmsViewModel phoneSmsViewModel;
 
+    private PhoneSmsViewModel phoneSmsViewModel;
     @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
     Button submitSmsBtn;
     @BindView(R.id.activtiy_phone_login_register_confrim_btn)
@@ -37,6 +36,10 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     EditText sgmCodeEt;
     @BindView(R.id.activtiy_phone_login_register_phoneNum_et)
     EditText phoneNumEt;
+    @BindView(R.id.login_activity_go_register_tv)
+    TextView backTextView;
+    @BindView(R.id.activtiy_phone_login_register_phonetip_tv)
+    TextView phoneTipTv;
 
     //短信是否发送成功
     boolean sendMsgStatus = false;
@@ -45,9 +48,9 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-
         setContentView(R.layout.activity_phone_login_register);
+
+        ButterKnife.bind(this);
         phoneSmsViewModel = new ViewModelProvider(this, new PhoneSmsViewModelFactory())
                 .get(PhoneSmsViewModel.class);
     }
@@ -58,18 +61,15 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
         phoneSmsViewModel.getSmsResultLiveData().observe(this, new Observer<SmsResultStauts>() {
             @Override
             public void onChanged(SmsResultStauts smsResultStauts) {
-
                 if(smsResultStauts.getErrorMsg() == null){
                     sendMsgStatus = true;
                     rightCode = smsResultStauts.getScertCode();
-                }else {
+                } else {
                     ToastUntil.showToast(smsResultStauts.getErrorMsg(), AppContext.getContext());
                 }
             }
         });
-
         initListenser();
-
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -77,7 +77,6 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
         String phoneNum = phoneNumEt.getText().toString().trim();
         phoneSmsViewModel.sendSms(phoneNum);
-
         submitSmsBtn.setEnabled(false);
         new AsyncTask<Integer, Integer, Integer>(){
 
@@ -163,14 +162,18 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
                 if (phoneNumEt.getText().length() == 11){
-                    phoneNumEt.setVisibility(View.INVISIBLE);
+                    phoneTipTv.setVisibility(View.INVISIBLE);
                 }else {
-                    phoneNumEt.setVisibility(View.VISIBLE);
+                    phoneTipTv.setVisibility(View.VISIBLE);
                 }
+            }
+        });
 
-
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
     }

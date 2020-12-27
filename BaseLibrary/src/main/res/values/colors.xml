@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name= "theme_color">@color/material_orange_400</color>
+    <color name="light_text_color">@color/material_grey_600</color>
+    <color name="light_normal_text_color">@color/material_grey_800</color>
+    <color name="placeholder_color_color">@color/material_grey_500</color>
+    <color name= "light_grey_bg_color">@color/material_grey_100</color>
+
     <!-- Red -->
     <color name="material_red_50">#fde0dc</color>
     <color name="material_red_100">#f9bdbb</color>

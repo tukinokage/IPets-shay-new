@@ -16,7 +16,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoadPetListRepository {
-
     private volatile static LoadPetListRepository instance;
     private LoadPetListDataSource petListDataSource;
     private GetResultListener getResultListener;

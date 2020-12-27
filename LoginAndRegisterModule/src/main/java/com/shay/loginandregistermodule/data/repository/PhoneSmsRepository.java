@@ -4,12 +4,11 @@ import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.myexceptions.MyException;
 import com.shay.loginandregistermodule.data.datasource.PhoneSmsDataSource;
-import com.shay.loginandregistermodule.data.model.AliSmsResponse;
+import com.shay.loginandregistermodule.data.entity.AliSmsResponse;
 
 import java.util.HashMap;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

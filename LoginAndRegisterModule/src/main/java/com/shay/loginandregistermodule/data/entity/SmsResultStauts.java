@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data.model;
+package com.shay.loginandregistermodule.data.entity;
 
 public class SmsResultStauts {
     public String getScertCode() {

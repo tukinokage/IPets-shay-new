@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data.model;
+package com.shay.loginandregistermodule.data.entity;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository

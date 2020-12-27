@@ -1,7 +1,6 @@
 package com.shay.loginandregistermodule.data.services;
 
-import com.shay.loginandregistermodule.data.model.AliSmsRequestParam;
-import com.shay.loginandregistermodule.data.model.AliSmsResponse;
+import com.shay.loginandregistermodule.data.entity.AliSmsResponse;
 
 import java.util.Map;
 

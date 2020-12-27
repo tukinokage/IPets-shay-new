@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data.model;
+package com.shay.loginandregistermodule.data.entity;
 
 import java.io.Serializable;
 
@@ -40,6 +40,5 @@ public class AliSmsResponse implements Serializable {
     public void setRequestId(String requestId) {
         RequestId = requestId;
     }
-
 
 }
