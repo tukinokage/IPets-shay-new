@@ -9,14 +9,7 @@ import java.util.Map;
 
 public class SharedPrefenccesUtil {
 
-    public final static class UserInfo{
-        public final static String USER_INFO_FILE_NAME = "user_info";
 
-        public final static String USER_NAME = "username";
-        public final static String USER_PASSWORD = "password";
-        public final static String USER_TOKEN = "token";
-        public final static String USER_ID = "userId";
-    }
 
     public static SharedPreferences getSharedPreferences(String filename){
         return AppContext.getContext().getSharedPreferences(filename, Context.MODE_PRIVATE);
