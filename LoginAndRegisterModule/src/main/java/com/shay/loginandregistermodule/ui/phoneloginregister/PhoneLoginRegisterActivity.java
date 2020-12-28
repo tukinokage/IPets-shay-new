@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.data.entity.SmsResultStauts;
+import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModel;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModelFactory;
 

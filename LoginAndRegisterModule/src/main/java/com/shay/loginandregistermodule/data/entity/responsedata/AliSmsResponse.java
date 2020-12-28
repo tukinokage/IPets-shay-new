@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data.entity;
+package com.shay.loginandregistermodule.data.entity.responsedata;
 
 import java.io.Serializable;
 

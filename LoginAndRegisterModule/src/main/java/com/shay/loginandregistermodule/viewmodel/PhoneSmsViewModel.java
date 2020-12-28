@@ -10,8 +10,8 @@ import com.google.gson.Gson;
 import com.shay.baselibrary.apiinfoparamsUtils.AliApiParams;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
-import com.shay.loginandregistermodule.data.entity.AliSmsRequestParam;
-import com.shay.loginandregistermodule.data.entity.SmsResultStauts;
+import com.shay.loginandregistermodule.data.entity.params.AliSmsRequestParam;
+import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.data.repository.PhoneSmsRepository;
 
 import java.util.HashMap;

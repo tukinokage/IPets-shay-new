@@ -1,15 +1,15 @@
-package com.shay.loginandregistermodule.data.entity;
+package com.shay.loginandregistermodule.data.entity.responsedata;
 
 //登录注册时返回的数据格式
-public class LoginRegisterResponse {
+public class LoginRegisterResponseData {
     String token;
     String userName;
     String userId;
 
-    public LoginRegisterResponse() {
+    public LoginRegisterResponseData() {
     }
 
-    public LoginRegisterResponse(String token, String userName, String userId) {
+    public LoginRegisterResponseData(String token, String userName, String userId) {
         this.token = token;
         this.userName = userName;
         this.userId = userId;

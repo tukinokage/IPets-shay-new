@@ -144,7 +144,6 @@ public class LoginActivity extends AppCompatActivity {
         phoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(LoginActivity.this, PhoneLoginRegisterActivity.class);
                 startActivity(intent);
             }

@@ -1,11 +1,10 @@
 package com.shay.loginandregistermodule.data.repository;
 
-import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.myexceptions.MyException;
 import com.shay.loginandregistermodule.data.datasource.PhoneSmsDataSource;
-import com.shay.loginandregistermodule.data.entity.AliSmsResponse;
+import com.shay.loginandregistermodule.data.entity.responsedata.AliSmsResponse;
 
 import java.util.HashMap;
 
@@ -72,7 +71,6 @@ public class PhoneSmsRepository {
                             } catch (Exception e){
                                 setResult(new Result.Error(new MyException("程序出错203")));
                             }
-
                         }
 
                         @Override

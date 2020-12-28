@@ -2,7 +2,7 @@ package com.shay.loginandregistermodule.data.datasource;
 
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.loginandregistermodule.data.entity.AliSmsResponse;
+import com.shay.loginandregistermodule.data.entity.responsedata.AliSmsResponse;
 import com.shay.loginandregistermodule.data.services.PhoneSmsService;
 
 import java.util.HashMap;

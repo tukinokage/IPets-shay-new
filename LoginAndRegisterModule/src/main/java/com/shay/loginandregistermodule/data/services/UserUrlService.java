@@ -5,13 +5,11 @@ import android.util.Base64;
 import com.shay.baselibrary.NetUtil.IHttpService;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.TestUser;
+import com.shay.loginandregistermodule.data.entity.responsedata.SetPwResponseData;
 
 import java.util.HashMap;
 
 import io.reactivex.Observable;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Multipart;
@@ -25,6 +23,11 @@ public interface UserUrlService  {
     //Call<BaseResponse<TestUser>> test(@FieldMap HashMap<String, Object> map);
     Observable<BaseResponse<TestUser>> test(@FieldMap HashMap<String, Object> map);
     //Observable<Result<BaseResponse<T>>> test(@Body RequestBody requestBody);
+
+    @POST("/")
+    @FormUrlEncoded
+   Observable<BaseResponse<SetPwResponseData>> setPassword(@FieldMap HashMap<String, Object> map);
+
 
     @Multipart
     @POST("pic/upload")

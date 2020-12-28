@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data.entity;
+package com.shay.loginandregistermodule.data.entity.params;
 
 //固定参数请到baselibrary查看apiutils
 public class AliSmsRequestParam {
