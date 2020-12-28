@@ -1,5 +1,6 @@
 package com.shay.loginandregistermodule.data.repository;
 
+import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.myexceptions.MyException;
@@ -26,7 +27,7 @@ public class PhoneSmsRepository {
         this.phoneSmsDataSource = phoneSmsDataSource;
     }
 
-    synchronized static public PhoneSmsRepository getInstance(PhoneSmsDataSource phoneSmsDataSource){
+    synchronized static public PhoneSmsRepository getInstance(PhoneSmsDataSource phoneSmsDataSource) {
         if(instance == null){
           instance = new PhoneSmsRepository(phoneSmsDataSource);
         }
@@ -40,9 +41,8 @@ public class PhoneSmsRepository {
          void getSmsResult(Result result);
    }
 
-   public void sendMs(HashMap<String, Object> paramsMap, final SmsResultListener smsResultListener){
+   public void sendMs(HashMap<String, Object> paramsMap, final SmsResultListener smsResultListener)throws Exception{
         this.smsResultListener = smsResultListener;
-        try{
             phoneSmsDataSource.sendAliApiMsg(paramsMap)
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -87,10 +87,6 @@ public class PhoneSmsRepository {
 
                         }
                     });
-
-        }catch(Exception e){
-
-       }
    }
 
    private void setResult(Result result){

@@ -10,7 +10,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface PhoneSmsService {
-    @POST
+    @POST("/")
     @FormUrlEncoded
     Observable<AliSmsResponse> sendMsg(@FieldMap Map<String, Object> map);
 }

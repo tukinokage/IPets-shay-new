@@ -19,6 +19,10 @@ import java.util.Random;
 
 public class PhoneSmsViewModel extends ViewModel {
 
+    public PhoneSmsRepository getPhoneSmsRepository() {
+        return phoneSmsRepository;
+    }
+
     private MutableLiveData<SmsResultStauts> smsResultLiveData = new MutableLiveData<>();
 
     private PhoneSmsRepository phoneSmsRepository;
@@ -32,10 +36,10 @@ public class PhoneSmsViewModel extends ViewModel {
         this.phoneSmsRepository = phoneSmsRepository;
     }
 
-    class SmsAsyncTask extends AsyncTask<AliSmsRequestParam, Integer, Integer>{
+    class SmsAsyncTask extends AsyncTask<AliSmsRequestParam, Integer, Exception>{
 
         @Override
-        protected Integer doInBackground(AliSmsRequestParam... aliSmsRequestParams) {
+        protected Exception doInBackground(AliSmsRequestParam... aliSmsRequestParams) {
             AliSmsRequestParam param = aliSmsRequestParams[0];
 
             Random random = new Random();
@@ -49,20 +53,37 @@ public class PhoneSmsViewModel extends ViewModel {
             String gsonParam = new Gson().toJson(param);
             HashMap<String, Object> map = new Gson().fromJson(gsonParam, HashMap.class);
 
-            phoneSmsRepository.sendMs(map, result -> {
+            try {
+                phoneSmsRepository.sendMs(map, result -> {
 
-                //主线程
-                if(result instanceof Result.Success){
+                    //主线程
+                    if(result instanceof Result.Success){
 
-                    smsResultLiveData.setValue(new SmsResultStauts(){{setScertCode(codeParam);}});
-                }else{
+                        smsResultLiveData.setValue(new SmsResultStauts(){{setScertCode(codeParam);}});
+                    }else{
 
-                    String msg = ((Result.Error)result).getErrorMsg();
-                    smsResultLiveData.setValue(new SmsResultStauts(){{setErrorMsg(msg);}});
-                }
+                        String msg = ((Result.Error)result).getErrorMsg();
+                        smsResultLiveData.setValue(new SmsResultStauts(){{setErrorMsg(msg);}});
+                    }
 
-            });
+                });
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e;
+            }
             return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Exception e) {
+            super.onPostExecute(e);
+            if(e != null){
+                e.printStackTrace();
+                smsResultLiveData.setValue(new SmsResultStauts(){{setErrorMsg("应用错误");}});
+            }
         }
     }
     public void sendSms(String phonenum){

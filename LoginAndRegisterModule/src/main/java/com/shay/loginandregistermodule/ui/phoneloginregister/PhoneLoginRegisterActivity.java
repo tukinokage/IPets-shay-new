@@ -41,6 +41,8 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     @BindView(R.id.activtiy_phone_login_register_phonetip_tv)
     TextView phoneTipTv;
 
+    AsyncTask countTimeAsyncTask;
+
     //短信是否发送成功
     boolean sendMsgStatus = false;
     String rightCode = "";
@@ -78,7 +80,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
         String phoneNum = phoneNumEt.getText().toString().trim();
         phoneSmsViewModel.sendSms(phoneNum);
         submitSmsBtn.setEnabled(false);
-        new AsyncTask<Integer, Integer, Integer>(){
+        countTimeAsyncTask = new AsyncTask<Integer, Integer, Integer>(){
 
             @Override
             protected Integer doInBackground(Integer... integers) {
@@ -117,6 +119,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
         String inputCode = sgmCodeEt.getText().toString().trim();
 
         if(TextUtils.isEmpty(inputCode)){
+            ToastUntil.showToast("请输入正确验证码！", AppContext.getContext());
            return;
         }
         if (TextUtils.isEmpty(rightCode)){
@@ -131,6 +134,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
         if(rightCode.equals(inputCode)){
             rightCode = "";
             sendMsgStatus = false;
+            ToastUntil.showToast("验证码正确", AppContext.getContext());
             /**
              * 正确操作
             * */
@@ -177,9 +181,26 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void initObserver(){
+        phoneSmsViewModel.getSmsResultLiveData().observe(this, new Observer<SmsResultStauts>() {
+            @Override
+            public void onChanged(SmsResultStauts smsResultStauts) {
+                if(TextUtils.isEmpty(smsResultStauts.getErrorMsg())){
+                    rightCode = smsResultStauts.getScertCode();
+                    sendMsgStatus = true;
+                }else {
+                    ToastUntil.showToast(smsResultStauts.getErrorMsg(), AppContext.getContext());
+                    sendMsgStatus = false;
+                }
+            }
+        });
+    }
     @Override
     protected void onDestroy() {
         phoneSmsViewModel.cancelAsyncTask();
+        countTimeAsyncTask.cancel(true);
         super.onDestroy();
     }
 }

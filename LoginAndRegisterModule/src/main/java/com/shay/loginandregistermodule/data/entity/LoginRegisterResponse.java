@@ -1,5 +1,6 @@
 package com.shay.loginandregistermodule.data.entity;
 
+//登录注册时返回的数据格式
 public class LoginRegisterResponse {
     String token;
     String userName;
