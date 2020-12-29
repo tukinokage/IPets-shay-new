@@ -44,6 +44,7 @@ public class PhoneCheckActivity extends AppCompatActivity {
     public static final String REQUEST_TYPE_UPDATE_PHONE="REQUEST_TYPE_UPDATE_PHONE";
 
     public static final int RESULT_CODE = 1001;
+    public static final String RESULT_PARAM_NAME = "data";
 
 
     private PhoneSmsViewModel phoneSmsViewModel;
@@ -156,7 +157,6 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
             //getIntent().getStringExtra(REQUEST_TYPE);
 
-
             /**
              * 正确操作
             * */
@@ -209,8 +209,6 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
     //初始化observer
     public void initObserver(){
-
-
         phoneSmsViewModel.getSmsResultLiveData().observe(this, new Observer<SmsResultStauts>() {
             @Override
             public void onChanged(SmsResultStauts smsResultStauts) {
@@ -231,7 +229,7 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
                     //返回数据给上一activity
                     Intent intent = new Intent();
-                    intent.putExtra("data", confrimPhoneResult);
+                    intent.putExtra(RESULT_PARAM_NAME, confrimPhoneResult);
                     setResult(RESULT_CODE, intent);
                     finish();
                 }else {
@@ -241,17 +239,6 @@ public class PhoneCheckActivity extends AppCompatActivity {
         });
     }
 
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == 1){
-            ToastUntil.showToast("密码设置成功", AppContext.getContext());
-           //返回上一级
-            //Intent intent = new Intent();
-            setResult(1);
-        }
-    }
-*/
     @Override
     protected void onDestroy() {
         phoneSmsViewModel.cancelAsyncTask();

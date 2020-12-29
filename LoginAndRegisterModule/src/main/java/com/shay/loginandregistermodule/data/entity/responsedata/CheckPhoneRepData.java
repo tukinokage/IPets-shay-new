@@ -5,6 +5,7 @@ public class CheckPhoneRepData {
     //0新用户 1已有用户
     int userType;
     String token;
+    String userId;
     String userName;
 
     public CheckPhoneRepData(int userType, String token) {
@@ -12,6 +13,13 @@ public class CheckPhoneRepData {
         this.token = token;
     }
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
     public CheckPhoneRepData() {
     }
 

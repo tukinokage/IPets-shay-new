@@ -69,6 +69,30 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
+        initListener();
+        initObserver();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_PHONE && resultCode == PhoneCheckActivity.RESULT_CODE){
+            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(PhoneCheckActivity.RESULT_PARAM_NAME);
+            //检查手机号码是否注册，存在就登录，不存在登录，并跳转设置密码
+            loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
+        }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == SetPasswordActivity.RESULT_CODE){
+            boolean result = (boolean) data.getExtras().get(SetPasswordActivity.RESULT_PARAM_NAME);
+            if(result){
+                /**设置密码成功*/
+                /**跳转到主界面**/
+
+            }
+        }
+    }
+
+    private void initObserver(){
+
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -102,10 +126,64 @@ public class LoginActivity extends AppCompatActivity {
                 setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
-               // finish();
+                // finish();
             }
         });
 
+
+        loginViewModel.getPhoneLoginResult().observe(this, new Observer<PhoneLoginResult>() {
+            @Override
+            public void onChanged(PhoneLoginResult phoneLoginResult) {
+                if(TextUtils.isEmpty(phoneLoginResult.getErrorMsg())){
+                    if(phoneLoginResult.getType() == 0){
+                        //新用户
+                        //跳转到设置密码
+                        Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE_SET_PWD);
+                    }else if(phoneLoginResult.getType() == 1){
+                        //老用户
+                        //跳转主界面
+                    }
+                }else {
+                    ToastUntil.showToast(phoneLoginResult.getErrorMsg(), AppContext.getContext());
+                }
+            }
+        });
+    }
+
+    private void initListener(){
+        weiboLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        phoneLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, PhoneCheckActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_PHONE);
+            }
+        });
+
+        backTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                loginViewModel.login(usernameEditText.getText().toString(),
+                        passwordEditText.getText().toString());
+            }
+        });
+
+        /*********************textwatch***************/
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -137,78 +215,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        initListener();
-    }
+        /*************************************/
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == REQUEST_CODE_PHONE && resultCode == PhoneCheckActivity.RESULT_CODE){
-            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get("data");
-            //检查手机号码是否注册，存在就登录，不存在登录，并跳转设置密码
-            loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
-        }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == SetPasswordActivity.RESULT_CODE){
-            boolean result = (boolean) data.getExtras().get("result");
-            if(result){
-                /**设置密码成功*/
-            }
-        }
-    }
-
-    private void initObserver(){
-        loginViewModel.getPhoneLoginResult().observe(this, new Observer<PhoneLoginResult>() {
-            @Override
-            public void onChanged(PhoneLoginResult phoneLoginResult) {
-                if(TextUtils.isEmpty(phoneLoginResult.getErrorMsg())){
-                    if(phoneLoginResult.getType() == 0){
-                        //新用户
-                        //跳转到设置密码
-                        Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_SET_PWD);
-                    }else if(phoneLoginResult.getType() == 1){
-                        //老用户
-                        //跳转主界面
-
-                    }
-                }else {
-                    ToastUntil.showToast(phoneLoginResult.getErrorMsg(), AppContext.getContext());
-                }
-            }
-        });
-    }
-
-    private void initListener(){
-        weiboLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        phoneLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, PhoneCheckActivity.class);
-                startActivityForResult();
-            }
-        });
-
-        backTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
-            }
-        });
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

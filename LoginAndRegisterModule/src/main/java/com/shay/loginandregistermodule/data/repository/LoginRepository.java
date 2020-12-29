@@ -5,17 +5,24 @@ import android.util.Log;
 
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
+import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
+import com.shay.baselibrary.dto.SPUserInfo;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.myexceptions.MyException;
 import com.shay.loginandregistermodule.data.datasource.LoginDataSource;
 import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
 
 import java.util.HashMap;
+import java.util.Map;
+
+import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -32,6 +39,7 @@ public class LoginRepository {
     //回调给viewmodel
     private ResultListener resultListener;
     private ResultListener phoneResultListener;
+    private ResultListener saveUserInfoListener;
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
@@ -149,18 +157,67 @@ public class LoginRepository {
 
     }
 
+
+    public void saveUserInfo(SPUserInfo userInfo, final ResultListener saveUserInfoListener){
+
+        this.saveUserInfoListener = saveUserInfoListener;
+        Observable.just(userInfo)
+                .map(new Function<SPUserInfo, Boolean>() {
+                    @Override
+                    public Boolean apply(SPUserInfo userInfo) throws Exception {
+                        HashMap<String, String>  hashMap = new HashMap<>();
+                        UserInfoUtil.saveUserToken(userInfo.getToken());
+                        UserInfoUtil.saveUserId(userInfo.getUserId());
+                        UserInfoUtil.saveUserName(userInfo.getUserName());
+                        return true;
+                    }
+                })
+                .subscribeOn(Schedulers.io())//给map操作设置异步线程
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        Result result;
+                        if (aBoolean){
+                            result = new Result.Success(aBoolean);
+                        }else {
+                            result =new Result.Error(new MyException("本地用户信息存储失败"));
+                        }
+
+                        setSaveInfoResult(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Result result =new Result.Error(new MyException("本地用户信息存储失败"));
+                        setSaveInfoResult(result);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     //net dataSource operate completed next
     private void setLoginResult(Result result){
         resultListener.returnResult(result);
     }
 
+    private void setSaveInfoResult(Result result){ saveUserInfoListener.returnResult(result); }
 
     public interface ResultListener{
         void returnResult(Result result);
     }
 
-
-        private void setCheckPhoneResult(Result result){
+    private void setCheckPhoneResult(Result result){
             resultListener.returnResult(result);
         }
 

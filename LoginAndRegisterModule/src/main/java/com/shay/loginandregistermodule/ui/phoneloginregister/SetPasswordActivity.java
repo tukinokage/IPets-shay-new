@@ -36,8 +36,8 @@ public class SetPasswordActivity extends AppCompatActivity {
     QMUIRoundButton confrimBtn;
 
     public static final int RESULT_CODE = 1002;
+    public static final String RESULT_PARAM_NAME = "result";
     private SetPasswordViewModel setPasswordViewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +49,12 @@ public class SetPasswordActivity extends AppCompatActivity {
 
         init();
         initObserver();
-        initObserver();
+        initListener();
     }
 
 
     private void init(){
-        Bundle extras = getIntent().getExtras();
-        String id = extras.getString("userId");
+
     }
 
     public void initObserver(){
@@ -67,7 +66,7 @@ public class SetPasswordActivity extends AppCompatActivity {
                     ToastUntil.showToast(setPwResult.getErrorMsg(), AppContext.getContext());
                 }else {
                     Intent intent = new Intent();
-                    intent.putExtra("result", true);
+                    intent.putExtra(RESULT_PARAM_NAME, true);
                     setResult(RESULT_CODE, intent);
                     finish();
                 }
@@ -136,14 +135,18 @@ public class SetPasswordActivity extends AppCompatActivity {
             }
         };
 
+        //textWatch
         firstEt.addTextChangedListener(fristTextWatch);
         secondEt.addTextChangedListener(SecondPwTextWatcher);
 
-
+        //btn
         confrimBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String pw = firstEt.getText().toString().trim();
+                if(!pw.isEmpty()){
+                    setPasswordViewModel.confirm(pw);
+                }
             }
         });
     }

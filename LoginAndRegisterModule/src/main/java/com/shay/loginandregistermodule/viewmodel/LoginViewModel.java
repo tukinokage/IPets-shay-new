@@ -10,6 +10,7 @@ import android.util.Patterns;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shay.baselibrary.dto.Result;
+import com.shay.baselibrary.dto.SPUserInfo;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.entity.params.CheckPhExistParam;
@@ -73,9 +74,7 @@ public class LoginViewModel extends ViewModel {
                     );
             return null;
         }
-
     }
-
 
     public class CheckPhoneAsyncTask extends AsyncTask<CheckPhExistParam, String, Exception>{
 
@@ -88,10 +87,14 @@ public class LoginViewModel extends ViewModel {
             try {
                 loginRepository.checkPhone(param, new LoginRepository.ResultListener() {
                     @Override
+
+                    //主线程
                     public void returnResult(Result result) {
                         if (result instanceof Result.Success) {
                             CheckPhoneRepData data = (CheckPhoneRepData) ((Result.Success) result).getData();
-                           phoneLoginResult.setValue(new PhoneLoginResult(){{setType(data.getUserType()); }});
+                            saveUserInfo(data.getToken(), data.getUserId(), data.getUserName());
+
+                            phoneLoginResult.setValue(new PhoneLoginResult(){{setType(data.getUserType()); }});
                         } else {
                             PhoneLoginResult phoneResult = new PhoneLoginResult();
                             result = (Result.Error)result;
@@ -121,7 +124,8 @@ public class LoginViewModel extends ViewModel {
     public void CheckPhoneIsExist(String phoneToken){
         CheckPhExistParam checkPhExistParam = new CheckPhExistParam();
         checkPhExistParam.setPhoneToken(phoneToken);
-
+        checkPhoneAsyncTask = (CheckPhoneAsyncTask) asyncTaskFactory.createAsyncTask(new CheckPhoneAsyncTask());
+        checkPhoneAsyncTask.execute(checkPhExistParam);
     }
 
     public void login(String account, String password) {
@@ -131,7 +135,6 @@ public class LoginViewModel extends ViewModel {
         hashMap.put("password", password);
 
         //新建并存入工厂的list中
-
         loginAsyncTask = (LoginAsyncTask) asyncTaskFactory.createAsyncTask(new LoginAsyncTask());
         loginAsyncTask.execute(hashMap);
 
@@ -162,6 +165,24 @@ public class LoginViewModel extends ViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
+    }
+
+    //缓存用户信息
+    public void saveUserInfo(String token, String userId, String userName){
+        SPUserInfo spUserInfo = new SPUserInfo();
+        spUserInfo.setToken(token);
+        spUserInfo.setUserId(userId);
+        spUserInfo.setUserName(userName);
+        loginRepository.saveUserInfo(spUserInfo, new LoginRepository.ResultListener() {
+            @Override
+            public void returnResult(Result result) {
+                if(result instanceof Result.Success){
+
+                }else {
+
+                }
+            }
+        });
     }
 
     public void cancelAsyncTask(){

@@ -32,4 +32,6 @@ public interface UserUrlService  {
     @Multipart
     @POST("pic/upload")
     Observable<BaseResponse<TestUser>> uploadTest(@FieldMap HashMap<String, Object> fieldMap, @PartMap HashMap<String, Object> partMap);
+
+
 }

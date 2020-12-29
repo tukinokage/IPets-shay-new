@@ -43,8 +43,8 @@ public class PhoneSmsRepository {
    public void sendMs(HashMap<String, Object> paramsMap, final SmsResultListener smsResultListener)throws Exception{
         this.smsResultListener = smsResultListener;
             phoneSmsDataSource.sendAliApiMsg(paramsMap)
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<AliSmsResponse>() {
                         @Override
                         public void onSubscribe(Disposable d) {

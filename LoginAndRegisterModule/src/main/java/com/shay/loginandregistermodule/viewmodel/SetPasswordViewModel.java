@@ -67,11 +67,21 @@ public class SetPasswordViewModel extends ViewModel {
         }
     }
 
-    public void confirm(String pw){
-            AsyncTask asyncTask = asyncTaskFactory.createAsyncTask(new SetPwAsyncTask());
-            SetPwRequestParam setPwRequestParam = new SetPwRequestParam(UserInfoUtil.getUserId(), pw);
+    public void confirm(String pw)  {
+        AsyncTask asyncTask = asyncTaskFactory.createAsyncTask(new SetPwAsyncTask());
+        SetPwRequestParam setPwRequestParam = null;
+        try {
+            setPwRequestParam = new SetPwRequestParam(UserInfoUtil.getUserId(), pw);
             asyncTask.execute(setPwRequestParam);
+        } catch (Exception e) {
+            e.printStackTrace();
+            setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg("无法获取用户信息");}});
+        }
 
+    }
+
+    public void cancelAsyncTask(){
+        asyncTaskFactory.cancelAsyncTask();
     }
 
 }
