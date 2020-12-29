@@ -23,6 +23,9 @@ import com.shay.loginandregistermodule.viewmodel.SetPasswordViewModel;
 
 import butterknife.BindView;
 
+/***
+ * 其他模块调用该验证码模块后会以intent附带字段为result的boolean结果
+ */
 public class SetPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.activtiy_set_pw_frist_et)
@@ -32,7 +35,10 @@ public class SetPasswordActivity extends AppCompatActivity {
     @BindView(R.id.activtiy_set_password_confrim_btn)
     QMUIRoundButton confrimBtn;
 
+    public static final int RESULT_CODE = 1002;
     private SetPasswordViewModel setPasswordViewModel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,8 +67,9 @@ public class SetPasswordActivity extends AppCompatActivity {
                     ToastUntil.showToast(setPwResult.getErrorMsg(), AppContext.getContext());
                 }else {
                     Intent intent = new Intent();
-                    intent.putExtra("pwd", firstEt.getText().toString());
-                    setResult(1, intent);
+                    intent.putExtra("result", true);
+                    setResult(RESULT_CODE, intent);
+                    finish();
                 }
             }
         });

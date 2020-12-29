@@ -7,9 +7,14 @@ import androidx.lifecycle.ViewModel;
 import android.os.AsyncTask;
 import android.util.Patterns;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
+import com.shay.loginandregistermodule.data.entity.params.CheckPhExistParam;
+import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
+import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
 import com.shay.loginandregistermodule.data.repository.LoginRepository;
 import com.shay.loginandregistermodule.R;
 import com.shay.loginandregistermodule.ui.login.LoggedInUserView;
@@ -23,10 +28,13 @@ public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+
+    private MutableLiveData<PhoneLoginResult> phoneLoginResult = new MutableLiveData<>();
+
     private LoginRepository loginRepository;
     private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     private LoginAsyncTask loginAsyncTask;
-
+    private CheckPhoneAsyncTask checkPhoneAsyncTask;
 
     LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
@@ -35,6 +43,8 @@ public class LoginViewModel extends ViewModel {
     public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
+
+    public LiveData<PhoneLoginResult> getPhoneLoginResult() { return phoneLoginResult; }
 
     public LiveData<LoginResult> getLoginResult() {
         return loginResult;
@@ -66,6 +76,54 @@ public class LoginViewModel extends ViewModel {
 
     }
 
+
+    public class CheckPhoneAsyncTask extends AsyncTask<CheckPhExistParam, String, Exception>{
+
+        @Override
+        protected Exception doInBackground(CheckPhExistParam... checkPhExistParams) {
+            Gson gson = new Gson();
+            String json = gson.toJson(checkPhExistParams[0]);
+            HashMap<String, Object> param = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+
+            try {
+                loginRepository.checkPhone(param, new LoginRepository.ResultListener() {
+                    @Override
+                    public void returnResult(Result result) {
+                        if (result instanceof Result.Success) {
+                            CheckPhoneRepData data = (CheckPhoneRepData) ((Result.Success) result).getData();
+                           phoneLoginResult.setValue(new PhoneLoginResult(){{setType(data.getUserType()); }});
+                        } else {
+                            PhoneLoginResult phoneResult = new PhoneLoginResult();
+                            result = (Result.Error)result;
+                            phoneResult.setErrorMsg(((Result.Error) result).getErrorMsg());
+                            phoneLoginResult.setValue(phoneResult);
+                        }
+                    }
+                });
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Exception e) {
+            super.onPostExecute(e);
+            if( e != null){
+                phoneLoginResult.setValue(new PhoneLoginResult(){{setErrorMsg("应用出错");}});
+            }
+        }
+    }
+
+    //不存在就会新建账号，并要求设置密码
+    public void CheckPhoneIsExist(String phoneToken){
+        CheckPhExistParam checkPhExistParam = new CheckPhExistParam();
+        checkPhExistParam.setPhoneToken(phoneToken);
+
+    }
+
     public void login(String account, String password) {
         // can be launched in a separate asynchronous job
         HashMap<String, Object> hashMap = new HashMap<>();
@@ -76,7 +134,6 @@ public class LoginViewModel extends ViewModel {
 
         loginAsyncTask = (LoginAsyncTask) asyncTaskFactory.createAsyncTask(new LoginAsyncTask());
         loginAsyncTask.execute(hashMap);
-
 
     }
 
@@ -106,8 +163,6 @@ public class LoginViewModel extends ViewModel {
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 5;
     }
-
-
 
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();

@@ -4,7 +4,6 @@ import android.app.Activity;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +13,7 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,8 +25,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.ui.phoneloginregister.PhoneLoginRegisterActivity;
+import com.shay.loginandregistermodule.data.entity.result.ConfrimPhoneResult;
+import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
+import com.shay.loginandregistermodule.ui.phoneloginregister.PhoneCheckActivity;
+import com.shay.loginandregistermodule.ui.phoneloginregister.SetPasswordActivity;
 import com.shay.loginandregistermodule.viewmodel.LoginViewModel;
 import com.shay.loginandregistermodule.viewmodel.LoginViewModelFactory;
 
@@ -52,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_activity_loading_pb)
     ProgressBar loadingProgressBar;
 
+
+    public final static int REQUEST_CODE_PHONE = 1;
+    public final static int REQUEST_CODE_SET_PWD = 2;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,7 +138,44 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         initListener();
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == REQUEST_CODE_PHONE && resultCode == PhoneCheckActivity.RESULT_CODE){
+            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get("data");
+            //检查手机号码是否注册，存在就登录，不存在登录，并跳转设置密码
+            loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
+        }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == SetPasswordActivity.RESULT_CODE){
+            boolean result = (boolean) data.getExtras().get("result");
+            if(result){
+                /**设置密码成功*/
+            }
+        }
+    }
+
+    private void initObserver(){
+        loginViewModel.getPhoneLoginResult().observe(this, new Observer<PhoneLoginResult>() {
+            @Override
+            public void onChanged(PhoneLoginResult phoneLoginResult) {
+                if(TextUtils.isEmpty(phoneLoginResult.getErrorMsg())){
+                    if(phoneLoginResult.getType() == 0){
+                        //新用户
+                        //跳转到设置密码
+                        Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE_SET_PWD);
+                    }else if(phoneLoginResult.getType() == 1){
+                        //老用户
+                        //跳转主界面
+
+                    }
+                }else {
+                    ToastUntil.showToast(phoneLoginResult.getErrorMsg(), AppContext.getContext());
+                }
+            }
+        });
     }
 
     private void initListener(){
@@ -144,8 +189,8 @@ public class LoginActivity extends AppCompatActivity {
         phoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, PhoneLoginRegisterActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this, PhoneCheckActivity.class);
+                startActivityForResult();
             }
         });
 
@@ -164,7 +209,6 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         });
-
     }
 
     private void updateUiWithUser(LoggedInUserView model) {

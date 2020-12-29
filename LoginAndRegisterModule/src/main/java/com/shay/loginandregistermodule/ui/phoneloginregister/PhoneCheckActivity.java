@@ -28,7 +28,12 @@ import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PhoneLoginRegisterActivity extends AppCompatActivity {
+
+/***
+ * 其他模块调用该验证码模块后会以intent附带字段为data的序列化对象confrimPhoneResult结果
+ */
+
+public class PhoneCheckActivity extends AppCompatActivity {
 
     //字段
     public static final String REQUEST_TYPE="REQUEST_TYPE";
@@ -37,6 +42,9 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     public static final String REQUEST_TYPE_LR="REQUEST_TYPE_LR";
     public static final String REQUEST_TYPE_UPDATE_PWD="REQUEST_TYPE_UPDATE_PWD";
     public static final String REQUEST_TYPE_UPDATE_PHONE="REQUEST_TYPE_UPDATE_PHONE";
+
+    public static final int RESULT_CODE = 1001;
+
 
     private PhoneSmsViewModel phoneSmsViewModel;
     @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
@@ -57,6 +65,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     //短信是否发送成功
     boolean sendMsgStatus = false;
     String rightCode = "";
+    String phoneNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +81,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     protected void onStart() {
 
         super.onStart();
-        phoneSmsViewModel.getSmsResultLiveData().observe(this, new Observer<SmsResultStauts>() {
-            @Override
-            public void onChanged(SmsResultStauts smsResultStauts) {
-                if(smsResultStauts.getErrorMsg() == null){
-                    sendMsgStatus = true;
-                    rightCode = smsResultStauts.getScertCode();
-                } else {
-                    ToastUntil.showToast(smsResultStauts.getErrorMsg(), AppContext.getContext());
-                }
-            }
-        });
+
         initListenser();
         initObserver();
     }
@@ -90,7 +89,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     public void msgConfirm(View v){
 
-        String phoneNum = phoneNumEt.getText().toString().trim();
+        phoneNum = phoneNumEt.getText().toString().trim();
         phoneSmsViewModel.sendSms(phoneNum);
         submitSmsBtn.setEnabled(false);
         countTimeAsyncTask = new AsyncTask<Integer, Integer, Integer>(){
@@ -140,6 +139,11 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             return;
         }
 
+        if (TextUtils.isEmpty(phoneNum)){
+            ToastUntil.showToast("请输入正确的手机号码", AppContext.getContext());
+            return;
+        }
+
         if (!sendMsgStatus){
             return;
         }
@@ -156,6 +160,8 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             /**
              * 正确操作
             * */
+            phoneSmsViewModel.confrimPhone(phoneNum, inputCode);
+
         }else {
             ToastUntil.showToast("验证码错误", AppContext.getContext());
         }
@@ -201,7 +207,10 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
     }
 
 
+    //初始化observer
     public void initObserver(){
+
+
         phoneSmsViewModel.getSmsResultLiveData().observe(this, new Observer<SmsResultStauts>() {
             @Override
             public void onChanged(SmsResultStauts smsResultStauts) {
@@ -220,9 +229,11 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             public void onChanged(ConfrimPhoneResult confrimPhoneResult) {
                 if(TextUtils.isEmpty(confrimPhoneResult.getErrorMsg())){
 
+                    //返回数据给上一activity
                     Intent intent = new Intent();
                     intent.putExtra("data", confrimPhoneResult);
-                    setResult(1001, intent);
+                    setResult(RESULT_CODE, intent);
+                    finish();
                 }else {
                     ToastUntil.showToast(confrimPhoneResult.getErrorMsg(), AppContext.getContext());
                 }
@@ -230,7 +241,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
         });
     }
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == 1){
@@ -239,14 +250,14 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             //Intent intent = new Intent();
             setResult(1);
         }
-
-
     }
-
+*/
     @Override
     protected void onDestroy() {
         phoneSmsViewModel.cancelAsyncTask();
         countTimeAsyncTask.cancel(true);
         super.onDestroy();
     }
+
+
 }

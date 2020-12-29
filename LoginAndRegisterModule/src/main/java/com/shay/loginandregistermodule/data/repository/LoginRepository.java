@@ -4,11 +4,13 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
+import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.myexceptions.MyException;
 import com.shay.loginandregistermodule.data.datasource.LoginDataSource;
+import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
 
 import java.util.HashMap;
 import io.reactivex.Observer;
@@ -29,6 +31,7 @@ public class LoginRepository {
 
     //回调给viewmodel
     private ResultListener resultListener;
+    private ResultListener phoneResultListener;
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
@@ -58,6 +61,36 @@ public class LoginRepository {
         // @see https://developer.android.com/training/articles/keystore
     }
 
+
+    public void checkPhone(HashMap<String, Object> paramMap, final ResultListener phoneResultListener) throws Exception{
+        this.phoneResultListener = phoneResultListener;
+        dataSource.checkPhoneUser(paramMap) .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<CheckPhoneRepData>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<CheckPhoneRepData> checkPhoneRepDataBaseResponse) {
+                        Result result = RetrofitOnResponseUtil.parseBaseResponse(checkPhoneRepDataBaseResponse);
+                        setCheckPhoneResult(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Result result = RetrofitOnErrorUtil.OnError(e);
+                        setCheckPhoneResult(result);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
 
     public void login(HashMap<String, Object> paramMap, final ResultListener resultListener) {
         // handle login
@@ -118,7 +151,6 @@ public class LoginRepository {
 
     //net dataSource operate completed next
     private void setLoginResult(Result result){
-
         resultListener.returnResult(result);
     }
 
@@ -126,6 +158,11 @@ public class LoginRepository {
     public interface ResultListener{
         void returnResult(Result result);
     }
+
+
+        private void setCheckPhoneResult(Result result){
+            resultListener.returnResult(result);
+        }
 
 
 }

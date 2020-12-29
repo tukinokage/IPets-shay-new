@@ -5,6 +5,8 @@ import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
+import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
+import com.shay.loginandregistermodule.data.services.PhoneSmsService;
 import com.shay.loginandregistermodule.data.services.UserUrlService;
 
 import java.util.HashMap;
@@ -26,27 +28,16 @@ public class LoginDataSource {
             return test;
     }
 
-    /*public Call<BaseResponse<TestUser>> login(HashMap<String, Object> paramsMap){
 
-            // TODO: handle loggedInUser authentication
-
-            UserUrlService service = new HttpUtil().getService(UserUrlService.class, UrlUtil.BASE_URL.BASE_URL);
-            Call<BaseResponse<TestUser>> test = service.test(paramsMap);
-            return test;
-    }*/
+    public  Observable<BaseResponse<CheckPhoneRepData>> checkPhoneUser(HashMap<String, Object> paramsMap){
+        PhoneSmsService service = new HttpUtil().getService(PhoneSmsService.class, UrlUtil.BASE_URL.BASE_URL);
+        Observable<BaseResponse<CheckPhoneRepData>> observable = service.checkPhoneUser(paramsMap);
+        return observable;
+    }
 
     public void logout() {
         // TODO: revoke authentication
     }
 
-    public interface LoginDataSourceListener{
-        void getResult(Result result);
-    }
 
-    class MyException extends Exception{
-
-        public MyException(String message) {
-            super(message);
-        }
-    }
 }
