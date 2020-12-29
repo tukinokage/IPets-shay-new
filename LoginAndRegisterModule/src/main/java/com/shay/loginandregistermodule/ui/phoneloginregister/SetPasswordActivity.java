@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -47,10 +48,8 @@ public class SetPasswordActivity extends AppCompatActivity {
 
 
     private void init(){
-
         Bundle extras = getIntent().getExtras();
         String id = extras.getString("userId");
-
     }
 
     public void initObserver(){
@@ -61,7 +60,9 @@ public class SetPasswordActivity extends AppCompatActivity {
                 if(TextUtils.isEmpty(setPwResult.getErrorMsg())){
                     ToastUntil.showToast(setPwResult.getErrorMsg(), AppContext.getContext());
                 }else {
-
+                    Intent intent = new Intent();
+                    intent.putExtra("pwd", firstEt.getText().toString());
+                    setResult(1, intent);
                 }
             }
         });
@@ -70,7 +71,6 @@ public class SetPasswordActivity extends AppCompatActivity {
     public void initListener(){
 
         TextWatcher SecondPwTextWatcher = new TextWatcher() {
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 

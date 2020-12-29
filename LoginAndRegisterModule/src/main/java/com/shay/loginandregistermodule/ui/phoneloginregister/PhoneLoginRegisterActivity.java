@@ -1,10 +1,12 @@
 package com.shay.loginandregistermodule.ui.phoneloginregister;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +20,7 @@ import android.widget.TextView;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
+import com.shay.loginandregistermodule.data.entity.result.ConfrimPhoneResult;
 import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModel;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModelFactory;
@@ -26,6 +29,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class PhoneLoginRegisterActivity extends AppCompatActivity {
+
+    //字段
+    public static final String REQUEST_TYPE="REQUEST_TYPE";
+
+    //类型
+    public static final String REQUEST_TYPE_LR="REQUEST_TYPE_LR";
+    public static final String REQUEST_TYPE_UPDATE_PWD="REQUEST_TYPE_UPDATE_PWD";
+    public static final String REQUEST_TYPE_UPDATE_PHONE="REQUEST_TYPE_UPDATE_PHONE";
 
     private PhoneSmsViewModel phoneSmsViewModel;
     @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
@@ -59,6 +70,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
+
         super.onStart();
         phoneSmsViewModel.getSmsResultLiveData().observe(this, new Observer<SmsResultStauts>() {
             @Override
@@ -72,6 +84,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             }
         });
         initListenser();
+        initObserver();
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -115,6 +128,7 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
 
     }
 
+    //确定键监听事件
     public void confrim(View view){
         String inputCode = sgmCodeEt.getText().toString().trim();
 
@@ -135,6 +149,10 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
             rightCode = "";
             sendMsgStatus = false;
             ToastUntil.showToast("验证码正确", AppContext.getContext());
+
+            //getIntent().getStringExtra(REQUEST_TYPE);
+
+
             /**
              * 正确操作
             * */
@@ -196,7 +214,35 @@ public class PhoneLoginRegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        phoneSmsViewModel.getConfrimPhoneResultMutableLiveData().observe(this, new Observer<ConfrimPhoneResult>() {
+            @Override
+            public void onChanged(ConfrimPhoneResult confrimPhoneResult) {
+                if(TextUtils.isEmpty(confrimPhoneResult.getErrorMsg())){
+
+                    Intent intent = new Intent();
+                    intent.putExtra("data", confrimPhoneResult);
+                    setResult(1001, intent);
+                }else {
+                    ToastUntil.showToast(confrimPhoneResult.getErrorMsg(), AppContext.getContext());
+                }
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == 1){
+            ToastUntil.showToast("密码设置成功", AppContext.getContext());
+           //返回上一级
+            //Intent intent = new Intent();
+            setResult(1);
+        }
+
+
+    }
+
     @Override
     protected void onDestroy() {
         phoneSmsViewModel.cancelAsyncTask();

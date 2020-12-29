@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.myexceptions.MyException;
 
+import java.nio.file.NoSuchFileException;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class SharedPrefenccesUtil {
 
@@ -43,10 +46,9 @@ public class SharedPrefenccesUtil {
     /**只需传入key可获取任何类型
      *
      * */
-    public static <T> T getValue(String fileName, String key){
+    public static <T> T getValue(String fileName, String key) throws Exception{
         SharedPreferences sharedPreferences = getSharedPreferences(fileName);
 
-        try {
             Map<String, ?> map = sharedPreferences.getAll();
             for (Map.Entry<String, ?> entry:map.entrySet()
                  ) {
@@ -55,11 +57,7 @@ public class SharedPrefenccesUtil {
                 }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally {
-            return null;
-        }
+           throw new MyException(" not exist " + key);
 
 
     }
