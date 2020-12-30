@@ -100,7 +100,7 @@ public class LoginRepository {
 
     }
 
-    public void login(HashMap<String, Object> paramMap, final ResultListener resultListener) {
+    public void login(HashMap<String, Object> paramMap, final ResultListener resultListener) throws Exception {
         // handle login
 
         this.resultListener = resultListener;

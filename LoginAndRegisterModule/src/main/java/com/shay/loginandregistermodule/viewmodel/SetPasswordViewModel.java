@@ -77,7 +77,6 @@ public class SetPasswordViewModel extends ViewModel {
             e.printStackTrace();
             setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg("无法获取用户信息");}});
         }
-
     }
 
     public void cancelAsyncTask(){

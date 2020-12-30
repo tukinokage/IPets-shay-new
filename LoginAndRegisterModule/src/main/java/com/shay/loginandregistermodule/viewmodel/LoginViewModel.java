@@ -51,28 +51,43 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public class LoginAsyncTask extends AsyncTask<HashMap<String, Object>, Integer, Result>{
+    public class LoginAsyncTask extends AsyncTask<HashMap<String, Object>, Integer, Exception>{
 
         @Override
-        protected Result doInBackground(HashMap<String, Object>... hashMaps) {
+        protected Exception doInBackground(HashMap<String, Object>... hashMaps) {
 
             HashMap<String, Object> map = hashMaps[0];
             //执行于rxjava的observer线程
             //生成客户端是一个线程（在asyncxtask线程），rxjava + retrofit只是在访问网络以及响应时使用了另一个异步线程
-            loginRepository.login(map,
-                    result -> {
-                    /********rxjava回调主线程的监听器***********/
+            try {
+                loginRepository.login(map,
+                        result -> {
+                        /********rxjava回调主线程的监听器***********/
 
-                        if (result instanceof Result.Success) {
-                            TestUser data = ((Result.Success<TestUser>) result).getData();
-                            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getUserName())));
-                        } else {
-                            loginResult.setValue(new LoginResult(R.string.login_failed));
+                            if (result instanceof Result.Success) {
+                                TestUser data = ((Result.Success<TestUser>) result).getData();
+                                loginResult.setValue(new LoginResult(new LoggedInUserView(data.getUserName())));
+                            } else {
+                                loginResult.setValue(new LoginResult(R.string.login_failed));
+                            }
                         }
-                    }
-                    /******************************************/
-                    );
-            return null;
+                        /******************************************/
+                        );
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return e;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(Exception e) {
+            super.onPostExecute(e);
+            if(e != null){
+               e.printStackTrace();
+               loginResult.setValue(new LoginResult(R.string.login_failed));
+            }
         }
     }
 

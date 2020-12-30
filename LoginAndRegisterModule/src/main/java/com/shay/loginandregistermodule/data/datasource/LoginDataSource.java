@@ -5,6 +5,7 @@ import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.TestUser;
+import com.shay.baselibrary.dto.User;
 import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
 import com.shay.loginandregistermodule.data.services.PhoneSmsService;
 import com.shay.loginandregistermodule.data.services.UserUrlService;
@@ -24,7 +25,7 @@ public class LoginDataSource {
             // TODO: handle loggedInUser authentication
 
             UserUrlService service = new HttpUtil().getService(UserUrlService.class, UrlUtil.BASE_URL.BASE_URL);
-            Observable<BaseResponse<TestUser>> test = service.test(paramsMap);
+            Observable<BaseResponse<User>> test = service.login(paramsMap);
             return test;
     }
 
