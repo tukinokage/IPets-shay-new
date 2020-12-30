@@ -1,1 +1,1 @@
-include ':app', ':LoginAndRegisterModule', ':BaseLibrary', ':petsandinfo'
+include ':app', ':LoginAndRegisterModule', ':BaseLibrary', ':petsandinfo', ':BBSModule', ':UserModule'

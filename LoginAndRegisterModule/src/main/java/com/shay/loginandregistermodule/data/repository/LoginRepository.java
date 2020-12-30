@@ -1,6 +1,7 @@
 package com.shay.loginandregistermodule.data.repository;
 
 import android.os.Looper;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
@@ -13,6 +14,7 @@ import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.myexceptions.MyException;
 import com.shay.loginandregistermodule.data.datasource.LoginDataSource;
 import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
+import com.shay.loginandregistermodule.data.entity.responsedata.LoginResponseData;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -107,8 +109,17 @@ public class LoginRepository {
         try{
             dataSource.login(paramMap)
                     .subscribeOn(Schedulers.io())
+                    .map(loginResponseDataBaseResponse -> {
+                        if(TextUtils.isEmpty(loginResponseDataBaseResponse.getErrorMsg())){
+                            LoginResponseData loginResponseData = loginResponseDataBaseResponse.getData();
+                            UserInfoUtil.saveUserToken(loginResponseData.getToken());
+                            UserInfoUtil.saveUserId(loginResponseData.getUserId());
+                            UserInfoUtil.saveUserName(loginResponseData.getUserName());
+                        }
+                        return loginResponseDataBaseResponse;
+                    })
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<BaseResponse<TestUser>>()
+                    .subscribe(new Observer<BaseResponse<LoginResponseData>>()
                     {
                         @Override
                         public void onSubscribe(Disposable d) {
@@ -116,22 +127,22 @@ public class LoginRepository {
                         }
 
                         @Override
-                        public void onNext(BaseResponse<TestUser> testUserBaseResponse) {
+                        public void onNext(BaseResponse<LoginResponseData> responseData) {
 
-                            if (testUserBaseResponse == null){
+                            if (responseData == null){
                                 Log.d( "登录接收", "空");
                                 return;
                             }
 
                             Result result = null;
-                            if("".equals(testUserBaseResponse.getErrorMsg())){
-                                TestUser testUser = testUserBaseResponse.getData();
-                                result = new Result.Success(testUser);
+                            if("".equals(responseData.getErrorMsg())){
+                                LoginResponseData data = responseData.getData();
+                                result = new Result.Success(data);
                                 Log.d(this.getClass().getSimpleName(), "onNext线程：" + (Looper.myLooper() == Looper.myLooper()));
 
                             }else {
-                                Log.d( "登录失败", testUserBaseResponse.getErrorMsg());
-                                result = new Result.Error(new MyException(testUserBaseResponse.getErrorMsg()));
+                                Log.d( "登录失败", responseData.getErrorMsg());
+                                result = new Result.Error(new MyException(responseData.getErrorMsg()));
                             }
 
                             setLoginResult(result);
@@ -142,7 +153,6 @@ public class LoginRepository {
                             //errorResult
                            Result result =  RetrofitOnErrorUtil.OnError(e);
                            setLoginResult(result);
-
                         }
 
                         @Override
@@ -159,18 +169,13 @@ public class LoginRepository {
 
 
     public void saveUserInfo(SPUserInfo userInfo, final ResultListener saveUserInfoListener){
-
         this.saveUserInfoListener = saveUserInfoListener;
         Observable.just(userInfo)
-                .map(new Function<SPUserInfo, Boolean>() {
-                    @Override
-                    public Boolean apply(SPUserInfo userInfo) throws Exception {
-                        HashMap<String, String>  hashMap = new HashMap<>();
-                        UserInfoUtil.saveUserToken(userInfo.getToken());
-                        UserInfoUtil.saveUserId(userInfo.getUserId());
-                        UserInfoUtil.saveUserName(userInfo.getUserName());
-                        return true;
-                    }
+                .map(userInfo1 -> {
+                    UserInfoUtil.saveUserToken(userInfo1.getToken());
+                    UserInfoUtil.saveUserId(userInfo1.getUserId());
+                    UserInfoUtil.saveUserName(userInfo1.getUserName());
+                    return true;
                 })
                 .subscribeOn(Schedulers.io())//给map操作设置异步线程
                 .observeOn(AndroidSchedulers.mainThread())

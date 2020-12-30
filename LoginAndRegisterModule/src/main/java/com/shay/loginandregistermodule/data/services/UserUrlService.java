@@ -1,11 +1,8 @@
 package com.shay.loginandregistermodule.data.services;
 
-import android.util.Base64;
-
-import com.shay.baselibrary.NetUtil.IHttpService;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.TestUser;
-import com.shay.baselibrary.dto.User;
+import com.shay.loginandregistermodule.data.entity.responsedata.LoginResponseData;
 import com.shay.loginandregistermodule.data.entity.responsedata.SetPwResponseData;
 
 import java.util.HashMap;
@@ -22,7 +19,7 @@ public interface UserUrlService  {
     @POST("ls/login")
     @FormUrlEncoded//表单提交
     //Call<BaseResponse<TestUser>> test(@FieldMap HashMap<String, Object> map);
-    Observable<BaseResponse<User>> login(@FieldMap HashMap<String, Object> map);
+    Observable<BaseResponse<LoginResponseData>> login(@FieldMap HashMap<String, Object> map);
     //Observable<Result<BaseResponse<T>>> test(@Body RequestBody requestBody);
 
     @POST("/")
