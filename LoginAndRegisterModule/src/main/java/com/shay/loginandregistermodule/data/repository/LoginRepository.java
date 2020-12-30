@@ -37,14 +37,11 @@ public class LoginRepository {
     private static volatile LoginRepository instance;
 
     private LoginDataSource dataSource;
-
     //回调给viewmodel
     private ResultListener resultListener;
     private ResultListener phoneResultListener;
     private ResultListener saveUserInfoListener;
 
-    // If user credentials will be cached in local storage, it is recommended it be encrypted
-    // @see https://developer.android.com/training/articles/keystore
     private TestUser user = null;
 
     // private constructor : singleton access
@@ -59,7 +56,6 @@ public class LoginRepository {
         return instance;
     }
 
-
     public void logout() {
         user = null;
         dataSource.logout();
@@ -67,8 +63,6 @@ public class LoginRepository {
 
     private void setLoggedInUser(TestUser user) {
         this.user = user;
-        // If user credentials will be cached in local storage, it is recommended it be encrypted
-        // @see https://developer.android.com/training/articles/keystore
     }
 
 
