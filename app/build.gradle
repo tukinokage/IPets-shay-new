@@ -37,6 +37,7 @@ dependencies {
 
     implementation 'androidx.navigation:navigation-fragment:2.3.2'
     implementation 'androidx.navigation:navigation-ui:2.3.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     println IsBuildMudle.toBoolean()
     if (!IsBuildMudle.toBoolean()) {
         //app
