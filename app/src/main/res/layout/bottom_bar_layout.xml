@@ -21,8 +21,8 @@
 
         <Button
             android:id="@+id/bottom_operate_btn"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:background="@drawable/operator_btn_shape"
@@ -91,4 +91,4 @@
         </LinearLayout>
 
     </LinearLayout>
-</>
+</FrameLayout>

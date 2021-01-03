@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <fragment
+    <FrameLayout
         android:id="@+id/nav_host_fragment"
         android:name="com.shay.ipets.ui.MainFragment"
         android:layout_width="match_parent"

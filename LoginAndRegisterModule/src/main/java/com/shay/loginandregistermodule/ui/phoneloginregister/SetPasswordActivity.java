@@ -29,9 +29,9 @@ import butterknife.BindView;
 public class SetPasswordActivity extends AppCompatActivity {
 
     @BindView(R.id.activtiy_set_pw_frist_et)
-    private TextInputEditText firstEt;
+     TextInputEditText firstEt;
     @BindView(R.id.activtiy_set_pw_second_et)
-    private TextInputEditText secondEt;
+     TextInputEditText secondEt;
     @BindView(R.id.activtiy_set_password_confrim_btn)
     QMUIRoundButton confrimBtn;
 
