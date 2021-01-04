@@ -34,12 +34,7 @@ public class DaliRecordModel extends ViewModel {
         protected Exception doInBackground(ConfrimDaliyRecord... confrimDaliyRecords) {
             try{
                 ConfrimDaliyRecord confrimDaliyRecord = confrimDaliyRecords[0];
-                confrimDaliyRecord.setUserId(UserInfoUtil.getUserId());
-                confrimDaliyRecord.setToken(UserInfoUtil.getUserToken());
-                Gson gson = new Gson();
-                String json = gson.toJson(confrimDaliyRecord);
-                HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
-                daliyRecordRepository.postDailyRecord(params, new DaliyRecordRepository.GetResultListener() {
+                daliyRecordRepository.postDailyRecord(confrimDaliyRecord, new DaliyRecordRepository.GetResultListener() {
                     @Override
                     public void getResult(Result result) {
                         ConfirmRecordResult confirmResult = new ConfirmRecordResult();

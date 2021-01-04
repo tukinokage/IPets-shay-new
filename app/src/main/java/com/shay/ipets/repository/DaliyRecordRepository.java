@@ -2,10 +2,13 @@ package com.shay.ipets.repository;
 
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
+import com.shay.baselibrary.ObjectTransformUtil;
+import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.dto.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.ipets.datasource.DailyRecordDatasource;
 import com.shay.ipets.datasource.MainDatasource;
+import com.shay.ipets.entity.params.ConfrimDaliyRecord;
 import com.shay.ipets.entity.responses.PostDaliyResponse;
 
 import java.util.HashMap;
@@ -32,9 +35,14 @@ public class DaliyRecordRepository {
         return instance;
     }
 
-    public void postDailyRecord(HashMap<String, Object> params, GetResultListener resultListener) throws Exception{
+    public void postDailyRecord(ConfrimDaliyRecord record, GetResultListener resultListener) throws Exception{
         this.postResultListener = resultListener;
-        dailyRecordDatasource.postDaily(params).subscribeOn(Schedulers.io())
+        record.setUserId(UserInfoUtil.getUserId());
+        record.setToken(UserInfoUtil.getUserToken());
+
+        HashMap hashMap = (HashMap) ObjectTransformUtil.objectToMap(record);
+        dailyRecordDatasource.postDaily(hashMap)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<PostDaliyResponse>>() {
                     @Override
@@ -50,7 +58,6 @@ public class DaliyRecordRepository {
 
                     @Override
                     public void onError(Throwable e) {
-
                         Result result = RetrofitOnErrorUtil.OnError(e);
                         postResultListener.getResult(result);
                     }

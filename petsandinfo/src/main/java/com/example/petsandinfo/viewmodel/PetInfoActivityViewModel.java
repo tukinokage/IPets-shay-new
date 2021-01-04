@@ -49,7 +49,6 @@ public class PetInfoActivityViewModel extends ViewModel {
     /***************************ASYNCTASK CLASS**************************/
     private class LoadPetPicAsyncTask extends AsyncTask<LoadPetPicCondition, String, String>{
 
-
         @Override
         protected String doInBackground(LoadPetPicCondition... loadPetPicConditions) {
             LoadPetPicCondition loadPetPicCondition = loadPetPicConditions[0];

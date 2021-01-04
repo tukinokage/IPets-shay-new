@@ -12,7 +12,6 @@ public class DaliyRecordViewModelFactory implements ViewModelProvider.Factory {
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MainViewModel.class)){
-
             return (T) new MainViewModel(MainRepository.getInstance(new MainDatasource()));
         }else {
             throw new IllegalArgumentException("Unknown ViewModel class");

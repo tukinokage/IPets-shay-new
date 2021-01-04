@@ -1,4 +1,4 @@
-package com.shay.ipets;
+package com.shay.ipets.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
+import com.shay.ipets.R;
 import com.shay.ipets.viewmodel.DaliRecordModel;
 import com.shay.ipets.viewmodel.DaliyRecordViewModelFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class DailyRecordActivity extends AppCompatActivity {
 
@@ -28,12 +30,14 @@ public class DailyRecordActivity extends AppCompatActivity {
     TextView dateTv;
     @BindView(R.id.main_activity_go_register_tv)
     TextView backTv;
+
+    Unbinder unbinder;
     DaliRecordModel daliRecordModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_record);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         daliRecordModel = new ViewModelProvider(this, new DaliyRecordViewModelFactory())
                 .get(DaliRecordModel.class);
@@ -64,4 +68,9 @@ public class DailyRecordActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
 }

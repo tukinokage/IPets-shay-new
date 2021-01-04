@@ -17,4 +17,18 @@ public class TimeUntil {
 
         return time;
     }
+
+    public  static String getCurrentSysDateTime(){
+        SimpleDateFormat simpleDateFormat = null;// HH:mm:ss
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {//获取当前时间
+            simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+            Date date = new Date(System.currentTimeMillis());
+            return simpleDateFormat.format(date));
+        }else {
+            return "";
+        }
+
+
+    }
+
 }

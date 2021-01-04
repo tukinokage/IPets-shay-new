@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DailyRecordActivity"
+    tools:context="ui.DailyRecordActivity"
     android:background="@color/light_grey_bg_color">
     <include layout="@layout/main_topbar_layout"
         android:id="@+id/daily_record_top_bar"/>

@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".DailyRecordActivity" />
+        <activity android:name=".ui.PostActivity"></activity>
+        <activity android:name="ui.DailyRecordActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name="ui.MainActivity"
             android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
