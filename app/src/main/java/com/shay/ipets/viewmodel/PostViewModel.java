@@ -74,7 +74,18 @@ public class PostViewModel extends ViewModel {
         postParam.setPicList(picList);
         postParam.setType(type);
         postAsyncTask.execute(postParam);
+    }
 
+    public void uploadPic(Picture picture){
+
+    }
+
+    public void selectPic(){
+
+    }
+
+    public void cancelAsyncTask(){
+        asyncTaskFactory.cancelAsyncTask();
     }
 
 }

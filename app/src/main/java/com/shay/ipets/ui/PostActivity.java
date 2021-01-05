@@ -6,7 +6,11 @@ import android.os.Bundle;
 
 import com.shay.ipets.R;
 
+import java.util.List;
+
 public class PostActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
