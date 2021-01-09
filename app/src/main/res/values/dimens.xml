@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="bottom_bar_height">80dp</dimen>
+    <dimen name="grid_expected_size">80dp</dimen>
 </resources>

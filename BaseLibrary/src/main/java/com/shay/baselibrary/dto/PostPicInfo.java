@@ -1,9 +1,36 @@
 package com.shay.baselibrary.dto;
 
 public class PostPicInfo {
-    String postId;
+
+
+    String token;
     Picture picture;
     String uri;
+    boolean isFailed = false;
+    boolean isSucceed = false;
+
+    public boolean isFailed() {
+        return isFailed;
+    }
+
+    public void setFailed(boolean failed) {
+        isFailed = failed;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+    public boolean isSucceed() {
+        return isSucceed;
+    }
+
+    public void setSucceed(boolean succeed) {
+        isSucceed = succeed;
+    }
 
     public String getUri() {
         return uri;
@@ -12,13 +39,7 @@ public class PostPicInfo {
     public void setUri(String uri) {
         this.uri = uri;
     }
-    public String getPostId() {
-        return postId;
-    }
 
-    public void setPostId(String postId) {
-        this.postId = postId;
-    }
 
     public Picture getPicture() {
         return picture;

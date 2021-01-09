@@ -9,7 +9,6 @@ public class MD5CodeCeator {
 
     public static String md5(String input) throws NoSuchAlgorithmException {
         byte[] bytes = MessageDigest.getInstance("MD5").digest(input.getBytes());
-
         return printHexBinary(bytes);
     }
 
@@ -26,5 +25,8 @@ public class MD5CodeCeator {
 
     public static String randomUUID(){
         return UUID.randomUUID().toString().replace("-", "");
+    }
+    public static String randomUUID16(){
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 15);
     }
 }
