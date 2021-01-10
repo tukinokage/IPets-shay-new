@@ -1,13 +1,17 @@
 package com.shay.ipets.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.content.ContentProvider;
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,13 +20,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.dto.PostPicInfo;
+import com.shay.ipets.GlideLoadEngine;
 import com.shay.ipets.R;
 import com.shay.ipets.adapter.SelectPicAdapter;
 import com.shay.ipets.entity.result.PostResult;
@@ -37,6 +41,7 @@ import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.internal.entity.IncapableCause;
 import com.zhihu.matisse.internal.entity.Item;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
@@ -55,13 +60,16 @@ public class PostActivity extends AppCompatActivity {
     public Button submitButton;
     @BindView(R.id.post_text_input_et)
     public TextInputEditText contentTextInput;
+    @BindView(R.id.post_title_input_et)
+    public TextInputEditText titleTextInput;
 
     private SelectPicAdapter selectPicAdapter;
 
     private PostViewModel postViewModel;
 
-
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     public static final int REQUEST_CODE_CHOOSE = 001;
+    private final int MAX_PIC_NUM = 9;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,12 +77,23 @@ public class PostActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         postViewModel = new ViewModelProvider(this, new PostViewModelFactory()).get(PostViewModel.class);
 
-        selectPicAdapter = new SelectPicAdapter();
+        selectPicAdapter = new SelectPicAdapter(this);
+        selectPicAdapter.setPostPicInfoList(postViewModel.getSelectPicList());
         selectGridView.setAdapter(selectPicAdapter);
+        init();
         initListener();
         initObserver();
     }
 
+    private void init(){
+        int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_CHOOSE);
+            return;
+        }
+    }
     private void initObserver(){
         postViewModel.getPostPicInfoMutableLiveData().observe(this, new Observer<List<PostPicInfo>>() {
             @Override
@@ -142,7 +161,12 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //先上传图片
-                postViewModel.submitAll(   );
+                String title = titleTextInput.getText().toString();
+                String contentText = titleTextInput.getText().toString();
+                int type = 0;
+                /*
+                postViewModel.submitAll();
+                 * */
             }
         });
     }
@@ -156,15 +180,17 @@ public class PostActivity extends AppCompatActivity {
     private void updatePicList(List list){
         selectPicAdapter.setPostPicInfoList(list);
         selectPicAdapter.notifyDataSetChanged();
+
     }
 
     private void selectPic(){
         Matisse.from(this)
                 .choose(MimeType.ofImage())
                 .capture(true)
-                .captureStrategy(new CaptureStrategy(true, "com.shay.ipets.ui"))
+                .captureStrategy(
+                        new CaptureStrategy(true, "com.shay.ipets.fileprovider"))
                 .countable(true)
-                .maxSelectable(9)
+                .maxSelectable(MAX_PIC_NUM - postViewModel.mContentListLength())
                 .addFilter(new Filter() {
                     @Override
                     protected Set<MimeType> constraintTypes() {
@@ -188,7 +214,6 @@ public class PostActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-
                         return null;
 
                     }
@@ -196,7 +221,7 @@ public class PostActivity extends AppCompatActivity {
                 .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.bottom_bar_height))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(0.85f)
-                .imageEngine(new GlideEngine())
+                .imageEngine(new GlideLoadEngine())
                 .forResult(REQUEST_CODE_CHOOSE);
     }
 

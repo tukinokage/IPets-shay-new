@@ -27,9 +27,9 @@ public class PostRepository {
     GetResultListener uploadPicListener;
 
     private PostDatasource postDatasource;
-    private PostRepository instance;
+    private volatile static PostRepository instance;
 
-    synchronized public PostRepository getInstance(PostDatasource postDatasource){
+    static synchronized public PostRepository getInstance(PostDatasource postDatasource){
         if (instance == null){
             instance = new PostRepository(postDatasource);
         }

@@ -3,6 +3,7 @@ package com.shay.ipets.adapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.audiofx.BassBoost;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -28,14 +29,16 @@ import retrofit2.http.PUT;
 public class SelectPicAdapter extends BaseAdapter {
     Context context;
 
-
-
     private List<PostPicInfo> postPicInfoList;
 
     private CancelBtnListener cancelBtnListener;
 
     private ItemOnclickListener itemOnclickListener;
     private View.OnClickListener addOnclickListener;
+
+    public SelectPicAdapter(Context context) {
+        this.context = context;
+    }
 
     @Override
     public int getCount() {
@@ -73,14 +76,8 @@ public class SelectPicAdapter extends BaseAdapter {
 
         //addbtn
         if(position == postPicInfoList.size()){
-            if (convertView == null){
-                convertView = View.inflate(context, R.layout.img_preview_item_layout, parent);
-                itemViewHolder = new ItemViewHolder(convertView);
-
-                convertView.setTag(itemViewHolder);
-            }else {
-                itemViewHolder = (ItemViewHolder) convertView.getTag(position);
-            }
+            convertView = LayoutInflater.from(context).inflate(R.layout.img_preview_item_layout, parent, false);
+            itemViewHolder = new ItemViewHolder(convertView);
 
             itemViewHolder.tipTextView.setVisibility(View.INVISIBLE);
             itemViewHolder.pgLinerLayout.setVisibility(View.INVISIBLE);
@@ -93,7 +90,10 @@ public class SelectPicAdapter extends BaseAdapter {
 
         //pic
         if(convertView == null){
-            convertView = View.inflate(context, R.layout.img_preview_item_layout, parent);
+            convertView = LayoutInflater.from(context).inflate(R.layout.img_preview_item_layout, parent, false);
+        }
+
+        if (convertView.getTag() == null){
             itemViewHolder = new ItemViewHolder(convertView);
             itemViewHolder.img.setScaleType(ImageView.ScaleType.CENTER_CROP);
             itemViewHolder.cancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +109,7 @@ public class SelectPicAdapter extends BaseAdapter {
                 }
             });
         }else {
-            itemViewHolder = (ItemViewHolder) convertView.getTag(position);
+            itemViewHolder = (ItemViewHolder) convertView.getTag();
         }
 
         itemViewHolder.cancelBtn.setVisibility(View.VISIBLE);

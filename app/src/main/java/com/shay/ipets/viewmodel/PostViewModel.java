@@ -6,11 +6,13 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.MD5CodeCeator;
 import com.shay.baselibrary.dto.Picture;
 import com.shay.baselibrary.dto.PostPicInfo;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
+import com.shay.baselibrary.picUtils.LoadLocalPic;
 import com.shay.ipets.entity.params.PostParam;
 import com.shay.ipets.entity.params.UpLoadPicParam;
 import com.shay.ipets.entity.responses.UpLoadPicResponse;
@@ -22,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Response;
 
 public class PostViewModel extends ViewModel {
     private List<Picture> succeedPic = new ArrayList<>();
@@ -40,7 +41,7 @@ public class PostViewModel extends ViewModel {
     private MutableLiveData<UploadPicResult> uploadPicResultMutableLiveData = new MutableLiveData<>();
 
     private MutableLiveData<List<PostPicInfo>> postPicInfoMutableLiveData = new MutableLiveData<>();
-    private AsyncTaskFactory asyncTaskFactory;
+    private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     private PostAsyncTask postAsyncTask;
     UploadPicAsyncTask uploadPicAsyncTask;
 
@@ -180,12 +181,19 @@ public class PostViewModel extends ViewModel {
    }
 
 
+   public int mContentListLength(){
+       return selectPicList.size();
+   }
+
     public void selectPic(List<Uri> list){
         for(Uri uri:list){
             PostPicInfo postPicInfo = new PostPicInfo();
-            postPicInfo.setUri(uri.getPath());
+            String realPath = LoadLocalPic.getRealPathFromUri(AppContext.getContext(), uri);
+            postPicInfo.setUri(realPath);
             selectPicList.add(postPicInfo);
         }
+
+        getPostPicInfoMutableLiveData().setValue(selectPicList);
     }
 
     public void setPicSucceed(int index){
