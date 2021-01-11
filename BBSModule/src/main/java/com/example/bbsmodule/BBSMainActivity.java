@@ -14,6 +14,10 @@ import android.view.MenuItem;
 
 public class BBSMainActivity extends AppCompatActivity {
 
+    public final static int PER_PAPER_NUM = 15;
+    public final static int CURRENT_PAPER_NUM = 1;
+    public final static int CURRENT_TYPE = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

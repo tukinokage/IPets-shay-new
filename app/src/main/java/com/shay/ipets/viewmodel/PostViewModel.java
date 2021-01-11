@@ -24,7 +24,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PostViewModel extends ViewModel {
     private List<Picture> succeedPic = new ArrayList<>();
     private List<PostPicInfo> selectPicList = new ArrayList<>();
@@ -148,7 +147,6 @@ public class PostViewModel extends ViewModel {
 
     public void post(PostParam postParam){
         postAsyncTask = (PostAsyncTask) asyncTaskFactory.createAsyncTask(new PostAsyncTask());
-
         postAsyncTask.execute(postParam);
     }
 
@@ -161,12 +159,11 @@ public class PostViewModel extends ViewModel {
         uploadPicAsyncTask.execute(picParam);
     }
 
-   public void submitAll(String title, String ContentText, int type, List<Picture> picList){
+   public void submitAll(String title, String ContentText, int type){
        PostParam postParam = new PostParam();
 
        postParam.setTitle(title);
        postParam.setContentText(ContentText);
-       postParam.setPicList(picList);
        postParam.setType(type);
        currentPostParam = postParam;
 
@@ -181,6 +178,7 @@ public class PostViewModel extends ViewModel {
    }
 
 
+
    public int mContentListLength(){
        return selectPicList.size();
    }
@@ -190,6 +188,7 @@ public class PostViewModel extends ViewModel {
             PostPicInfo postPicInfo = new PostPicInfo();
             String realPath = LoadLocalPic.getRealPathFromUri(AppContext.getContext(), uri);
             postPicInfo.setUri(realPath);
+            postPicInfo.setPicture(new Picture(){{setPicName(MD5CodeCeator.randomUUID()+".jpg");}});
             selectPicList.add(postPicInfo);
         }
 
@@ -215,7 +214,7 @@ public class PostViewModel extends ViewModel {
             }
         }
 
-
+        //生成succeed list
         for(PostPicInfo picInfo:getSelectPicList()){
             Picture picture = picInfo.getPicture();
             succeedPic.add(picture);

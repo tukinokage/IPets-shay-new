@@ -164,9 +164,8 @@ public class PostActivity extends AppCompatActivity {
                 String title = titleTextInput.getText().toString();
                 String contentText = titleTextInput.getText().toString();
                 int type = 0;
-                /*
-                postViewModel.submitAll();
-                 * */
+
+                postViewModel.submitAll(title, contentText, type);
             }
         });
     }

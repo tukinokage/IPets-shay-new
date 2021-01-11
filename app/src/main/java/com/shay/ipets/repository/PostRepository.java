@@ -80,7 +80,6 @@ public class PostRepository {
         this.uploadPicListener = uploadPicListener;
         File file = new File(infoParam.getUri());
 
-        infoParam.setPicName(MD5CodeCeator.randomUUID());
         infoParam.setToken(UserInfoUtil.getUserToken());
 
         String json = new Gson().toJson(infoParam);

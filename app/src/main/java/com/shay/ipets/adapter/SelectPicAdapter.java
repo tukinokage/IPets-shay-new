@@ -1,30 +1,21 @@
 package com.shay.ipets.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.media.audiofx.BassBoost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.shay.baselibrary.dto.PostPicInfo;
 import com.shay.baselibrary.picUtils.LoadLocalPic;
 import com.shay.ipets.R;
-
 import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.zip.Inflater;
-
-import butterknife.BindDimen;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.http.PUT;
 
 public class SelectPicAdapter extends BaseAdapter {
     Context context;
@@ -153,7 +144,6 @@ public class SelectPicAdapter extends BaseAdapter {
             this.view = view;
         }
     }
-
 
     public interface CancelBtnListener{
         void onclick(int position);
