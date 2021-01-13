@@ -9,21 +9,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bbsmodule.R;
 import com.example.bbsmodule.entity.BBSPost;
+import com.shay.baselibrary.dto.Post;
 
 import java.util.List;
 
 import butterknife.ButterKnife;
 
-public class PostsAdapter extends RecyclerView.Adapter {
+public class PostInfoListAdapter extends RecyclerView.Adapter {
     Context context;
-    List<BBSPost> postList;
+    List<Post> postList;
     private View.OnClickListener onClickListener;
 
-    public PostsAdapter(Context context) {
+    public PostInfoListAdapter(Context context) {
         this.context = context;
     }
 
-    public void setPostList(List<BBSPost> postList) {
+    public void setPostList(List<Post> postList) {
         this.postList = postList;
     }
     public void setOnClickListener(View.OnClickListener onClickListener) {

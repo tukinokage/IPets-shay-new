@@ -24,6 +24,7 @@
             android:paddingRight="10dp"
             android:hint="请输入内容"
             android:maxLength="10"
+            app:layout_constraintRight_toRightOf="@id/posts_activity_btn"
             />
         <Button
             android:layout_marginRight="20dp"
@@ -36,17 +37,22 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="vertical">
         <GridView
             android:id="@+id/posts_activity_selection_grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:numColumns="4"
-            />
+            android:numColumns="4" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/posts_activity_post_rv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>
