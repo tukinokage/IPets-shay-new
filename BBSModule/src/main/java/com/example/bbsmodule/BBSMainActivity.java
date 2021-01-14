@@ -12,6 +12,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,7 +59,7 @@ public class BBSMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bbsmain);
         ButterKnife.bind(this);
 
-        BBSViewModel bbsViewModel = new ViewModelProvider(this, new BBSViewModelFactory())
+        bbsViewModel = new ViewModelProvider(this, new BBSViewModelFactory())
                 .get(BBSViewModel.class);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -109,15 +110,37 @@ public class BBSMainActivity extends AppCompatActivity {
         manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(postsAdapter);
-
         selectGridView.setAdapter(postSelectionsAdapter);
+
+        bbsViewModel.getSelectionList();
     }
 
     private void initObserver(){
 
+        bbsViewModel.getSelectonListMutableLiveData().observe(this, new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                postSelectionsAdapter.setSeletionList(strings);
+                postSelectionsAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void initListener(){
+        postsAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        postSelectionsAdapter.setSelectionOnclickListener(new PostSelectionsAdapter.SelectionOnclickListener() {
+            @Override
+            public void onClick(int position) {
+
+            }
+        });
+
 
     }
 }

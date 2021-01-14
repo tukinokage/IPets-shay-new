@@ -1,10 +1,10 @@
-package com.example.bbsmodule.entity;
+package com.example.bbsmodule.entity.params;
 
 public class GetPostListParam {
-        String searchCondition;
-        int type;
-        int perPaperNum;
-        int currentPaperNum;
+    String searchCondition;
+    int type;
+    int perPaperNum;
+    int currentPaperNum;
 
     public String getSearchCondition() {
         return searchCondition;

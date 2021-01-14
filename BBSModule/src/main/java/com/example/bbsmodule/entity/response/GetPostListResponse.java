@@ -1,13 +1,12 @@
-package com.example.bbsmodule.entity.result;
+package com.example.bbsmodule.entity.response;
 
 import com.example.bbsmodule.entity.BBSPost;
 
 import java.util.List;
 
-public class GetPostListResult {
+public class GetPostListResponse {
     List<BBSPost> bbsPostList;
     boolean hasMore;
-    String errorMg = "";
 
     public List<BBSPost> getBbsPostList() {
         return bbsPostList;
@@ -24,11 +23,5 @@ public class GetPostListResult {
     public void setHasMore(boolean hasMore) {
         this.hasMore = hasMore;
     }
-    public String getErrorMg() {
-        return errorMg;
-    }
 
-    public void setErrorMg(String errorMg) {
-        this.errorMg = errorMg;
-    }
 }

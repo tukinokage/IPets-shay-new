@@ -59,4 +59,6 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             ButterKnife.bind(this, itemView);
         }
     }
+
+
 }

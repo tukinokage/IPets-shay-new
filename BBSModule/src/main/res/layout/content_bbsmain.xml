@@ -9,39 +9,15 @@
     tools:context=".BBSMainActivity"
     tools:showIn="@layout/activity_bbsmain">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <AutoCompleteTextView
-            android:layout_marginLeft="20dp"
-            android:id="@+id/posts_activity_auto_t"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            app:layout_constraintRight_toLeftOf="@id/posts_activity_btn"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:background="@drawable/right_input_bg"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:hint="请输入内容"
-            android:maxLength="10"
-            app:layout_constraintRight_toRightOf="@id/posts_activity_btn"
-            />
-        <Button
-            android:layout_marginRight="20dp"
-            android:id="@+id/posts_activity_btn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:text="搜索"
-            android:background="@drawable/left_btn_bg"
-            app:layout_constraintRight_toRightOf="parent"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+
         android:orientation="vertical">
         <GridView
             android:id="@+id/posts_activity_selection_grid_view"
@@ -53,6 +29,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/posts_activity_post_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
     </LinearLayout>
 </LinearLayout>
