@@ -3,12 +3,14 @@
     package="com.example.bbsmodule">
 
     <application
+        android:name="com.shay.baselibrary.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PostInfoActivity"></activity>
         <activity
             android:name=".BBSMainActivity"
             android:label="@string/app_name"

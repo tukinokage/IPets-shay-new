@@ -1,6 +1,8 @@
 package com.example.bbsmodule.entity;
 
-public class BBSPost {
+import java.io.Serializable;
+
+public class BBSPost implements Serializable {
     String picName;
     String postId;
     String title;

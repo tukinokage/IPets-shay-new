@@ -1,18 +1,14 @@
 package com.example.bbsmodule.datasource;
 
-import com.example.bbsmodule.entity.params.GetPostInfoParam;
 import com.example.bbsmodule.entity.response.GetCommentResponse;
 import com.example.bbsmodule.entity.response.GetPostInfoResponse;
 import com.example.bbsmodule.services.PostService;
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.BaseResponse;
-import com.shay.baselibrary.dto.Post;
-
 import java.util.HashMap;
 
 import io.reactivex.Observable;
-import retrofit2.http.Url;
 
 
 public class PostInfoDatasource {

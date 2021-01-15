@@ -93,7 +93,6 @@ public class BBSViewModel extends ViewModel {
             list.add(e.getRankName());
         }
         selectonListMutableLiveData.setValue(list);
-
     }
 
     public void cancelAsyTask(){
