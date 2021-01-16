@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
 
 import com.example.bbsmodule.R;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
@@ -18,6 +20,7 @@ public class PostSelectionsAdapter extends BaseAdapter {
 
     private List<String> seletionList;
     private Context context;
+    private int index = 0;//标记当前选择的选项
 
     private SelectionOnclickListener selectionOnclickListener;
 
@@ -60,10 +63,34 @@ public class PostSelectionsAdapter extends BaseAdapter {
 
         //由于是固定的，只要在第一次初始化就可
         viewholder.btn.setText(seletionList.get(position));
+        if(index == position){
+            if(!viewholder.btn.isChecked()) {
+                viewholder.btn.setChecked(true);
+            }
+        }else {
+            if(viewholder.btn.isChecked()) {
+                viewholder.btn.setChecked(false);
+            }
+        }
+
         viewholder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 selectionOnclickListener.onClick(position);
+                index = position;
+                notifyDataSetChanged();
+            }
+        });
+
+        //以防被取消
+        viewholder.btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(index == position){
+                        if(!isChecked) {
+                            buttonView.setChecked(true);
+                        }
+                    }
             }
         });
 
@@ -80,7 +107,7 @@ public class PostSelectionsAdapter extends BaseAdapter {
 
     class SelectionViewholder{
         @BindView(R.id.post_selection_btn)
-        QMUIRoundButton btn;
+        RadioButton btn;
 
         public SelectionViewholder(View v){
             ButterKnife.bind(this, v);

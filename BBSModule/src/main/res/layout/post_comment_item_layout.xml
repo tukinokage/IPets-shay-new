@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/material_grey_500"/>
+    <LinearLayout  android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="10dp">
+            <ImageView
+                android:id="@+id/post_comment_item_headicon_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@color/material_grey_500"/>
+            <TextView
+                android:id="@+id/post_comment_item_usernamne_textview"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="不超过15字不超过15字不超过15字"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/post_comment_item_contenttext_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:text="内容暂时无限制内容暂时无限制内容暂时无限制内容暂时无限制从蝶鳞翅色可见，不同于小公主礼服装扮中出现的大蓝闪蝶，ZB-26身旁的蝴蝶是同属于蛱蝶科闪蝶亚科的梦幻闪蝶，中国学者往往将它们单独分为闪蝶科或灿蝶科，并且由于两性异形，ZB-26和小公主身边的蝴蝶都是雄性。作者并没有说蝴蝶的来历，但是唯一可以确定的是梦幻闪蝶主要生活在热带而捷克斯洛伐克嘛...至少肯定和国籍无关。"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/post_comment_item_content_pic_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+                <TextView
+                    android:id="@+id/post_comment_item_num_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="#1"
+                    android:textColor="@color/light_text_color"
+                    app:layout_constraintRight_toRightOf="parent"/>
+
+                <TextView
+                    android:id="@+id/post_comment_item_datetime_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="2020-1-1 20:00"
+                    android:textColor="@color/light_text_color"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>

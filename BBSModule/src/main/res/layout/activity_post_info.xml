@@ -6,4 +6,108 @@
     android:layout_height="match_parent"
     tools:context=".PostInfoActivity">
 
+    <LinearLayout
+        android:id="@+id/activity_post_info_top_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:background="@color/material_orange_400">
+
+        <Button
+            android:id="@+id/activity_post_top_back_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/ic_arrow_back_black_24dp"/>
+        <TextView
+            android:id="@+id/activity_post_info_top_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:textColor="@color/material_white"
+            android:gravity="center"
+            android:minHeight="?actionBarSize"
+            android:maxLength="15"
+            android:text="标题"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bbsmodule_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/activity_post_info_top_layout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/_post_info_headicon_iv"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/pic_ZB26_icon" />
+
+            <TextView
+                android:id="@+id/post_info_item_usernamne_textview"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="ZB-26" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/post_info_item_contenttext_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:text="内容暂时无限制内容暂时无限制内容暂时无限制内容暂时无限制从蝶鳞翅色可见，不同于小公主礼服装扮中出现的大蓝闪蝶，ZB-26身旁的蝴蝶是同属于蛱蝶科闪蝶亚科的梦幻闪蝶，中国学者往往将它们单独分为闪蝶科或灿蝶科，并且由于两性异形，ZB-26和小公主身边的蝴蝶都是雄性。作者并没有说蝴蝶的来历，但是唯一可以确定的是梦幻闪蝶主要生活在热带而捷克斯洛伐克嘛...至少肯定和国籍无关。" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/post_info_item_content_pic_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="主楼"
+                    android:textColor="@color/light_text_color"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <TextView
+                    android:id="@+id/post_info_item_datetime_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="2020-1-1 20:00"
+                    android:textColor="@color/light_text_color"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/post_info_comment_rv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/bbsmodule_linearlayout" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,6 +48,7 @@ public class BBSMainActivity extends AppCompatActivity {
     public  static int CURRENT_PAPER_NUM = 1;
     public  static int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
+    private boolean IS_LOADING_MORE = false;
 
     @BindView(R.id.posts_activity_post_rv)
     RecyclerView recyclerView;
@@ -157,6 +158,7 @@ public class BBSMainActivity extends AppCompatActivity {
                     CURRENT_PAPER_NUM += 1;
                     HASH_MORE = getPostListResult.isHasMore();
                     bbsPostsList.addAll(getPostListResult.getBbsPostList());
+                    IS_LOADING_MORE = false;
                 }else {
                     ToastUntil.showToast(getPostListResult.getErrorMg(), AppContext.getContext());
                 }
@@ -203,8 +205,13 @@ public class BBSMainActivity extends AppCompatActivity {
                 if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == postsAdapter.getItemCount()){
+                        if(IS_LOADING_MORE){
+                            return;
+                        }
+
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
+                            IS_LOADING_MORE = true;
                             bbsViewModel.getBBSPostLIst(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
                         }else {
                             ToastUntil.showToast("已无更多", AppContext.getContext());

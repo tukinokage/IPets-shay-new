@@ -6,15 +6,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:ignore="ResourceName">
 
-     <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+     <RadioButton
             android:id="@+id/post_selection_btn"
             android:layout_width="70dp"
             android:layout_height="25dp"
             android:text="选项"
             android:textColor="@color/light_text_color"
             android:textSize="12sp"
-            app:qmui_borderWidth="0dp"
-            app:qmui_radius="10dp"
             android:background="@color/material_white" />
 
 </LinearLayout>
