@@ -7,7 +7,7 @@ import android.util.Log;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.SPUserInfo;
 import com.shay.baselibrary.dto.TestUser;
@@ -17,14 +17,11 @@ import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepDat
 import com.shay.loginandregistermodule.data.entity.responsedata.LoginResponseData;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 

@@ -1,6 +1,5 @@
 package com.example.petsandinfo.repository;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import com.bumptech.glide.Glide;
@@ -13,7 +12,7 @@ import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.example.petsandinfo.entity.PetInfoImg;
 import com.example.petsandinfo.model.PetIntroduce;
 import com.shay.baselibrary.dto.Result;

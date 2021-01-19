@@ -1,6 +1,6 @@
 package com.shay.loginandregistermodule.data.services;
 
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.loginandregistermodule.data.entity.responsedata.LoginResponseData;
 import com.shay.loginandregistermodule.data.entity.responsedata.SetPwResponseData;

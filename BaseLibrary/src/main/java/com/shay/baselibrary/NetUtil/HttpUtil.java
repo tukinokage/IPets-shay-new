@@ -2,30 +2,11 @@ package com.shay.baselibrary.NetUtil;
 
 import android.util.Log;
 
-import androidx.annotation.MainThread;
-
-import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.baselibrary.dto.BaseResponse;
-import com.shay.baselibrary.dto.TestUser;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.util.HashMap;
-import java.util.concurrent.Flow;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.Result;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 

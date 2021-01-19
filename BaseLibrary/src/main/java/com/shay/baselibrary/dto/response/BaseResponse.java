@@ -1,4 +1,4 @@
-package com.shay.baselibrary.dto;
+package com.shay.baselibrary.dto.response;
 
 import java.io.Serializable;
 

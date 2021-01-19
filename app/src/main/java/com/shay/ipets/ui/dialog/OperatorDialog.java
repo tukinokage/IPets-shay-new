@@ -69,4 +69,7 @@ public class OperatorDialog extends Dialog {
         getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         getWindow().setAttributes(layoutParams);
     }
+
+
+
 }

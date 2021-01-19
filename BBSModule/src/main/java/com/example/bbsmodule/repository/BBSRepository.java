@@ -6,7 +6,7 @@ import com.example.bbsmodule.entity.result.GetPostListResult;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.ObjectTransformUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 
 import java.util.HashMap;

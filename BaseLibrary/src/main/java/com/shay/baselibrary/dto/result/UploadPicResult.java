@@ -1,4 +1,4 @@
-package com.shay.ipets.entity.result;
+package com.shay.baselibrary.dto.result;
 
 public class UploadPicResult {
     private String errorMsg = "";

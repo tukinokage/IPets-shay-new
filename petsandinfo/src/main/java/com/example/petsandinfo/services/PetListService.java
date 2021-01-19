@@ -1,7 +1,7 @@
 package com.example.petsandinfo.services;
 
 import com.shay.baselibrary.dto.Pet;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 
 import java.util.HashMap;
 import java.util.List;

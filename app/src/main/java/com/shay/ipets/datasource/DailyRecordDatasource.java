@@ -2,7 +2,7 @@ package com.shay.ipets.datasource;
 
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.ipets.entity.responses.PostDaliyResponse;
 import com.shay.ipets.services.PostDailyRecordService;
 

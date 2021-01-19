@@ -1,4 +1,4 @@
-package com.shay.ipets.entity.params;
+package com.shay.baselibrary.dto.params;
 
 public class UpLoadPicParam {
     private String picName;

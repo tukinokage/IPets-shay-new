@@ -1,13 +1,11 @@
 package com.example.petsandinfo.datasource;
 
-import android.graphics.Bitmap;
-
 import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.model.Store;
 import com.example.petsandinfo.services.PetInfoService;
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.example.petsandinfo.entity.PetInfoImg;
 import com.example.petsandinfo.model.PetIntroduce;
 

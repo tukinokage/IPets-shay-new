@@ -14,10 +14,10 @@ import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.baselibrary.picUtils.LoadLocalPic;
 import com.shay.ipets.entity.params.PostParam;
-import com.shay.ipets.entity.params.UpLoadPicParam;
-import com.shay.ipets.entity.responses.UpLoadPicResponse;
+import com.shay.baselibrary.dto.params.UpLoadPicParam;
+import com.shay.baselibrary.dto.response.UpLoadPicResponse;
 import com.shay.ipets.entity.result.PostResult;
-import com.shay.ipets.entity.result.UploadPicResult;
+import com.shay.baselibrary.dto.result.UploadPicResult;
 import com.shay.ipets.repository.PostRepository;
 
 import java.io.FileNotFoundException;
@@ -203,7 +203,6 @@ public class PostViewModel extends ViewModel {
 
     public void setPicFailed(int index){
         getSelectPicList().get(index).setFailed(true);
-       ;
         postPicInfoMutableLiveData.setValue(getSelectPicList());
     }
 
@@ -227,6 +226,7 @@ public class PostViewModel extends ViewModel {
 
         * */
     }
+
 
 
     public void removePic(int position){

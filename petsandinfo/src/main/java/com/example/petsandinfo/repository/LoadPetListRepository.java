@@ -3,7 +3,7 @@ package com.example.petsandinfo.repository;
 import com.example.petsandinfo.datasource.LoadPetListDataSource;
 import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.myexceptions.MyException;
 

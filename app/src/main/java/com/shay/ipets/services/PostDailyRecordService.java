@@ -1,7 +1,7 @@
 package com.shay.ipets.services;
 
 
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.ipets.entity.responses.PostDaliyResponse;
 
 import java.util.HashMap;

@@ -1,31 +1,28 @@
 package com.example.bbsmodule.viewmodel;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.bbsmodule.adapter.PostInfoListAdapter;
 import com.example.bbsmodule.entity.params.GetCommentParam;
 import com.example.bbsmodule.entity.params.GetPostInfoParam;
 import com.example.bbsmodule.entity.response.GetCommentResponse;
 import com.example.bbsmodule.entity.response.GetPostInfoResponse;
-import com.example.bbsmodule.entity.response.GetPostListResponse;
 import com.example.bbsmodule.entity.result.GetPostCommentResult;
 import com.example.bbsmodule.entity.result.GetPostInfoResult;
-import com.example.bbsmodule.entity.result.GetPostListResult;
-import com.example.bbsmodule.repository.BBSRepository;
 import com.example.bbsmodule.repository.PostInfoRepository;
+import com.shay.baselibrary.dto.Picture;
+import com.shay.baselibrary.dto.PostPicInfo;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
-
-import java.util.List;
 
 public class PostInfoViewModel extends ViewModel {
     private PostInfoRepository postInfoRepository;
 
-    private MutableLiveData<GetPostInfoResult> getPostInfoResultMutableLiveData;
-    private MutableLiveData<GetPostCommentResult> getPostCommentResultMutableLiveData;
+    private MutableLiveData<GetPostInfoResult> getPostInfoResultMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<GetPostCommentResult> getPostCommentResultMutableLiveData = new MutableLiveData<>();
 
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     GetPostCommentAsyncTask getPostCommentAsyncTask;
@@ -42,6 +39,8 @@ public class PostInfoViewModel extends ViewModel {
     public MutableLiveData<GetPostCommentResult> getGetPostCommentResultMutableLiveData() {
         return getPostCommentResultMutableLiveData;
     }
+
+
     class GetPostInfoAsyncTask extends AsyncTask<GetPostInfoParam, String, Exception>{
 
         @Override
@@ -49,20 +48,17 @@ public class PostInfoViewModel extends ViewModel {
 
             try {
                 GetPostInfoParam getPostInfoParam = getPostInfoParams[0];
-                postInfoRepository.getPostInfo(getPostInfoParam, new PostInfoRepository.GetResultListener() {
-                    @Override
-                    public void getResult(Result result) {
-                        GetPostInfoResult getPostInfoResult = new GetPostInfoResult();
-                        if(result instanceof Result.Success){
-                            GetPostInfoResponse response = (GetPostInfoResponse) ((Result.Success) result).getData();
-                            getPostInfoResult.setPost(response.getPost());
-                        }else {
-                            String error = ((Result.Error) result).getErrorMsg();
-                            getPostInfoResult.setErrorMsg(error);
-                        }
-
-                        getGetPostInfoResultMutableLiveData().setValue(getPostInfoResult);
+                postInfoRepository.getPostInfo(getPostInfoParam, result -> {
+                    GetPostInfoResult getPostInfoResult = new GetPostInfoResult();
+                    if(result instanceof Result.Success){
+                        GetPostInfoResponse response = (GetPostInfoResponse) ((Result.Success) result).getData();
+                        getPostInfoResult.setPost(response.getPost());
+                    }else {
+                        String error = ((Result.Error) result).getErrorMsg();
+                        getPostInfoResult.setErrorMsg(error);
                     }
+
+                    getGetPostInfoResultMutableLiveData().setValue(getPostInfoResult);
                 });
 
             } catch (Exception e) {
@@ -138,9 +134,10 @@ public class PostInfoViewModel extends ViewModel {
         getPostCommentAsyncTask.execute(commentParam);
     }
 
-    public void sendComment(String postId, String userId, String contentText, List<String> succeedPicList){
 
-    }
+
+
+
 
     public void cancelAsyTask(){
         asyncTaskFactory.cancelAsyncTask();

@@ -1,8 +1,9 @@
-package com.shay.ipets.services;
+package com.example.bbsmodule.services;
 
+import com.example.bbsmodule.entity.response.CommitCommentResponse;
+import com.example.bbsmodule.entity.response.GetCommentResponse;
 import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.response.UpLoadPicResponse;
-import com.shay.ipets.entity.responses.PostResponse;
 
 import java.util.HashMap;
 
@@ -14,10 +15,12 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 
-public interface PostService {
+public interface CommentService {
+
+
     @POST("/")
     @FormUrlEncoded
-    Observable<BaseResponse<PostResponse>> postNew(@FieldMap HashMap<String, Object> map);
+    Observable<BaseResponse<CommitCommentResponse>> commitComment(@FieldMap HashMap<String, Object> map);
 
     @POST("/")
     @Multipart

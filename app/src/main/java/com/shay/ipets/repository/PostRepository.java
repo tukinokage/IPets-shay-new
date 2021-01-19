@@ -2,16 +2,16 @@ package com.shay.ipets.repository;
 
 import com.google.gson.Gson;
 import com.shay.baselibrary.FileTransfromUtil;
-import com.shay.baselibrary.MD5CodeCeator;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.ObjectTransformUtil;
 import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
+import com.shay.baselibrary.dto.response.UpLoadPicResponse;
 import com.shay.ipets.datasource.PostDatasource;
 import com.shay.ipets.entity.params.PostParam;
-import com.shay.ipets.entity.params.UpLoadPicParam;
+import com.shay.baselibrary.dto.params.UpLoadPicParam;
 import com.shay.ipets.entity.responses.PostResponse;
 import java.io.File;
 import java.util.HashMap;
@@ -92,14 +92,14 @@ public class PostRepository {
         postDatasource.uploadPic(hashMap)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Observer<BaseResponse<PostResponse>>() {
+        .subscribe(new Observer<BaseResponse<UpLoadPicResponse>>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(BaseResponse<PostResponse> postResponseBaseResponse) {
+            public void onNext(BaseResponse<UpLoadPicResponse> postResponseBaseResponse) {
                 Result result = RetrofitOnResponseUtil.parseBaseResponse(postResponseBaseResponse);
                 setUploadResult(result);
             }
@@ -119,12 +119,12 @@ public class PostRepository {
     }
 
 
-    public void setPosResult(Result result){
-        getResultListener.getResult(result);
-    }
-
     public void setUploadResult(Result result){
         uploadPicListener.getResult(result);
+    }
+
+    public void setPosResult(Result result){
+        getResultListener.getResult(result);
     }
 
     public interface GetResultListener{

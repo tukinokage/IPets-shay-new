@@ -2,7 +2,7 @@ package com.shay.loginandregistermodule.data.repository;
 
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.loginandregistermodule.data.datasource.SetPwDataSource;
 import com.shay.loginandregistermodule.data.entity.responsedata.SetPwResponseData;

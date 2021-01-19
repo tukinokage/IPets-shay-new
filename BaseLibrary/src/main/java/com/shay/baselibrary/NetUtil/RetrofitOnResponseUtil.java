@@ -1,6 +1,6 @@
 package com.shay.baselibrary.NetUtil;
 
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.myexceptions.MyException;
 

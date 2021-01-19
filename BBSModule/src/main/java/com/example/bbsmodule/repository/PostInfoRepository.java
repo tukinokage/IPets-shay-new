@@ -1,23 +1,19 @@
 package com.example.bbsmodule.repository;
 
-import com.example.bbsmodule.datasource.BBSDatasource;
 import com.example.bbsmodule.datasource.PostInfoDatasource;
 import com.example.bbsmodule.entity.params.GetCommentParam;
 import com.example.bbsmodule.entity.params.GetPostInfoParam;
 import com.example.bbsmodule.entity.response.GetCommentResponse;
 import com.example.bbsmodule.entity.response.GetPostInfoResponse;
-import com.example.bbsmodule.entity.result.GetPostCommentResult;
-import com.example.bbsmodule.entity.result.GetPostInfoResult;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
 import com.shay.baselibrary.ObjectTransformUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.Result;
 
 import java.util.HashMap;
 
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;

@@ -5,12 +5,20 @@ import java.util.List;
 
 public class Comment implements Serializable {
     String postId;
-    String useId;
+    String userId;
+    String userName;
     String contentText;
     String dateTime;
     String headPicName;
     List<String> picList;
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
     public String getPostId() {
         return postId;
     }
@@ -19,12 +27,12 @@ public class Comment implements Serializable {
         this.postId = postId;
     }
 
-    public String getUseId() {
-        return useId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUseId(String useId) {
-        this.useId = useId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getContentText() {

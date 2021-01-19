@@ -172,8 +172,8 @@ public class BBSMainActivity extends AppCompatActivity {
             public void onclick(int position) {
                 Intent intent = new Intent(BBSMainActivity.this, PostInfoActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("BBSPost", bbsPostsList.get(position));
-                intent.putExtra("data", bundle);
+                bundle.putSerializable(PostInfoActivity.POST_DATA_BUNDLE_NAME, bbsPostsList.get(position));
+                intent.putExtras(bundle);
                 startActivity(intent);
                 }
         });
@@ -228,11 +228,11 @@ public class BBSMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String c = searchInput.getText().toString().trim();
                 if(!TextUtils.isEmpty(c)){
-                   /* Intent intent = new Intent(BBSMainActivity.this, PostInfoActivity.class);
+                   Intent intent = new Intent(BBSMainActivity.this, PostInfoActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putSerializable("searchCondition", c);
-                    intent.putExtra("data", bundle);
-                    startActivity(intent);*/
+                    bundle.putSerializable(PostInfoActivity.SEARCH_DATA_BUNDLE_NAME, c);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }else {
                     ToastUntil.showToast("不能为空", AppContext.getContext());
                 }

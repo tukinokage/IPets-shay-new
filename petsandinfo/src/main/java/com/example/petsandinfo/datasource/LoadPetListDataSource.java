@@ -4,7 +4,7 @@ import com.shay.baselibrary.dto.Pet;
 import com.example.petsandinfo.services.PetListService;
 import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import java.util.HashMap;
 import java.util.List;
 import io.reactivex.Observable;

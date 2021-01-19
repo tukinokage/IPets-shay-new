@@ -1,6 +1,6 @@
 package com.shay.loginandregistermodule.data.services;
 
-import com.shay.baselibrary.dto.BaseResponse;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.loginandregistermodule.data.entity.responsedata.AliSmsResponse;
 import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
 import com.shay.loginandregistermodule.data.entity.responsedata.PhoneReponseData;

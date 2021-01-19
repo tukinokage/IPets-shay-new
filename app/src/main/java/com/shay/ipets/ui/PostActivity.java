@@ -2,12 +2,10 @@ package com.shay.ipets.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -26,22 +24,20 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.dto.PostPicInfo;
-import com.shay.ipets.GlideLoadEngine;
+import com.shay.baselibrary.GlideLoadEngine;
 import com.shay.ipets.R;
 import com.shay.ipets.adapter.SelectPicAdapter;
 import com.shay.ipets.entity.result.PostResult;
-import com.shay.ipets.entity.result.UploadPicResult;
+import com.shay.baselibrary.dto.result.UploadPicResult;
 import com.shay.ipets.viewmodel.PostViewModel;
 import com.shay.ipets.viewmodel.PostViewModelFactory;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
-import com.zhihu.matisse.engine.impl.GlideEngine;
 import com.zhihu.matisse.filter.Filter;
 import com.zhihu.matisse.internal.entity.CaptureStrategy;
 import com.zhihu.matisse.internal.entity.IncapableCause;
 import com.zhihu.matisse.internal.entity.Item;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
@@ -179,7 +175,6 @@ public class PostActivity extends AppCompatActivity {
     private void updatePicList(List list){
         selectPicAdapter.setPostPicInfoList(list);
         selectPicAdapter.notifyDataSetChanged();
-
     }
 
     private void selectPic(){
