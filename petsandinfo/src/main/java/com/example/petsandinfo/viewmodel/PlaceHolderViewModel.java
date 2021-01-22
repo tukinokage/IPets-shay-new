@@ -63,6 +63,12 @@ public class PlaceHolderViewModel extends ViewModel {
             });
             return null;
         }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 
 

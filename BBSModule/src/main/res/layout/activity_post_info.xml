@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:background="@color/material_orange_400"
+            android:background="@color/theme_color"
             app:layout_scrollFlags="scroll|enterAlways"
             app:layout_constraintTop_toTopOf="parent">
 

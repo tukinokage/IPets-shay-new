@@ -6,6 +6,9 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -17,13 +20,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import com.example.bbsmodule.adapter.PostInfoListAdapter;
 import com.example.bbsmodule.entity.BBSPost;
-import com.example.bbsmodule.entity.params.CommitCommentParam;
 import com.example.bbsmodule.entity.result.CommitCommentResult;
 import com.example.bbsmodule.entity.result.GetPostCommentResult;
 import com.example.bbsmodule.entity.result.GetPostInfoResult;
@@ -31,7 +34,6 @@ import com.example.bbsmodule.viewmodel.CommitCommentViewModel;
 import com.example.bbsmodule.viewmodel.CommitCommentViewModelFactory;
 import com.example.bbsmodule.viewmodel.PostInfoModelFactory;
 import com.example.bbsmodule.viewmodel.PostInfoViewModel;
-import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.textfield.TextInputEditText;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.shay.baselibrary.AppContext;
@@ -51,7 +53,6 @@ import com.zhihu.matisse.internal.entity.Item;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -67,9 +68,9 @@ public class PostInfoActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_CHOOSE = 001;
     private final int MAX_PIC_NUM = 9;
+    int mHiddenViewMeasuredHeight;
 
     public static final String POST_DATA_BUNDLE_NAME = "BBSPost";
-    public static final String SEARCH_DATA_BUNDLE_NAME = "searchCondition";
     private BBSPost currentBBPost;
 
     @BindView(R.id.comment_text_input_et)
@@ -105,10 +106,8 @@ public class PostInfoActivity extends AppCompatActivity {
 
         postInfoViewModel = new ViewModelProvider(this, new PostInfoModelFactory())
                 .get(PostInfoViewModel.class);
-
         commitCommentViewModel = new ViewModelProvider(this, new CommitCommentViewModelFactory())
                 .get(CommitCommentViewModel.class);
-
         currentBBPost = (BBSPost) getIntent().getExtras().get(POST_DATA_BUNDLE_NAME);
 
         init();
@@ -117,6 +116,12 @@ public class PostInfoActivity extends AppCompatActivity {
     }
 
     private void init(){
+
+       //float mDensity = getResources().getDisplayMetrics().density;
+        commitCommentLayout.measure(0,0);
+        //mHiddenViewMeasuredHeight = (int) (mDensity * commitCommentLayout.getHeight() + 0.5);
+       //输入框高度
+        mHiddenViewMeasuredHeight = commitCommentLayout.getHeight() + 10;
 
         postInfoListAdapter = new PostInfoListAdapter(this);
         contentRV.setAdapter(postInfoListAdapter);
@@ -132,6 +137,43 @@ public class PostInfoActivity extends AppCompatActivity {
             ToastUntil.showToast("错误操作", this);
         }
 
+    }
+
+
+    private void animatorOpen(View v){
+        v.setVisibility(View.VISIBLE);
+        ValueAnimator animator = createDropAnimator(v, 0,
+                mHiddenViewMeasuredHeight);
+        animator.start();
+    }
+
+    private void animatorClose(View v){
+        int origHeight = v.getHeight();
+        ValueAnimator animator = createDropAnimator(v, origHeight, 0);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                v.setVisibility(View.GONE);
+            }
+
+        });
+        animator.start();
+    }
+
+    private ValueAnimator createDropAnimator(final View v, int start, int end) {
+        ValueAnimator animator = ValueAnimator.ofInt(start, end);
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+            @Override
+            public void onAnimationUpdate(ValueAnimator arg0) {
+                int value = (int) arg0.getAnimatedValue();
+                ViewGroup.LayoutParams layoutParams = v.getLayoutParams();
+                layoutParams.height = value;
+                v.setLayoutParams(layoutParams);
+
+            }
+        });
+        return animator;
     }
 
     private void initListener(){
@@ -190,8 +232,14 @@ public class PostInfoActivity extends AppCompatActivity {
 
         commentTextInput.addTextChangedListener(textWatcher);
 
+        //动画
         qmuiRoundButton.setOnClickListener(v -> {
 
+            if(commitCommentLayout.getVisibility()  == View.GONE){
+                animatorOpen(commitCommentLayout);
+            }else {
+                animatorClose(commitCommentLayout);
+            }
         });
 
         selectPicAdapter.setAddOnclickListener(v -> selectPic());
@@ -220,6 +268,7 @@ public class PostInfoActivity extends AppCompatActivity {
             public void onChanged(GetPostInfoResult getPostInfoResult) {
                 if(TextUtils.isEmpty(getPostInfoResult.getErrorMsg())){
                     postInfoListAdapter.setPost(getPostInfoResult.getPost());
+                    titleTextView.setText(getPostInfoResult.getPost().getTitle());
                     postInfoListAdapter.notifyDataSetChanged();
                 }else {
                     ToastUntil.showToast(getPostInfoResult.getErrorMsg(), AppContext.getContext());

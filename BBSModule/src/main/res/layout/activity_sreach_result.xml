@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SreachResultActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/activity_post_info_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@color/material_orange_400"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <Button
+                android:id="@+id/activity_post_top_back_btn"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/ic_arrow_back_black_24dp"/>
+            <TextView
+                android:id="@+id/activity_post_info_top_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:textColor="@color/material_white"
+                android:gravity="center"
+                android:minHeight="?actionBarSize"
+                android:maxLength="15"
+                android:text="标题"
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <include layout="@layout/content_bbsmain"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </LinearLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

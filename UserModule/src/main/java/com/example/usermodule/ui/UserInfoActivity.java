@@ -1,8 +1,10 @@
-package com.example.usermodule;
+package com.example.usermodule.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.usermodule.R;
 
 public class UserInfoActivity extends AppCompatActivity {
 

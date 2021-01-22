@@ -4,15 +4,265 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserInfoActivity">
+    tools:context=".ui.UserInfoActivity">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf ="parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/material_blue_400"/>
+            <ImageView
+                android:id="@+id/user_info_bg_pic_iv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:alpha="0.5"
+                android:src="@drawable/back_ground"/>
+            <TextView
+                android:layout_marginLeft="5dp"
+                android:layout_gravity="bottom"
+                android:gravity="left|bottom"
+                android:id="@+id/user_info_sign"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_white"
+                android:shadowColor="#ffffff00"
+                android:shadowDx="10"
+                android:shadowDy="10"
+                android:shadowRadius="10"
+                android:lineSpacingExtra="2dp"
+                android:text="这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名"/>
+        </FrameLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                    <Space
+                        android:layout_width="1dp"
+                        android:layout_height="160dp"/>
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="900dp"
+                            android:layout_marginTop="40dp"
+                            android:background="@color/light_grey_bg_color"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/user_info_name_textview"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:text="这是用户名(^_−)☆" />
+
+                            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout
+                                android:layout_marginTop="20dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                app:qmui_radius="20dp" >
+
+                            </com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout>
+
+
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_marginTop="40dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <LinearLayout
+                                    android:id="@+id/usermodule_linearlayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    app:layout_constraintEnd_toEndOf="@id/user_info_div_line"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <ImageView
+                                        android:layout_width="80dp"
+                                        android:layout_height="80dp"
+                                        android:layout_margin="10dp"
+                                        android:background="@color/material_blue_400" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:text="已发帖子" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/user_info_div_line"
+                                    android:layout_width="0.5dp"
+                                    android:layout_height="0dp"
+                                    android:background="@color/light_normal_text_color"
+                                    android:alpha="0.5"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toStartOf="@+id/usermodule_linearlayout2"
+                                    app:layout_constraintStart_toEndOf="@+id/usermodule_linearlayout"
+                                    app:layout_constraintTop_toTopOf="parent"
+                                    android:orientation="horizontal" />
+
+                                <LinearLayout
+                                    android:id="@+id/usermodule_linearlayout2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toStartOf="@id/user_info_div_line"
+                                    app:layout_constraintTop_toTopOf="parent">
+
+                                    <ImageView
+                                        android:layout_width="80dp"
+                                        android:layout_height="80dp"
+                                        android:layout_margin="10dp"
+                                        android:background="@color/material_blue_400" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_margin="5dp"
+                                        android:text="已发日志" />
+                                </LinearLayout>
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                >
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center"
+                                    android:layout_marginRight="20dp">
+                                    <ImageView
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
+                                        android:layout_margin="10dp"/>
+                                    <TextView
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="已发回复"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginRight="20dp"
+                                    android:gravity="center">
+                                    <ImageView
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
+                                        android:layout_margin="10dp"/>
+                                    <TextView
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="修改信息"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:layout_marginRight="20dp"
+                                    android:gravity="center">
+                                    <ImageView
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
+                                        android:layout_margin="10dp"/>
+                                    <TextView
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="修改密码"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center">
+                                    <ImageView
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
+                                        android:layout_margin="10dp"/>
+                                    <TextView
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="退出登录"/>
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                            android:layout_width="80dp"
+                            android:layout_height="80dp"
+                            app:qmui_corner_radius="40dp"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/head_icon"
+                            android:layout_marginRight="20dp"
+                            android:layout_gravity="right"/>
+
+                    </FrameLayout>
+                </LinearLayout>
+
+            </androidx.core.widget.NestedScrollView>
+        </LinearLayout>
+    </FrameLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/activity_post_info_top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/user_info_top_back_tv"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_margin="20dp"
+                    android:background="@drawable/ic_arrow_back_black_24dp"
+                    android:layout_gravity="left"/>
+
+            </LinearLayout>
+
+         </com.google.android.material.appbar.AppBarLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

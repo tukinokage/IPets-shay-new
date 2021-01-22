@@ -10,7 +10,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PostInfoActivity"></activity>
+        <activity android:name=".SreachResultActivity"></activity>
+        <activity android:name=".PostInfoActivity" />
         <activity
             android:name=".BBSMainActivity"
             android:label="@string/app_name"
