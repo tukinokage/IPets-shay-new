@@ -6,16 +6,20 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.usermodule.R;
+import com.example.usermodule.entity.UserInfo;
 import com.example.usermodule.entity.params.GetUserInfoParam;
 import com.example.usermodule.entity.responses.GetUserInfoResponse;
 import com.example.usermodule.entity.result.GetUserResult;
 import com.example.usermodule.repository.UserInfoRepository;
+import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
+import com.shay.baselibrary.myexceptions.MyException;
 
 public class UserInfoViewModel extends ViewModel {
     UserInfoRepository userInfoRepository;
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
+    GetUserInfoAsyncTask getUserInfoAsyncTask;
     class GetUserInfoAsyncTask extends AsyncTask<GetUserInfoParam , String, Exception>{
 
         @Override
@@ -32,7 +36,7 @@ public class UserInfoViewModel extends ViewModel {
                             getUserResult.setUserInfo(getUserInfoResponse.getUserInfo());
                         }
 
-                        getUserResultMutableLiveData.setValue(getUserResult);
+                        getUserResultMutableLiveData.setValue(getUserResult                                                                                                               );
                     }
                 });
             } catch (Exception e) {
@@ -65,8 +69,21 @@ public class UserInfoViewModel extends ViewModel {
     }
 
     public void getUserInfo(String id){
-
+        GetUserInfoParam getUserInfoParam = new GetUserInfoParam();
+        getUserInfoParam.setUserId(id);
+        getUserInfoAsyncTask = (GetUserInfoAsyncTask) asyncTaskFactory.createAsyncTask(new GetUserInfoAsyncTask());
+        getUserInfoAsyncTask.execute(getUserInfoParam);
     }
+
+     public void getMyInfo() throws Exception {
+         GetUserInfoParam getUserInfoParam = new GetUserInfoParam();
+         if(UserInfoUtil.getUserId() == null){
+             throw new MyException("身份失效");
+         }
+         getUserInfoParam.setUserId(UserInfoUtil.getUserId());
+         getUserInfoAsyncTask = (GetUserInfoAsyncTask) asyncTaskFactory.createAsyncTask(new GetUserInfoAsyncTask());
+         getUserInfoAsyncTask.execute(getUserInfoParam);
+     }
 
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();

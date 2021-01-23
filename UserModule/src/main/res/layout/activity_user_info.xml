@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.UserInfoActivity">
+    tools:context=".ui.UserInfoActivity"
+    tools:ignore="ResourceName">
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,10 +25,10 @@
                 android:alpha="0.5"
                 android:src="@drawable/back_ground"/>
             <TextView
+                android:id="@+id/user_info_sign"
                 android:layout_marginLeft="5dp"
                 android:layout_gravity="bottom"
                 android:gravity="left|bottom"
-                android:id="@+id/user_info_sign"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/material_white"
@@ -86,7 +87,7 @@
                                 android:layout_height="wrap_content">
 
                                 <LinearLayout
-                                    android:id="@+id/usermodule_linearlayout"
+                                    android:id="@+id/user_info_post_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -95,11 +96,17 @@
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent">
 
+                                    <TextView
+                                        android:id="@+id/user_info_post_num_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"/>
+
                                     <ImageView
                                         android:layout_width="80dp"
                                         android:layout_height="80dp"
                                         android:layout_margin="10dp"
-                                        android:background="@color/material_blue_400" />
+                                        android:background="@drawable/ic_post" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -115,13 +122,13 @@
                                     android:background="@color/light_normal_text_color"
                                     android:alpha="0.5"
                                     app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintEnd_toStartOf="@+id/usermodule_linearlayout2"
-                                    app:layout_constraintStart_toEndOf="@+id/usermodule_linearlayout"
+                                    app:layout_constraintEnd_toStartOf="@id/user_info_daliyrecord_ly"
+                                    app:layout_constraintStart_toEndOf="@id/user_info_post_ly"
                                     app:layout_constraintTop_toTopOf="parent"
                                     android:orientation="horizontal" />
 
                                 <LinearLayout
-                                    android:id="@+id/usermodule_linearlayout2"
+                                    android:id="@+id/user_info_daliyrecord_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -130,11 +137,17 @@
                                     app:layout_constraintStart_toStartOf="@id/user_info_div_line"
                                     app:layout_constraintTop_toTopOf="parent">
 
+
+                                    <TextView
+                                        android:id="@+id/user_info_daliyrecord_num_tv"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="0"/>
                                     <ImageView
                                         android:layout_width="80dp"
                                         android:layout_height="80dp"
                                         android:layout_margin="10dp"
-                                        android:background="@color/material_blue_400" />
+                                        android:background="@drawable/ic_daliyrecord" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -151,6 +164,7 @@
                                 android:gravity="center"
                                 >
                                 <LinearLayout
+                                    android:id="@+id/user_info_comment_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
@@ -168,6 +182,7 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/user_info_updateinfo_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
@@ -184,6 +199,7 @@
                                         android:text="修改信息"/>
                                 </LinearLayout>
                                 <LinearLayout
+                                    android:id="@+id/user_info_alertpw_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
@@ -200,6 +216,7 @@
                                         android:text="修改密码"/>
                                 </LinearLayout>
                                 <LinearLayout
+                                    android:id="@+id/user_info_loginout_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical"
@@ -209,6 +226,7 @@
                                         android:layout_height="50dp"
                                         android:layout_margin="10dp"/>
                                     <TextView
+
                                         android:gravity="center"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -221,6 +239,7 @@
                         </LinearLayout>
 
                         <com.qmuiteam.qmui.widget.QMUIRadiusImageView
+                            android:id="@+id/user_info_head_qriv"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             app:qmui_corner_radius="40dp"
@@ -264,5 +283,7 @@
             </LinearLayout>
 
          </com.google.android.material.appbar.AppBarLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,15 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
+        javaCompileOptions {
+
+            annotationProcessorOptions {
+
+                arguments = [moduleName: project.getName()]
+
+            }
+        }
+
     }
 
 
@@ -129,4 +138,8 @@ dependencies {
     implementation 'com.qmuiteam:qmui:2.0.0-alpha10'
     //微博sdk
     implementation 'com.sina.weibo.sdk:core:9.12.0:openDefaultRelease@aar'
+
+    //Aroute
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+    implementation 'com.alibaba:arouter-api:1.3.1'
 }

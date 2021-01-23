@@ -11,9 +11,13 @@ public class UrlUtil {
     }
 
     public static class PET_PIC_URL{
-
         public static final String HEAD_ICON_URL = BASE_URL.BASE_URL + "pet/pic/";
         public static final String DOWNLOAD_URL = BASE_URL.BASE_URL + "pic/download/";
+    }
+
+    public static class STATIC_RESOURCE{
+        public static final String HEAD_ICON_URL = BASE_URL.BASE_URL + "pic/headicon/";
+        public static final String BG_PIC_URL = BASE_URL.BASE_URL + "pic/bg/";
     }
 
     public static class USER_URL{
