@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_grey_bg_color">
+
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:qmui_radius="20dp"
+        app:qmui_backgroundColor="@color/material_white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/daily_record_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/usermodule_hobbymax"
+            android:lineSpacingExtra="5dp" />
+        <TextView
+            android:layout_gravity="right"
+            android:id="@+id/daily_record_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2020-10-01"/>
+    </com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout>
+</LinearLayout>

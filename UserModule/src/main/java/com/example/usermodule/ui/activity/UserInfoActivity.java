@@ -1,12 +1,10 @@
-package com.example.usermodule.ui;
+package com.example.usermodule.ui.activity;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,15 +12,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
-import com.example.usermodule.entity.UserInfo;
+import com.shay.baselibrary.AroutePath;
+import com.shay.baselibrary.dto.UserInfo;
 import com.example.usermodule.entity.result.GetUserResult;
 import com.example.usermodule.viewmodel.UserInfoModelFactory;
 import com.example.usermodule.viewmodel.UserInfoViewModel;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.shay.baselibrary.AppContext;
-import com.shay.baselibrary.NetUtil.HttpUtil;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.myexceptions.MyException;
@@ -30,13 +30,18 @@ import com.shay.baselibrary.myexceptions.MyException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@Route(path = AroutePath.UserInfoActivity)
 public class UserInfoActivity extends AppCompatActivity {
+    public static final int CORP_IMG_REQUEST_CODE = 01;
+
+    public static final String PARAM_NAME = "userId";
+    @Autowired
+    private String userId;
+
     UserInfoViewModel userInfoViewModel;
 
     @Autowired
     boolean isMyUserInfo = true;
-    @Autowired
-    String userId;
 
     @BindView(R.id.user_info_top_back_tv)
     TextView backBtn;
@@ -64,6 +69,8 @@ public class UserInfoActivity extends AppCompatActivity {
     LinearLayout pwLy;
     @BindView(R.id.user_info_loginout_ly)
     LinearLayout loginoutLy;
+    @BindView(R.id.user_info_start_ly)
+    LinearLayout petStarLy;
 
 
     @Override
@@ -130,7 +137,7 @@ public class UserInfoActivity extends AppCompatActivity {
         postLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(AroutePath.PostListActivity).withString("userId", userId).navigation();
             }
         });
 
@@ -138,7 +145,7 @@ public class UserInfoActivity extends AppCompatActivity {
         dailyRecordLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(AroutePath.DailyRecordActivity).withString("userId", userId).navigation();
             }
         });
 
@@ -146,15 +153,15 @@ public class UserInfoActivity extends AppCompatActivity {
         commentLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ARouter.getInstance().build(AroutePath.PostListActivity).withString("userId", userId).navigation();
             }
         });
 
         //跳转修改信息
         updateInfoLy.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onClick(View v)  {
+                ARouter.getInstance().build(AroutePath.PostListActivity).withString("userId", userId).navigation();
             }
         });
 
@@ -162,9 +169,18 @@ public class UserInfoActivity extends AppCompatActivity {
         pwLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               // ARouter.getInstance().build(AroutePath.).withString("userId", userId).navigation();
             }
         });
+
+        //跳转收藏宠物
+        petStarLy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ARouter.getInstance().build(AroutePath.PetStarActivity).withString("userId", userId).navigation();
+            }
+        });
+
 
         //loginout
         loginoutLy.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +198,8 @@ public class UserInfoActivity extends AppCompatActivity {
         headIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+              /*  PictureSelector.create(UserInfoActivity.this, PictureSelector.SELECT_REQUEST_CODE)
+                        .selectPicture(true, 200, 200, 1, 1);*/
             }
         });
     }
@@ -191,6 +208,7 @@ public class UserInfoActivity extends AppCompatActivity {
         updateInfoLy.setVisibility(View.INVISIBLE);
         pwLy.setVisibility(View.INVISIBLE);
         loginoutLy.setVisibility(View.INVISIBLE);
+        petStarLy.setVisibility(View.INVISIBLE);
     }
 
 

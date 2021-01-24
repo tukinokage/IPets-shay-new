@@ -1,7 +1,6 @@
-package com.example.usermodule.entity;
+package com.shay.baselibrary.dto;
 
 public class UserInfo {
-
     private String userName;
     private String userSign;
     private String dailyNum;

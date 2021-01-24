@@ -1,6 +1,6 @@
 package com.example.usermodule.entity.result;
 
-import com.example.usermodule.entity.UserInfo;
+import com.shay.baselibrary.dto.UserInfo;
 
 public class GetUserResult {
     private String errorMsg = "";

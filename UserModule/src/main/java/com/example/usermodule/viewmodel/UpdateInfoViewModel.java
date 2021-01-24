@@ -8,24 +8,23 @@ import androidx.lifecycle.ViewModel;
 import com.example.usermodule.entity.params.GetUserInfoParam;
 import com.example.usermodule.entity.responses.GetUserInfoResponse;
 import com.example.usermodule.entity.result.GetUserResult;
+import com.example.usermodule.repository.UpdateUserInfoRepository;
 import com.example.usermodule.repository.UserInfoRepository;
 import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.baselibrary.myexceptions.MyException;
 
-public class UserInfoViewModel extends ViewModel {
-    UserInfoRepository userInfoRepository;
+public class UpdateInfoViewModel extends ViewModel {
+    UpdateUserInfoRepository updateUserInfoRepository;
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
-    private
-
     GetUserInfoAsyncTask getUserInfoAsyncTask;
     class GetUserInfoAsyncTask extends AsyncTask<GetUserInfoParam , String, Exception>{
 
         @Override
         protected Exception doInBackground(GetUserInfoParam... getUserInfoParams) {
             try {
-                userInfoRepository.getUserInfo(getUserInfoParams[0], new UserInfoRepository.GetResultListener() {
+                updateUserInfoRepository.getUserInfo(getUserInfoParams[0], new UserInfoRepository.GetResultListener() {
                     @Override
                     public void getResult(Result result) {
                         GetUserResult getUserResult = new GetUserResult();
@@ -35,8 +34,7 @@ public class UserInfoViewModel extends ViewModel {
                             GetUserInfoResponse getUserInfoResponse = (GetUserInfoResponse) ((Result.Success)result).getData();
                             getUserResult.setUserInfo(getUserInfoResponse.getUserInfo());
                         }
-
-                        getUserResultMutableLiveData.setValue(getUserResult                                                                                                               );
+                        getUserResultMutableLiveData.setValue(getUserResult);
                     }
                 });
             } catch (Exception e) {
@@ -55,35 +53,25 @@ public class UserInfoViewModel extends ViewModel {
         }
     }
 
-    public void setGetUserResultMutableLiveData(MutableLiveData<GetUserResult> getUserResultMutableLiveData) {
-        this.getUserResultMutableLiveData = getUserResultMutableLiveData;
-    }
+
 
     private MutableLiveData<GetUserResult> getUserResultMutableLiveData = new MutableLiveData<>();
 
     public MutableLiveData<GetUserResult> getGetUserResultMutableLiveData() {
         return getUserResultMutableLiveData;
     }
-    public UserInfoViewModel(UserInfoRepository userInfoRepository) {
-        this.userInfoRepository = userInfoRepository;
+    public UpdateInfoViewModel(UpdateUserInfoRepository updateUserInfoRepository) {
+        this.updateUserInfoRepository = updateUserInfoRepository;
     }
 
-    public void getUserInfo(String id){
-        GetUserInfoParam getUserInfoParam = new GetUserInfoParam();
-        getUserInfoParam.setUserId(id);
-        getUserInfoAsyncTask = (GetUserInfoAsyncTask) asyncTaskFactory.createAsyncTask(new GetUserInfoAsyncTask());
-        getUserInfoAsyncTask.execute(getUserInfoParam);
+    public void uploadHeadImg(String uri){
+
     }
 
-     public void getMyInfo() throws Exception {
-         GetUserInfoParam getUserInfoParam = new GetUserInfoParam();
-         if(UserInfoUtil.getUserId() == null){
-             throw new MyException("身份失效");
-         }
-         getUserInfoParam.setUserId(UserInfoUtil.getUserId());
-         getUserInfoAsyncTask = (GetUserInfoAsyncTask) asyncTaskFactory.createAsyncTask(new GetUserInfoAsyncTask());
-         getUserInfoAsyncTask.execute(getUserInfoParam);
-     }
+    public void uploadBg(String uri){
+
+    }
+
 
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();

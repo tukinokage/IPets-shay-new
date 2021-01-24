@@ -1,6 +1,5 @@
 package com.example.usermodule.datasource;
 
-import com.example.usermodule.entity.UserInfo;
 import com.example.usermodule.entity.responses.GetUserInfoResponse;
 import com.example.usermodule.services.UserInfoService;
 import com.shay.baselibrary.NetUtil.HttpUtil;

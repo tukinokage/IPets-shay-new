@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:padding="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:qmui_radius="20dp"
+        app:qmui_backgroundColor="@color/material_white"
+        android:orientation="vertical">
+        <TextView
+            android:lineSpacingExtra="5dp"
+            android:id="@+id/comment_content_text_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="同人短漫里描绘德皇虽然是颇具威严感且华美的人形，众人视线都会不自觉的聚焦到她身上。但与其气质不匹配的矮小身材却成了本人永远的痛。 顺拐：德皇在宿舍中走路的动作居然是同手同脚的，成了一种迷之萌点，威严剩下的已经不多了"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+            <TextView
+                android:text="回复于帖子："
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/material_grey_500"/>
+
+            <TextView
+                android:id="@+id/comment_post_title_tv"
+                android:text="德皇是有什么萌点啊"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:textColor="@color/material_grey_500"/>
+
+        </LinearLayout>
+    </com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout>
+</LinearLayout>

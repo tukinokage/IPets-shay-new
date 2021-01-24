@@ -17,7 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
 import com.shay.loginandregistermodule.data.entity.result.ConfrimPhoneResult;
@@ -33,6 +35,7 @@ import butterknife.ButterKnife;
  * 其他模块调用该验证码模块后会以intent附带字段为data的序列化对象confrimPhoneResult结果
  */
 
+@Route(path = AroutePath.PhoneActivity)
 public class PhoneCheckActivity extends AppCompatActivity {
 
     //字段

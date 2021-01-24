@@ -1,6 +1,6 @@
 package com.example.usermodule.entity.responses;
 
-import com.example.usermodule.entity.UserInfo;
+import com.shay.baselibrary.dto.UserInfo;
 
 public class GetUserInfoResponse {
     private UserInfo userInfo;

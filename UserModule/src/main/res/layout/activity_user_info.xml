@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.UserInfoActivity"
+    tools:context=".ui.activity.UserInfoActivity"
     tools:ignore="ResourceName">
     <FrameLayout
         android:layout_width="match_parent"
@@ -12,7 +13,7 @@
         app:layout_constraintTop_toTopOf ="parent">
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp">
+            android:layout_height="@dimen/usermodule_bg_height">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -37,7 +38,8 @@
                 android:shadowDy="10"
                 android:shadowRadius="10"
                 android:lineSpacingExtra="2dp"
-                android:text="这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名"/>
+                android:text="这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名
+                这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名"/>
         </FrameLayout>
 
         <LinearLayout
@@ -182,6 +184,24 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/user_info_start_ly"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:gravity="center"
+                                    android:layout_marginRight="20dp">
+                                    <ImageView
+                                        android:layout_width="50dp"
+                                        android:layout_height="50dp"
+                                        android:layout_margin="10dp"/>
+                                    <TextView
+                                        android:gravity="center"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="收藏宠物"/>
+                                </LinearLayout>
+
+                                <LinearLayout
                                     android:id="@+id/user_info_updateinfo_ly"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -215,26 +235,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="修改密码"/>
                                 </LinearLayout>
-                                <LinearLayout
-                                    android:id="@+id/user_info_loginout_ly"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical"
-                                    android:gravity="center">
-                                    <ImageView
-                                        android:layout_width="50dp"
-                                        android:layout_height="50dp"
-                                        android:layout_margin="10dp"/>
-                                    <TextView
-
-                                        android:gravity="center"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="退出登录"/>
-                                </LinearLayout>
-
                             </LinearLayout>
-
 
                         </LinearLayout>
 
@@ -255,9 +256,7 @@
         </LinearLayout>
     </FrameLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/activity_post_info_top_layout"
             android:layout_width="match_parent"
@@ -266,24 +265,47 @@
             android:orientation="horizontal"
             app:layout_scrollFlags="scroll|enterAlways"
             app:layout_constraintTop_toTopOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/user_info_top_back_tv"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_margin="20dp"
-                    android:background="@drawable/ic_arrow_back_black_24dp"
-                    android:layout_gravity="left"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </LinearLayout>
+                    <TextView
+                        android:id="@+id/user_info_top_back_tv"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="left"
+                        android:background="@drawable/ic_arrow_back_black_24dp" />
 
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/user_info_loginout_ly"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textColor="@color/material_grey_200"
+                        android:text="退出登录" />
+                </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
          </com.google.android.material.appbar.AppBarLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
