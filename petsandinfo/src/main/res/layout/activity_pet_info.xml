@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="@color/material_orange_400">
+            android:background="@color/theme_color">
 
             <Button
                 android:id="@+id/pet_info_top_back_btn"

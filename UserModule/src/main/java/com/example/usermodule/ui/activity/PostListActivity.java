@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 @Route(path = AroutePath.PostListActivity)
 public class PostListActivity extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

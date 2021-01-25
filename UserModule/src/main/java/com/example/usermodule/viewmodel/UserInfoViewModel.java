@@ -17,7 +17,6 @@ import com.shay.baselibrary.myexceptions.MyException;
 public class UserInfoViewModel extends ViewModel {
     UserInfoRepository userInfoRepository;
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
-    private
 
     GetUserInfoAsyncTask getUserInfoAsyncTask;
     class GetUserInfoAsyncTask extends AsyncTask<GetUserInfoParam , String, Exception>{
@@ -35,8 +34,7 @@ public class UserInfoViewModel extends ViewModel {
                             GetUserInfoResponse getUserInfoResponse = (GetUserInfoResponse) ((Result.Success)result).getData();
                             getUserResult.setUserInfo(getUserInfoResponse.getUserInfo());
                         }
-
-                        getUserResultMutableLiveData.setValue(getUserResult                                                                                                               );
+                        getUserResultMutableLiveData.setValue(getUserResult);                                                                                                              );
                     }
                 });
             } catch (Exception e) {

@@ -5,6 +5,15 @@ public class GetPostListParam {
     int type;
     int perPaperNum;
     int currentPaperNum;
+    String searchUid;
+
+    public String getSearchUid() {
+        return searchUid;
+    }
+
+    public void setSearchUid(String searchUid) {
+        this.searchUid = searchUid;
+    }
 
     public String getSearchCondition() {
         return searchCondition;

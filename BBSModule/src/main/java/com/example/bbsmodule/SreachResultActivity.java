@@ -14,12 +14,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.bbsmodule.adapter.PostsAdapter;
 import com.example.bbsmodule.entity.BBSPost;
 import com.example.bbsmodule.entity.result.GetPostListResult;
 import com.example.bbsmodule.viewmodel.BBSViewModel;
 import com.example.bbsmodule.viewmodel.BBSViewModelFactory;
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 
 import java.util.ArrayList;
@@ -28,18 +32,23 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@Route(path = AroutePath.SreachResultActivity)
 public class SreachResultActivity extends AppCompatActivity {
     public  static int PER_PAPER_NUM = 15;
     public  static int CURRENT_PAPER_NUM = 1;
     public  static int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
-    private String searchCondition;
+
+    @Autowired
+     String searchCondition = "";
+    @Autowired
+    String searchId = "";
 
     @BindView(R.id.posts_activity_post_rv)
     RecyclerView recyclerView;
 
-    @BindView(R.id.activity_post_top_back_btn )
+    @BindView(R.id.activity_post_top_back_btn)
     Button backBtn;
     @BindView(R.id.activity_post_info_top_title)
     TextView topText;
@@ -59,14 +68,20 @@ public class SreachResultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         bbsViewModel = new ViewModelProvider(this, new BBSViewModelFactory())
                 .get(BBSViewModel.class);
-
-         searchCondition = getIntent().getExtras().getString(SEARCH_DATA_BUNDLE_NAME);
+        if(!getIntent().getExtras().isEmpty()){
+            searchCondition = getIntent().getExtras().getString(SEARCH_DATA_BUNDLE_NAME);
+        }
 
         init();
         initObserver();
         initListener();
 
-        bbsViewModel.getBBSPostLIst(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        if(!TextUtils.isEmpty(searchCondition)){
+            bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        }else if(!TextUtils.isEmpty(searchId)){
+            bbsViewModel.getBBSPostListByUId(CURRENT_TYPE, searchId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        }
+
     }
 
     private void init(){
@@ -81,7 +96,7 @@ public class SreachResultActivity extends AppCompatActivity {
                 bbsPost.setTitle("斯佩伯爵 海军上校String.valueOf(i)String.valueOf(i)String.valueOf(i)");
             }
             bbsPostsList.add(bbsPost);
-            Log.d("sdbb", String.valueOf(i));
+            Log.d("测试post序号", String.valueOf(i));
         }
 
         topText.setText(searchCondition);
