@@ -34,7 +34,7 @@ public class UserInfoViewModel extends ViewModel {
                             GetUserInfoResponse getUserInfoResponse = (GetUserInfoResponse) ((Result.Success)result).getData();
                             getUserResult.setUserInfo(getUserInfoResponse.getUserInfo());
                         }
-                        getUserResultMutableLiveData.setValue(getUserResult);                                                                                                              );
+                        getUserResultMutableLiveData.setValue(getUserResult);
                     }
                 });
             } catch (Exception e) {

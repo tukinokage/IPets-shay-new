@@ -1,28 +1,26 @@
 package com.example.usermodule.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.usermodule.R;
 import com.shay.baselibrary.dto.Pet;
+import com.shay.baselibrary.dto.UserCommentItem;
+
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private  List<Pet> mValues;
-
-    private PetItemOnclickListener petItemOnclickListener;
-
-    private PetItemOnclickListener unlikeOnclickListener;
-
+public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    private  List<UserCommentItem> mValues;
     public static final int NORMAL_ITEM = 0;
     public static final int FOOT_ITEM = 1;
 
@@ -32,8 +30,11 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public static final String FOOT_ITEM_TIP_TEXT = "正在加载...";
     public static final String FOOT_ITEM_TIP_NOT_MORE_TEXT = "下面没有了";
 
-    public MyPetRecyclerViewAdapter() {
+    Context context;
+    ItemClickedListener itemClickedListener;
 
+    public UserCommentViewAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -42,14 +43,13 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         View  view = null;
         if(viewType == FOOT_ITEM){
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pet_list_foot_view_layout, parent, false);
+                    .inflate(R.layout.daily_record_item_layout, parent, false);
             viewHolder = new FootViewHolder(view);
         }else if(viewType == NORMAL_ITEM){
             view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.star_pet_list_item_layout, parent, false);
             viewHolder = new NormalViewHolder(view);
         }
-
         return viewHolder;
     }
 
@@ -73,19 +73,13 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         } else {
 
-            Pet pet = mValues.get(position);
+            UserCommentItem userCommentItem = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
-            normalViewHolder.nameView.setText(pet.getPetName());
-            normalViewHolder.unlikedLy.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    unlikeOnclickListener.onClick(position);
-                }
-            });
+
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    petItemOnclickListener.onClick(position);
+                    itemClickedListener.onclick(position);
                 }
             });
         }
@@ -96,7 +90,6 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if(position == getItemCount()-1){
             return FOOT_ITEM;
         }else {
-
             return NORMAL_ITEM;
         }
     }
@@ -106,27 +99,13 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         return mValues.size() + 1;
     }
 
-    public void setPetItemOnclickListener(PetItemOnclickListener petItemOnclickListener) {
-            this.petItemOnclickListener = petItemOnclickListener;
-    }
-
-
     public interface PetItemOnclickListener{
         void onClick(int position);
     }
-
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        @BindView(R.id.pet_list_item_iv)
-        ImageView imageView;
 
-        @BindView(R.id.pet_list_item_name_tv)
-        TextView nameView;
-
-
-        @BindView(R.id.cancel_liked_ly)
-        LinearLayout unlikedLy;
 
         public NormalViewHolder(View view) {
             super(view);
@@ -154,10 +133,6 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         }
     }
 
-    public void setUnlikeOnclickListener(PetItemOnclickListener unlikeOnclickListener) {
-        this.unlikeOnclickListener = unlikeOnclickListener;
-    }
-
     public void showFootTip(){
         isShowFootTip = true;
         this.notifyDataSetChanged();
@@ -175,8 +150,12 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         hasMoreData = false;
     }
 
-
-    public void setmValues(List<Pet> mValues) {
-        this.mValues = mValues;
+    public List<UserCommentItem> getmValues() {
+        return mValues;
     }
+
+    public interface ItemClickedListener{
+        void onclick(int position);
+    }
+
 }

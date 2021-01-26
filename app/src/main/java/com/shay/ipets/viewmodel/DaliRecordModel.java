@@ -5,16 +5,12 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
+i
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.ipets.entity.params.ConfrimDaliyRecord;
 import com.shay.ipets.entity.result.ConfirmRecordResult;
 import com.shay.ipets.repository.DaliyRecordRepository;
-import com.shay.ipets.repository.MainRepository;
-
 import java.util.HashMap;
 
 public class DaliRecordModel extends ViewModel {

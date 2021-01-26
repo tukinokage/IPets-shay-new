@@ -1,16 +1,21 @@
 package com.example.usermodule.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.usermodule.R;
 import com.example.usermodule.adapters.MyPetRecyclerViewAdapter;
+import com.example.usermodule.viewmodel.GetDailyRecordListViewModel;
+import com.example.usermodule.viewmodel.GetPetStarListViewModel;
+import com.example.usermodule.viewmodel.GetPetStarViewModelFactory;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.dto.Pet;
 
@@ -28,8 +33,9 @@ public class PetStarListActivity extends AppCompatActivity {
    @BindView(R.id.user_info_top_back_tv)
     TextView backTv;
 
-   MyPetRecyclerViewAdapter petRecyclerViewAdapter;
+    GetPetStarListViewModel getPetStarListViewModel;
 
+   MyPetRecyclerViewAdapter petRecyclerViewAdapter;
 
     @Autowired
     private String userId;
@@ -39,13 +45,18 @@ public class PetStarListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_star_list);
         ButterKnife.bind(this);
+
+        getPetStarListViewModel = new ViewModelProvider(this, new GetPetStarViewModelFactory())
+                .get(GetPetStarListViewModel.class);
+
+        init();
+        initListener();
+        initObserver();
     }
 
     private  void init(){
 
-
         petRecyclerViewAdapter = new MyPetRecyclerViewAdapter();
-        petRecyclerViewAdapter.setmValues(petList);
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         starPetListRecycler.setLayoutManager(layoutManager);
@@ -53,10 +64,17 @@ public class PetStarListActivity extends AppCompatActivity {
     }
 
     private  void initListener(){
+        backTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         petRecyclerViewAdapter.setPetItemOnclickListener(new MyPetRecyclerViewAdapter.PetItemOnclickListener() {
             @Override
             public void onClick(int position) {
-                petList.remove(position);
+
             }
         });
 
@@ -68,7 +86,7 @@ public class PetStarListActivity extends AppCompatActivity {
         });
     }
 
-    private  void initObserver(){
+    private void initObserver(){
 
     }
 
