@@ -32,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@Route(path = AroutePath.SreachResultActivity)
+@Route(path = AroutePath.SearchResultActivity)
 public class SreachResultActivity extends AppCompatActivity {
     public  static int PER_PAPER_NUM = 15;
     public  static int CURRENT_PAPER_NUM = 1;
@@ -42,8 +42,9 @@ public class SreachResultActivity extends AppCompatActivity {
 
     @Autowired
      String searchCondition = "";
+
     @Autowired
-    String searchId = "";
+    String userId = "";
 
     @BindView(R.id.posts_activity_post_rv)
     RecyclerView recyclerView;
@@ -78,8 +79,8 @@ public class SreachResultActivity extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(searchCondition)){
             bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM);
-        }else if(!TextUtils.isEmpty(searchId)){
-            bbsViewModel.getBBSPostListByUId(CURRENT_TYPE, searchId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        }else if(!TextUtils.isEmpty(userId)){
+            bbsViewModel.getBBSPostListByUId(CURRENT_TYPE, userId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
         }
 
     }
@@ -171,7 +172,7 @@ public class SreachResultActivity extends AppCompatActivity {
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
-                            bbsViewModel.getBBSPostLIst(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
+                            bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
                         }else {
                             ToastUntil.showToast("已无更多", AppContext.getContext());
                         }

@@ -6,7 +6,14 @@ import java.util.List;
 
 public class GetStarPetListResponse {
     List<Pet> petList;
+    boolean hasMore;
+    public boolean isHasMore() {
+        return hasMore;
+    }
 
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
+    }
     public List<Pet> getPetList() {
         return petList;
     }

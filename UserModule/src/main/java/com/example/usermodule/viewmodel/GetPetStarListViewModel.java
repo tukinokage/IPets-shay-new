@@ -122,10 +122,10 @@ public class GetPetStarListViewModel extends ViewModel {
         }
     }
 
-    public void getStarPetListData(String id, String perPagerCount, String currentPager){
+    public void getStarPetListData(String id, int perPagerCount, int currentPager){
         GetUserPetParam param = new GetUserPetParam();
-        param.setCurrentPager(currentPager);
-        param.setPerPagerCount(perPagerCount);
+        param.setCurrentPager(String.valueOf(currentPager));
+        param.setPerPagerCount(String.valueOf(perPagerCount));
         param.setUserId(id);
         getStarPetListAsyncTask = (GetStarPetListAsyncTask) asyncTaskFactory.createAsyncTask(new GetStarPetListAsyncTask());
         getStarPetListAsyncTask.execute(param);

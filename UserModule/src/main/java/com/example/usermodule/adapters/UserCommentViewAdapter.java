@@ -20,6 +20,8 @@ import butterknife.ButterKnife;
 
 
 public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
     private  List<UserCommentItem> mValues;
     public static final int NORMAL_ITEM = 0;
     public static final int FOOT_ITEM = 1;
@@ -31,19 +33,26 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public static final String FOOT_ITEM_TIP_NOT_MORE_TEXT = "下面没有了";
 
     Context context;
+
     ItemClickedListener itemClickedListener;
 
     public UserCommentViewAdapter(Context context) {
         this.context = context;
     }
 
+    public void setmValues(List<UserCommentItem> mValues) {
+        this.mValues = mValues;
+    }
+    public void setItemClickedListener(ItemClickedListener itemClickedListener) {
+        this.itemClickedListener = itemClickedListener;
+    }
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
         View  view = null;
         if(viewType == FOOT_ITEM){
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.daily_record_item_layout, parent, false);
+                    .inflate(R.layout.comment_list_item_layout, parent, false);
             viewHolder = new FootViewHolder(view);
         }else if(viewType == NORMAL_ITEM){
             view = LayoutInflater.from(parent.getContext())
@@ -75,7 +84,8 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             UserCommentItem userCommentItem = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
-
+            normalViewHolder.commentTextTv.setText(userCommentItem.getCommentText());
+            normalViewHolder.postTitleTv.setText(userCommentItem.getPostTitle());
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -104,8 +114,10 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-
-
+        @BindView(R.id.comment_content_text_tv)
+        TextView commentTextTv ;
+        @BindView(R.id.comment_post_title_tv)
+        TextView postTitleTv ;
 
         public NormalViewHolder(View view) {
             super(view);

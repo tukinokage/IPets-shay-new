@@ -8,7 +8,14 @@ import java.util.List;
 public class GetDaliyRecordResult {
     String errorMsg = "";
     List<UserDailyRecordItem> dailyRecordItemList;
+    boolean hasMore;
+    public boolean isHasMore() {
+        return hasMore;
+    }
 
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
+    }
     public List<UserDailyRecordItem> getDailyRecordItemList() {
         return dailyRecordItemList;
     }

@@ -24,6 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+//详情
 public class PostInfoListAdapter extends RecyclerView.Adapter {
     Context context;
     LinearLayoutManager mLayoutManager;
@@ -32,8 +33,6 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
 
     private final static int POST = 0;
     private final static int COMMENT = 1;
-
-
 
     private ClikPicListener clikPicListener;
     private ClickUserHeadIconListener onClickListener;
@@ -51,7 +50,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         this.commentsList = commentsList;
     }
 
-    public void setOnClickListener(ClickUserHeadIconListener onClickListener) {
+    public void setOnUserHeadClickListener(ClickUserHeadIconListener onClickListener) {
         this.onClickListener = onClickListener;
     }
     public void setClikPicListener(ClikPicListener clikPicListener) {
@@ -201,6 +200,10 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         void onclick(Post post);
         void onclick(int position);
     }
+
+     public List<Comment> getCommentsList(){
+        return commentsList;
+     }
 
     public interface ClikPicListener{
         void onClick(String picName);

@@ -7,7 +7,14 @@ import java.util.List;
 public class GetUserCommentResponse {
 
     private List<UserCommentItem> commentItemList;
+    boolean hasMore;
+    public boolean isHasMore() {
+        return hasMore;
+    }
 
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
+    }
     public List<UserCommentItem> getCommentItemList() {
         return commentItemList;
     }

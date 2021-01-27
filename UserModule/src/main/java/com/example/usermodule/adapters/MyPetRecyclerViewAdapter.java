@@ -8,7 +8,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Pet;
 import java.util.List;
 import butterknife.BindView;
@@ -42,7 +45,7 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         View  view = null;
         if(viewType == FOOT_ITEM){
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pet_list_foot_view_layout, parent, false);
+                    .inflate(R.layout.foot_item_layout, parent, false);
             viewHolder = new FootViewHolder(view);
         }else if(viewType == NORMAL_ITEM){
             view = LayoutInflater.from(parent.getContext())
@@ -68,14 +71,17 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             if(isShowFootTip){
                 footViewHolder.view.setVisibility(View.VISIBLE);
             }else {
-                footViewHolder.view.setVisibility(View.INVISIBLE);
+                footViewHolder.view.setVisibility(View.GONE);
             }
-
         } else {
 
             Pet pet = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
             normalViewHolder.nameView.setText(pet.getPetName());
+            Glide.with(((NormalViewHolder) holder).mView)
+                    .load(UrlUtil.STATIC_RESOURCE.BG_PIC_URL + pet.getPetHeadImg())
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(normalViewHolder.imageView);
             normalViewHolder.unlikedLy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -96,7 +102,6 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         if(position == getItemCount()-1){
             return FOOT_ITEM;
         }else {
-
             return NORMAL_ITEM;
         }
     }
@@ -123,7 +128,6 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         @BindView(R.id.pet_list_item_name_tv)
         TextView nameView;
-
 
         @BindView(R.id.cancel_liked_ly)
         LinearLayout unlikedLy;

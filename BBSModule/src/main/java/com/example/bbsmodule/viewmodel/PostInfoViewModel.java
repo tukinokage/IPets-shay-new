@@ -136,9 +136,6 @@ public class PostInfoViewModel extends ViewModel {
 
 
 
-
-
-
     public void cancelAsyTask(){
         asyncTaskFactory.cancelAsyncTask();
     }

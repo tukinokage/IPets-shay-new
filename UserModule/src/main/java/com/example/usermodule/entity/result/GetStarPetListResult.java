@@ -7,7 +7,14 @@ import java.util.List;
 public class GetStarPetListResult {
     String errorMsg = "";
     List<Pet> petList;
+    boolean hasMore;
+    public boolean isHasMore() {
+        return hasMore;
+    }
 
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
+    }
     public String getErrorMsg() {
         return errorMsg;
     }

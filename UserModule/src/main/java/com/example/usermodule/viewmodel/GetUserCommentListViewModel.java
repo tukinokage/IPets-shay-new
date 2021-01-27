@@ -83,10 +83,10 @@ public class GetUserCommentListViewModel extends ViewModel {
         }
     }
 
-    public void getCommentListData(String id, String perPagerCount, String currentPager){
+    public void getCommentListData(String id, int perPagerCount, int currentPager){
         GetUserCommentParam param = new GetUserCommentParam();
-        param.setCurrentPager(currentPager);
-        param.setPerPagerCount(perPagerCount);
+        param.setCurrentPager(String.valueOf(currentPager));
+        param.setPerPagerCount(String.valueOf(perPagerCount));
         param.setUserId(id);
         getCommentAsyncTask = (GetCommentAsyncTask) asyncTaskFactory.createAsyncTask(new GetCommentAsyncTask());
         getCommentAsyncTask.execute(param);

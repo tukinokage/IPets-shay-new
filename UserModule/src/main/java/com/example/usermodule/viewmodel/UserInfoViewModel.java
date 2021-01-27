@@ -73,14 +73,19 @@ public class UserInfoViewModel extends ViewModel {
         getUserInfoAsyncTask.execute(getUserInfoParam);
     }
 
-     public void getMyInfo() throws Exception {
+     public void getMyInfo(String id){
          GetUserInfoParam getUserInfoParam = new GetUserInfoParam();
+         getUserInfoParam.setUserId(id);
+         getUserInfoAsyncTask = (GetUserInfoAsyncTask) asyncTaskFactory.createAsyncTask(new GetUserInfoAsyncTask());
+         getUserInfoAsyncTask.execute(getUserInfoParam);
+     }
+
+
+     public String getMyId() throws Exception {
          if(UserInfoUtil.getUserId() == null){
              throw new MyException("身份失效");
          }
-         getUserInfoParam.setUserId(UserInfoUtil.getUserId());
-         getUserInfoAsyncTask = (GetUserInfoAsyncTask) asyncTaskFactory.createAsyncTask(new GetUserInfoAsyncTask());
-         getUserInfoAsyncTask.execute(getUserInfoParam);
+         return UserInfoUtil.getUserId();
      }
 
     public void cancelAsyncTask(){

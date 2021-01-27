@@ -40,8 +40,7 @@ public class UserInfoActivity extends AppCompatActivity {
 
     UserInfoViewModel userInfoViewModel;
 
-    @Autowired
-    boolean isMyUserInfo = true;
+    boolean isMyUserInfo = false;
 
     @BindView(R.id.user_info_top_back_tv)
     TextView backBtn;
@@ -88,18 +87,28 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     public void init(){
+        try {
+            if(userId == null){
+                isMyUserInfo = true;
+            }else {
+                if(userInfoViewModel.getMyId() == userId){
+                    isMyUserInfo = true;
+                }
+            }
+
+        } catch (MyException e){
+            ToastUntil.showToast(e.getMessage(), AppContext.getContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastUntil.showToast("应用出错", AppContext.getContext());
+        }
+
         //判断是否是自己的账户
         if(isMyUserInfo){
+
             //开启修改头像功能
             initUpdateHeadIcon();
-            try {
-                userInfoViewModel.getMyInfo();
-            } catch (MyException e){
-                ToastUntil.showToast(e.getMessage(), AppContext.getContext());
-            } catch (Exception e) {
-                e.printStackTrace();
-                ToastUntil.showToast("应用出错", AppContext.getContext());
-            }
+            userInfoViewModel.getMyInfo(userId);
         }else {
             hideUpdateFunction();
             userInfoViewModel.getUserInfo(userId);
@@ -137,7 +146,7 @@ public class UserInfoActivity extends AppCompatActivity {
         postLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(AroutePath.PostListActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.SearchResultActivity).withString("userId", userId).navigation();
             }
         });
 
@@ -153,7 +162,7 @@ public class UserInfoActivity extends AppCompatActivity {
         commentLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(AroutePath.PostListActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.CommentActivity).withString("userId", userId).navigation();
             }
         });
 
@@ -161,7 +170,7 @@ public class UserInfoActivity extends AppCompatActivity {
         updateInfoLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)  {
-                ARouter.getInstance().build(AroutePath.PostListActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.UpdateInfoActivity).withString("userId", userId).navigation();
             }
         });
 

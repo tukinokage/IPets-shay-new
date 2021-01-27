@@ -78,10 +78,10 @@ public class GetDailyRecordListViewModel extends ViewModel {
         }
     }
 
-    public void getDailyRecordData(String id, String perPagerCount, String currentPager){
+    public void getDailyRecordData(String id, int perPagerCount, int currentPager){
         GetUserDailyRecordParam param = new GetUserDailyRecordParam();
-        param.setCurrentPager(currentPager);
-        param.setPerPagerCount(perPagerCount);
+        param.setCurrentPager(String.valueOf(currentPager));
+        param.setPerPagerCount(String.valueOf(perPagerCount));
         param.setUserId(id);
         getDailyRecordAsyncTask = (GetDailyRecordAsyncTask) asyncTaskFactory.createAsyncTask(new GetDailyRecordAsyncTask());
         getDailyRecordAsyncTask.execute(param);

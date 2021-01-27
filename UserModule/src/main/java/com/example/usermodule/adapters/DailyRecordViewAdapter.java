@@ -1,10 +1,14 @@
 package com.example.usermodule.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.usermodule.R;
 import com.shay.baselibrary.dto.Pet;
@@ -17,7 +21,7 @@ import butterknife.ButterKnife;
 
 public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private  List<UserDailyRecordItem> mValues;
-
+    Context context;
     public static final int NORMAL_ITEM = 0;
     public static final int FOOT_ITEM = 1;
 
@@ -32,8 +36,8 @@ public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public void setItemClickedListener(ItemClickedListener itemClickedListener) {
         this.itemClickedListener = itemClickedListener;
     }
-    public DailyRecordViewAdapter() {
-
+    public DailyRecordViewAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -71,10 +75,10 @@ public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
 
         } else {
-
             UserDailyRecordItem dailyRecordItem = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
-
+            normalViewHolder.contentTv.setText(dailyRecordItem.getContentText());
+            normalViewHolder.dateTimeTv.setText(dailyRecordItem.getDateTime());
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,7 +107,10 @@ public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-
+        @BindView(R.id.daily_record_tv)
+        TextView contentTv;
+        @BindView(R.id.daily_record_date_tv)
+        TextView dateTimeTv;
 
 
         public NormalViewHolder(View view) {
@@ -124,6 +131,7 @@ public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         @BindView(R.id.pet_list_foot_tips)
         TextView textView;
+
 
         public FootViewHolder(@NonNull View itemView) {
             super(itemView);

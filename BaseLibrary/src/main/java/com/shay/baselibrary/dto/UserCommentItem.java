@@ -7,6 +7,16 @@ public class UserCommentItem {
     String commentText;
     String dateTime;
 
+    String postTitle ;
+
+    public String getPostTitle() {
+        return postTitle;
+    }
+
+    public void setPostTitle(String postTitle) {
+        this.postTitle = postTitle;
+    }
+
     public String getCommentId() {
         return commentId;
     }

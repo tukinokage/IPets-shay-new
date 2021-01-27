@@ -6,7 +6,7 @@ import java.util.List;
 
 public class GetPostListResponse {
     List<BBSPost> bbsPostList;
-    boolean hasMore;
+
 
     public List<BBSPost> getBbsPostList() {
         return bbsPostList;
@@ -16,6 +16,7 @@ public class GetPostListResponse {
         this.bbsPostList = bbsPostList;
     }
 
+    boolean hasMore;
     public boolean isHasMore() {
         return hasMore;
     }

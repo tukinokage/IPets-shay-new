@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.bbsmodule.adapter.PostInfoListAdapter;
 import com.example.bbsmodule.entity.BBSPost;
 import com.example.bbsmodule.entity.result.CommitCommentResult;
@@ -37,6 +38,7 @@ import com.example.bbsmodule.viewmodel.PostInfoViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.GlideLoadEngine;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.adapter.SelectPicAdapter;
@@ -186,16 +188,23 @@ public class PostInfoActivity extends AppCompatActivity {
         });
 
         //显示
-        postInfoListAdapter.setOnClickListener(new PostInfoListAdapter.ClickUserHeadIconListener() {
+        postInfoListAdapter.setOnUserHeadClickListener(new PostInfoListAdapter.ClickUserHeadIconListener() {
             @Override
             public void onclick(Post post) {
-                String id = post.getPostId();
-                //
+                //帖子头像点击
+                String userId = post.getUserId();
+                ARouter.getInstance().build(AroutePath.UserInfoActivity)
+                        .withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId)
+                         .navigation();
             }
 
             @Override
             public void onclick(int position) {
-                //
+                //回复头像点击
+                String userId = postInfoListAdapter.getCommentsList().get(position).getUserId();
+                ARouter.getInstance().build(AroutePath.UserInfoActivity)
+                        .withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId)
+                        .navigation();
             }
         });
 
