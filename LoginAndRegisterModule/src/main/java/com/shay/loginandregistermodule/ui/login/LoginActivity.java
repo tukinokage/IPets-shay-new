@@ -25,10 +25,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.data.entity.result.ConfrimPhoneResult;
+import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
 import com.shay.loginandregistermodule.ui.phoneloginregister.PhoneCheckActivity;
 import com.shay.loginandregistermodule.ui.phoneloginregister.SetPasswordActivity;
@@ -76,16 +78,16 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == REQUEST_CODE_PHONE && resultCode == PhoneCheckActivity.RESULT_CODE){
-            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(PhoneCheckActivity.RESULT_PARAM_NAME);
+        if(requestCode == REQUEST_CODE_PHONE && resultCode == AroutePath.resultCode.PHONE_RESULT_CODE){
+            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(AroutePath.paramName.RESULT_PARAM_NAME);
             //检查手机号码是否注册，存在就登录，不存在登录，并跳转设置密码
             loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
-        }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == SetPasswordActivity.RESULT_CODE){
-            boolean result = (boolean) data.getExtras().get(SetPasswordActivity.RESULT_PARAM_NAME);
+        }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == AroutePath.resultCode.SET_PW_RESULT_CODE){
+            boolean result = (boolean) data.getExtras().get(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME);
             if(result){
                 /**设置密码成功*/
                 /**跳转到主界面**/
-
+                ARouter.getInstance().build(AroutePath.MainActivity).navigation();
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.shay.loginandregistermodule.data.entity.result;
+package com.shay.baselibrary.dto.result;
 
 import android.os.Parcel;
 import android.os.Parcelable;

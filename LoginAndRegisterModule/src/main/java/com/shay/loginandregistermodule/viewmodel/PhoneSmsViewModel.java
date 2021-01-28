@@ -13,7 +13,7 @@ import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.entity.params.AliSmsRequestParam;
 import com.shay.loginandregistermodule.data.entity.params.ConfrimPhoneNumParam;
-import com.shay.loginandregistermodule.data.entity.result.ConfrimPhoneResult;
+import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.data.repository.PhoneSmsRepository;
 

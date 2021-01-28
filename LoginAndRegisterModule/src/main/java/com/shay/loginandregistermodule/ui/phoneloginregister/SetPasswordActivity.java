@@ -15,6 +15,7 @@ import android.view.View;
 import com.google.android.material.textfield.TextInputEditText;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
 import com.shay.loginandregistermodule.data.entity.result.SetPwResult;
@@ -35,8 +36,6 @@ public class SetPasswordActivity extends AppCompatActivity {
     @BindView(R.id.activtiy_set_password_confrim_btn)
     QMUIRoundButton confrimBtn;
 
-    public static final int RESULT_CODE = 1002;
-    public static final String RESULT_PARAM_NAME = "result";
     private SetPasswordViewModel setPasswordViewModel;
 
     @Override
@@ -66,8 +65,8 @@ public class SetPasswordActivity extends AppCompatActivity {
                     ToastUntil.showToast(setPwResult.getErrorMsg(), AppContext.getContext());
                 }else {
                     Intent intent = new Intent();
-                    intent.putExtra(RESULT_PARAM_NAME, true);
-                    setResult(RESULT_CODE, intent);
+                    intent.putExtra(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME, true);
+                    setResult(AroutePath.resultCode.SET_PW_RESULT_CODE , intent);
                     finish();
                 }
             }

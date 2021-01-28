@@ -8,6 +8,8 @@ import android.widget.Button;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.shay.baselibrary.AroutePath;
 import com.shay.ipets.R;
 import com.shay.ipets.ui.dialog.OperatorDialog;
 
@@ -16,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+@Route(path = AroutePath.MainActivity)
 public class MainActivity extends FragmentActivity {
     OperatorDialog dialog;
     @BindView(R.id.bottom_operate_btn)
@@ -27,8 +30,6 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         unbinder =  ButterKnife.bind(this);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         initListener();
     }
 

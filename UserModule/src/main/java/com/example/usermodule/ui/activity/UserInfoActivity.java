@@ -1,9 +1,11 @@
 package com.example.usermodule.ui.activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.core.LogisticsCenter;
+import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
@@ -25,6 +29,7 @@ import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
+import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.baselibrary.myexceptions.MyException;
 
 import butterknife.BindView;
@@ -32,7 +37,6 @@ import butterknife.ButterKnife;
 
 @Route(path = AroutePath.UserInfoActivity)
 public class UserInfoActivity extends AppCompatActivity {
-    public static final int CORP_IMG_REQUEST_CODE = 01;
 
     public static final String PARAM_NAME = "userId";
     @Autowired
@@ -178,7 +182,7 @@ public class UserInfoActivity extends AppCompatActivity {
         pwLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // ARouter.getInstance().build(AroutePath.).withString("userId", userId).navigation();
+               ARouter.getInstance().build(AroutePath.).withString("userId", userId).navigation();
             }
         });
 
@@ -207,8 +211,6 @@ public class UserInfoActivity extends AppCompatActivity {
         headIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  PictureSelector.create(UserInfoActivity.this, PictureSelector.SELECT_REQUEST_CODE)
-                        .selectPicture(true, 200, 200, 1, 1);*/
             }
         });
     }
@@ -236,6 +238,24 @@ public class UserInfoActivity extends AppCompatActivity {
                     .load(UrlUtil.STATIC_RESOURCE.BG_PIC_URL)
                     .placeholder(R.drawable.ic_img_preview_default)
                     .into(bgImageView);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == AroutePath.requestCode.REQUEST_CODE_PHONE && resultCode == AroutePath.resultCode.PHONE_RESULT_CODE){
+            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(AroutePath.paramName.RESULT_PARAM_NAME);
+            Postcard postcard = ARouter.getInstance().build(AroutePath.SetPassActivity);
+            LogisticsCenter.completion(postcard);
+            Intent intent = new Intent(this, postcard.getDestination());
+            startActivityForResult(intent, AroutePath.requestCode.REQUEST_CODE_SET_PWD);
+
+        }else if(requestCode == AroutePath.requestCode.REQUEST_CODE_SET_PWD && resultCode == AroutePath.resultCode.SET_PW_RESULT_CODE){
+            boolean result = (boolean) data.getExtras().get(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME);
+            if(result){
+                ToastUntil.showToast("成功更改", AppContext.getContext());
+            }
         }
     }
 

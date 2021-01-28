@@ -1,6 +1,5 @@
 package com.shay.loginandregistermodule.ui.phoneloginregister;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,7 +21,7 @@ import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.data.entity.result.ConfrimPhoneResult;
+import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModel;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModelFactory;
@@ -45,10 +44,6 @@ public class PhoneCheckActivity extends AppCompatActivity {
     public static final String REQUEST_TYPE_LR="REQUEST_TYPE_LR";
     public static final String REQUEST_TYPE_UPDATE_PWD="REQUEST_TYPE_UPDATE_PWD";
     public static final String REQUEST_TYPE_UPDATE_PHONE="REQUEST_TYPE_UPDATE_PHONE";
-
-    public static final int RESULT_CODE = 1001;
-    public static final String RESULT_PARAM_NAME = "data";
-
 
     private PhoneSmsViewModel phoneSmsViewModel;
     @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
@@ -168,7 +163,6 @@ public class PhoneCheckActivity extends AppCompatActivity {
         }else {
             ToastUntil.showToast("验证码错误", AppContext.getContext());
         }
-
     }
 
 
@@ -232,8 +226,8 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
                     //返回数据给上一activity
                     Intent intent = new Intent();
-                    intent.putExtra(RESULT_PARAM_NAME, confrimPhoneResult);
-                    setResult(RESULT_CODE, intent);
+                    intent.putExtra(AroutePath.paramName.RESULT_PARAM_NAME, confrimPhoneResult);
+                    setResult(AroutePath.resultCode.PHONE_RESULT_CODE, intent);
                     finish();
                 }else {
                     ToastUntil.showToast(confrimPhoneResult.getErrorMsg(), AppContext.getContext());
