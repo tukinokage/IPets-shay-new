@@ -1,5 +1,6 @@
 package com.shay.loginandregistermodule.data.services;
 
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.loginandregistermodule.data.entity.responsedata.LoginResponseData;
@@ -16,7 +17,7 @@ import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 
 public interface UserUrlService  {
-    @POST("ls/login")
+    @POST(UrlUtil.USER_URL.LOGIN_URL)
     @FormUrlEncoded//表单提交
     //Call<BaseResponse<TestUser>> test(@FieldMap HashMap<String, Object> map);
     Observable<BaseResponse<LoginResponseData>> login(@FieldMap HashMap<String, Object> map);
