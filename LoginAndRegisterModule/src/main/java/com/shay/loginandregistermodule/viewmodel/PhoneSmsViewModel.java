@@ -22,13 +22,7 @@ import java.util.Random;
 
 public class PhoneSmsViewModel extends ViewModel {
 
-    public PhoneSmsRepository getPhoneSmsRepository() {
-        return phoneSmsRepository;
-    }
-
     private MutableLiveData<SmsResultStauts> smsResultLiveData = new MutableLiveData<>();
-
-
 
     private MutableLiveData<ConfrimPhoneResult> confrimPhoneResultMutableLiveData = new MutableLiveData<>();
 

@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(requestCode == REQUEST_CODE_PHONE && resultCode == AroutePath.resultCode.PHONE_RESULT_CODE){
             ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(AroutePath.paramName.RESULT_PARAM_NAME);
-            //检查手机号码是否注册，存在就登录，不存在登录，并跳转设置密码
+            //检查手机号码是否注册，存在就登录，不存在注册，并跳转设置密码
             loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
         }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == AroutePath.resultCode.SET_PW_RESULT_CODE){
             boolean result = (boolean) data.getExtras().get(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME);
