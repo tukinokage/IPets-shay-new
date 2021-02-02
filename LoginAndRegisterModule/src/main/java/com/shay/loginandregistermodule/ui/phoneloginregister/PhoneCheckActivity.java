@@ -39,7 +39,7 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
     //字段
     public static final String REQUEST_TYPE="REQUEST_TYPE";
-
+    private static final int MSG_TIME = 60;
     //类型
     public static final String REQUEST_TYPE_LR="REQUEST_TYPE_LR";
     public static final String REQUEST_TYPE_UPDATE_PWD="REQUEST_TYPE_UPDATE_PWD";
@@ -78,9 +78,7 @@ public class PhoneCheckActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-
         super.onStart();
-
         initListenser();
         initObserver();
     }
@@ -122,7 +120,7 @@ public class PhoneCheckActivity extends AppCompatActivity {
                 submitSmsBtn.setText("发送");
                 submitSmsBtn.setEnabled(true);
             }
-        }.execute(60);
+        }.execute(MSG_TIME);
 
     }
 

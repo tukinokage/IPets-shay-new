@@ -58,11 +58,6 @@ public class LoginRepository {
         dataSource.logout();
     }
 
-    private void setLoggedInUser(TestUser user) {
-        this.user = user;
-    }
-
-
     public void checkPhone(HashMap<String, Object> paramMap, final ResultListener phoneResultListener) throws Exception{
         this.phoneResultListener = phoneResultListener;
         dataSource.checkPhoneUser(paramMap) .subscribeOn(Schedulers.io())

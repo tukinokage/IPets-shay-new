@@ -64,15 +64,12 @@ public class PhoneSmsViewModel extends ViewModel {
 
                     //主线程
                     if(result instanceof Result.Success){
-
                         smsResultLiveData.setValue(new SmsResultStauts(){{setScertCode(codeParam);}});
                     }else{
                         String msg = ((Result.Error)result).getErrorMsg();
                         smsResultLiveData.setValue(new SmsResultStauts(){{setErrorMsg(msg);}});
                     }
-
                 });
-
 
             } catch (Exception e) {
                 e.printStackTrace();

@@ -59,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_activity_loading_pb)
     ProgressBar loadingProgressBar;
 
-
     public final static int REQUEST_CODE_PHONE = 1;
     public final static int REQUEST_CODE_SET_PWD = 2;
     @Override

@@ -2,8 +2,16 @@ package com.shay.loginandregistermodule.data.entity.params;
 
 public class SetPwRequestParam {
     String userId;
+    String phoneToken;
     String password;
 
+    public String getPhoneToken() {
+        return phoneToken;
+    }
+
+    public void setPhoneToken(String phoneToken) {
+        this.phoneToken = phoneToken;
+    }
     public SetPwRequestParam(String userId, String password) {
         this.userId = userId;
         this.password = password;

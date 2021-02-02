@@ -9,11 +9,13 @@ import android.util.Patterns;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.shay.baselibrary.ObjectTransformUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.SPUserInfo;
 import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.entity.params.CheckPhExistParam;
+import com.shay.loginandregistermodule.data.entity.params.LoginParam;
 import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
 import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
 import com.shay.loginandregistermodule.data.repository.LoginRepository;
@@ -51,12 +53,13 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public class LoginAsyncTask extends AsyncTask<HashMap<String, Object>, Integer, Exception>{
+    public class LoginAsyncTask extends AsyncTask<LoginParam, Integer, Exception>{
 
         @Override
-        protected Exception doInBackground(HashMap<String, Object>... hashMaps) {
+        protected Exception doInBackground(LoginParam... params) {
 
-            HashMap<String, Object> map = hashMaps[0];
+            LoginParam param = params[0];
+            HashMap map = (HashMap) ObjectTransformUtil.objectToMap(param);
             //执行于rxjava的observer线程
             //生成客户端是一个线程（在asyncxtask线程），rxjava + retrofit只是在访问网络以及响应时使用了另一个异步线程
             try {
@@ -145,13 +148,13 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String account, String password) {
         // can be launched in a separate asynchronous job
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put("name", account);
-        hashMap.put("password", password);
+        LoginParam param = new LoginParam();
+        param.setName(account);
+        param.setPassword(password);
 
         //新建并存入工厂的list中
         loginAsyncTask = (LoginAsyncTask) asyncTaskFactory.createAsyncTask(new LoginAsyncTask());
-        loginAsyncTask.execute(hashMap);
+        loginAsyncTask.execute(param);
 
     }
 
