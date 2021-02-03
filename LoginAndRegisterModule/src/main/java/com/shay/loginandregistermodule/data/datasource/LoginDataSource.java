@@ -19,9 +19,7 @@ import io.reactivex.Observable;
 public class LoginDataSource {
 
     public  Observable<BaseResponse<LoginResponseData>> login(HashMap<String, Object> paramsMap){
-
             // TODO: handle loggedInUser authentication
-
             UserUrlService service = new HttpUtil().getService(UserUrlService.class, UrlUtil.BASE_URL.BASE_URL);
             Observable<BaseResponse<LoginResponseData>> observable = service.login(paramsMap);
             return observable;

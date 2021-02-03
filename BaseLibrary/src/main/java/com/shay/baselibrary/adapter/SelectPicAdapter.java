@@ -131,19 +131,23 @@ public class SelectPicAdapter extends BaseAdapter {
     }
 
     class ItemViewHolder{
-        @BindView(R.id.img_preview_iv)
+       // @BindView(R.id.img_preview_iv)
         public ImageView img;
-        @BindView(R.id.img_preview_black_fg)
+       // @BindView(R.id.img_preview_black_fg)
         public LinearLayout pgLinerLayout;
-        @BindView(R.id.img_preview_tip_text_tv)
+      //  @BindView(R.id.img_preview_tip_text_tv)
         public TextView tipTextView;
-        @BindView(R.id.img_preview_cancel)
+     //   @BindView(R.id.img_preview_cancel)
         public Button cancelBtn;
 
         View view;
 
         public ItemViewHolder(View view){
-            ButterKnife.bind(this, view);
+           // ButterKnife.bind(this, view);
+            img = view.findViewById(R.id.img_preview_iv);
+            pgLinerLayout = view.findViewById(R.id.img_preview_black_fg);
+            tipTextView = view.findViewById(R.id.img_preview_tip_text_tv);
+            cancelBtn = view.findViewById(R.id.img_preview_cancel);
             this.view = view;
         }
     }

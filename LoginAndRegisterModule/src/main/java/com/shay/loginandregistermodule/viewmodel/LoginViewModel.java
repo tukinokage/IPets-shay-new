@@ -12,15 +12,15 @@ import com.google.gson.reflect.TypeToken;
 import com.shay.baselibrary.ObjectTransformUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.SPUserInfo;
-import com.shay.baselibrary.dto.TestUser;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.entity.params.CheckPhExistParam;
 import com.shay.loginandregistermodule.data.entity.params.LoginParam;
 import com.shay.loginandregistermodule.data.entity.responsedata.CheckPhoneRepData;
+import com.shay.loginandregistermodule.data.entity.responsedata.LoginResponseData;
 import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
+import com.shay.loginandregistermodule.data.entity.result.SPSaveUserResult;
 import com.shay.loginandregistermodule.data.repository.LoginRepository;
 import com.shay.loginandregistermodule.R;
-import com.shay.loginandregistermodule.ui.login.LoggedInUserView;
 import com.shay.loginandregistermodule.ui.login.LoginFormState;
 import com.shay.loginandregistermodule.ui.login.LoginResult;
 
@@ -31,6 +31,9 @@ public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+
+
+    private MutableLiveData<SPSaveUserResult> spSaveUserResultMutableLiveData = new MutableLiveData<>();
 
     private MutableLiveData<PhoneLoginResult> phoneLoginResult = new MutableLiveData<>();
 
@@ -48,6 +51,9 @@ public class LoginViewModel extends ViewModel {
     }
 
     public LiveData<PhoneLoginResult> getPhoneLoginResult() { return phoneLoginResult; }
+    public MutableLiveData<SPSaveUserResult> getSpSaveUserResultMutableLiveData() {
+        return spSaveUserResultMutableLiveData;
+    }
 
     public LiveData<LoginResult> getLoginResult() {
         return loginResult;
@@ -67,11 +73,16 @@ public class LoginViewModel extends ViewModel {
                         result -> {
                         /********rxjava回调主线程的监听器***********/
 
+                        LoginResult lresult = new LoginResult();
                             if (result instanceof Result.Success) {
-                                TestUser data = ((Result.Success<TestUser>) result).getData();
-                                loginResult.setValue(new LoginResult(new LoggedInUserView(data.getUserName())));
+                                LoginResponseData data = ((Result.Success<LoginResponseData>) result).getData();
+                                lresult.setUserName(data.getUserName());
+                                lresult.setToken(data.getToken());
+                                lresult.setUserId(data.getUserId());
+                                loginResult.setValue(lresult);
                             } else {
-                                loginResult.setValue(new LoginResult(R.string.login_failed));
+                                 lresult.setErrorMsg(((Result.Error)result).getErrorMsg());
+                                loginResult.setValue(lresult);
                             }
                         }
                         /******************************************/
@@ -89,7 +100,7 @@ public class LoginViewModel extends ViewModel {
             super.onPostExecute(e);
             if(e != null){
                e.printStackTrace();
-               loginResult.setValue(new LoginResult(R.string.login_failed));
+               loginResult.setValue(new LoginResult(){{setErrorMsg("应用出错");}});
             }
         }
     }
@@ -115,7 +126,6 @@ public class LoginViewModel extends ViewModel {
                             phoneLoginResult.setValue(new PhoneLoginResult(){{setType(data.getUserType()); }});
                         } else {
                             PhoneLoginResult phoneResult = new PhoneLoginResult();
-                            result = (Result.Error)result;
                             phoneResult.setErrorMsg(((Result.Error) result).getErrorMsg());
                             phoneLoginResult.setValue(phoneResult);
                         }
@@ -149,8 +159,8 @@ public class LoginViewModel extends ViewModel {
     public void login(String account, String password) {
         // can be launched in a separate asynchronous job
         LoginParam param = new LoginParam();
-        param.setName(account);
-        param.setPassword(password);
+        param.setUserName(account);
+        param.setPassWord(password);
 
         //新建并存入工厂的list中
         loginAsyncTask = (LoginAsyncTask) asyncTaskFactory.createAsyncTask(new LoginAsyncTask());
@@ -194,11 +204,14 @@ public class LoginViewModel extends ViewModel {
         loginRepository.saveUserInfo(spUserInfo, new LoginRepository.ResultListener() {
             @Override
             public void returnResult(Result result) {
+                SPSaveUserResult spSaveUserResult = new SPSaveUserResult();
                 if(result instanceof Result.Success){
 
                 }else {
-
+                    spSaveUserResult.setErrorMsg(((Result.Error)result).getErrorMsg());
                 }
+
+                spSaveUserResultMutableLiveData.setValue(spSaveUserResult);
             }
         });
     }

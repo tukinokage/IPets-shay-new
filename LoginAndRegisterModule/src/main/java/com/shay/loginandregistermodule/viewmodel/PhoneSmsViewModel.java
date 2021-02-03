@@ -23,16 +23,12 @@ import java.util.Random;
 public class PhoneSmsViewModel extends ViewModel {
 
     private MutableLiveData<SmsResultStauts> smsResultLiveData = new MutableLiveData<>();
-
     private MutableLiveData<ConfrimPhoneResult> confrimPhoneResultMutableLiveData = new MutableLiveData<>();
-
     private PhoneSmsRepository phoneSmsRepository;
-
     private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     private ConfrimAsyncTask confrimAsyncTask;
     private SmsAsyncTask smsAsyncTask;
     private String codeParam = "";
-
 
     public PhoneSmsViewModel(PhoneSmsRepository phoneSmsRepository) {
         this.phoneSmsRepository = phoneSmsRepository;
@@ -145,6 +141,5 @@ public class PhoneSmsViewModel extends ViewModel {
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();
     }
-
 
 }

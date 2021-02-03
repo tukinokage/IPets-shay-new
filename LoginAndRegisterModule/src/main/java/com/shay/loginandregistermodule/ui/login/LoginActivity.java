@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -32,6 +33,7 @@ import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
 import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
+import com.shay.loginandregistermodule.data.entity.result.SPSaveUserResult;
 import com.shay.loginandregistermodule.ui.phoneloginregister.PhoneCheckActivity;
 import com.shay.loginandregistermodule.ui.phoneloginregister.SetPasswordActivity;
 import com.shay.loginandregistermodule.viewmodel.LoginViewModel;
@@ -110,6 +112,18 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        loginViewModel.getSpSaveUserResultMutableLiveData().observe(this, new Observer<SPSaveUserResult>() {
+            @Override
+            public void onChanged(SPSaveUserResult spSaveUserResult) {
+                if(TextUtils.isEmpty(spSaveUserResult.getErrorMsg())){
+                    setResult(Activity.RESULT_OK);
+                    ToastUntil.showToast("＼＼登录成功／／", AppContext.getContext() );
+                }else {
+                    ToastUntil.showToast("信息保存失败，重新登陆吧", AppContext.getContext() );
+                }
+            }
+        });
+
         loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
             @Override
             public void onChanged(@Nullable LoginResult loginResult) {
@@ -117,13 +131,14 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
+                if (loginResult.getErrorMsg().isEmpty()) {
+                    loginViewModel.saveUserInfo(loginResult.token, loginResult.userId, loginResult.userName);
+                    ToastUntil.showToast("欢迎" + loginResult.userName, AppContext.getContext() );
+                }else {
+                    ToastUntil.showToast(loginResult.errorMsg, AppContext.getContext() );
                 }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
+
+               // setResult(Activity.RESULT_OK);
 
                 //Complete and destroy login activity once successful
                 // finish();

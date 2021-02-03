@@ -17,7 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SetPwRepository {
 
     private SetPwDataSource setPwDataSource;
-    private volatile SetPwRepository instance;
+    private volatile static SetPwRepository instance;
     private SetPwResultListener setPwResultListener;
 
     public SetPwRepository(SetPwDataSource setPwDataSource) {
@@ -25,7 +25,7 @@ public class SetPwRepository {
     }
 
 
-    synchronized public SetPwRepository getInstance(){
+    synchronized public static SetPwRepository getInstance(SetPwDataSource setPwDataSource){
         if(instance == null){
             instance = new SetPwRepository(setPwDataSource);
         }

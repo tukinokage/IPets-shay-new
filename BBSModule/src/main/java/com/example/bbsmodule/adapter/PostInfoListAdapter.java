@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,11 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bbsmodule.R;
-import com.example.bbsmodule.entity.BBSPost;
 import com.shay.baselibrary.dto.Comment;
 import com.shay.baselibrary.dto.Post;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 

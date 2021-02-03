@@ -42,7 +42,6 @@ import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.GlideLoadEngine;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.adapter.SelectPicAdapter;
-import com.shay.baselibrary.dto.Picture;
 import com.shay.baselibrary.dto.Post;
 import com.shay.baselibrary.dto.PostPicInfo;
 import com.shay.baselibrary.dto.result.UploadPicResult;

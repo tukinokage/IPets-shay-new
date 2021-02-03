@@ -1,24 +1,24 @@
 package com.shay.loginandregistermodule.data.entity.params;
 
 public class LoginParam {
-    String name;
-    String password;
+    String userName;
+    String passWord;
     String token;
 
-    public String getName() {
-        return name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassWord() {
+        return passWord;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassWord(String passWord) {
+        this.passWord = passWord;
     }
 
     public String getToken() {
