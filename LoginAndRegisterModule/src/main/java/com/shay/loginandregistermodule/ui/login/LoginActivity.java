@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -83,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(AroutePath.paramName.RESULT_PARAM_NAME);
             //检查手机号码是否注册，存在就登录，不存在注册，并跳转设置密码
             loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
+            Log.d("phoneToken:", confrimPhoneResult.getPhoneToken());
         }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == AroutePath.resultCode.SET_PW_RESULT_CODE){
             boolean result = (boolean) data.getExtras().get(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME);
             if(result){
@@ -131,7 +133,7 @@ public class LoginActivity extends AppCompatActivity {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getErrorMsg().isEmpty()) {
+                if (TextUtils.isEmpty(loginResult.getErrorMsg())) {
                     loginViewModel.saveUserInfo(loginResult.token, loginResult.userId, loginResult.userName);
                     ToastUntil.showToast("欢迎" + loginResult.userName, AppContext.getContext() );
                 }else {
@@ -146,6 +148,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        //手机登录注册请求后
         loginViewModel.getPhoneLoginResult().observe(this, new Observer<PhoneLoginResult>() {
             @Override
             public void onChanged(PhoneLoginResult phoneLoginResult) {
@@ -153,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
                     if(phoneLoginResult.getType() == 0){
                         //新用户
                         //跳转到设置密码
+
                         Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_SET_PWD);
                     }else if(phoneLoginResult.getType() == 1){

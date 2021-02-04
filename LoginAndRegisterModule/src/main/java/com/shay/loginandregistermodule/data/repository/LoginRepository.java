@@ -209,7 +209,7 @@ public class LoginRepository {
     }
 
     private void setCheckPhoneResult(Result result){
-            resultListener.returnResult(result);
+        phoneResultListener.returnResult(result);
         }
 
 

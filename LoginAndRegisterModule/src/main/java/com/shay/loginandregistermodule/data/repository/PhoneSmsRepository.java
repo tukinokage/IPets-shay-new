@@ -2,12 +2,12 @@ package com.shay.loginandregistermodule.data.repository;
 
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.dto.Result;
+import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.myexceptions.MyException;
 import com.shay.loginandregistermodule.data.datasource.PhoneSmsDataSource;
-import com.shay.loginandregistermodule.data.entity.responsedata.AliSmsResponse;
-
+import com.shay.loginandregistermodule.data.entity.responsedata.PhoneReponseData;
+import com.shay.loginandregistermodule.data.entity.responsedata.SmsResponse;
 import java.util.HashMap;
-
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -21,6 +21,7 @@ public class PhoneSmsRepository {
     private PhoneSmsDataSource phoneSmsDataSource;
 
     private SmsResultListener smsResultListener;
+    private SmsResultListener getPhoneTokenResultListener;
 
     public PhoneSmsRepository(PhoneSmsDataSource phoneSmsDataSource){
         this.phoneSmsDataSource = phoneSmsDataSource;
@@ -42,34 +43,43 @@ public class PhoneSmsRepository {
 
    public void sendMs(HashMap<String, Object> paramsMap, final SmsResultListener smsResultListener)throws Exception{
         this.smsResultListener = smsResultListener;
-            phoneSmsDataSource.sendAliApiMsg(paramsMap)
+            phoneSmsDataSource.sendMsg(paramsMap)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<AliSmsResponse>() {
+                    .subscribe(new Observer<BaseResponse<SmsResponse>>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(AliSmsResponse aliSmsResponse) {
+                        public void onNext(BaseResponse<SmsResponse> baseResponse) {
 
-                            try{
-                                if(aliSmsResponse == null){
-                                    throw new MyException("201处理请求结果出错");
+                            Result result = null;
+                            try {
+                                if(baseResponse == null){
+                                    throw new MyException("操作出错");
                                 }
 
-                                if("OK".equals(aliSmsResponse.getCode())){
-                                    setResult(new Result.Success(aliSmsResponse));
+                                if("".equals(baseResponse.getErrorMsg())){
+
+                                    result = new Result.Success(baseResponse.getData());
+
                                 }else {
-                                    throw new MyException("202无法获取验证码");
+                                    throw new MyException("服务器出错：" + baseResponse.getErrorMsg());
                                 }
 
 
-                            } catch (MyException e){
-                                setResult(new Result.Error(e));
-                            } catch (Exception e){
-                                setResult(new Result.Error(new MyException("程序出错203")));
+                            } catch (MyException e) {
+                                e.printStackTrace();
+                                result =new Result.Error(e);
+                            }
+                            catch (Exception e){
+
+                                e.printStackTrace();
+                                result = new Result.Error(new MyException("操作错误"));
+                            }finally {
+                                setResult(result);
                             }
                         }
 
@@ -87,7 +97,66 @@ public class PhoneSmsRepository {
                     });
    }
 
+
+   public void getPhoneToken(HashMap<String, Object> paramsMap, final SmsResultListener getPhoneTokenResultListener)throws Exception{
+        this.getPhoneTokenResultListener = getPhoneTokenResultListener;
+            phoneSmsDataSource.sendPhoneNum(paramsMap)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<BaseResponse<PhoneReponseData>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+
+                        }
+
+                        @Override
+                        public void onNext(BaseResponse<PhoneReponseData> baseResponse) {
+                            Result result = null;
+                            try {
+                                if(baseResponse == null){
+                                    throw new MyException("操作出错");
+                                }
+
+                                if("".equals(baseResponse.getErrorMsg())){
+
+                                    result = new Result.Success(baseResponse.getData());
+
+                                }else {
+                                    throw new MyException("服务器出错：" + baseResponse.getErrorMsg());
+                                }
+
+
+                            } catch (MyException e) {
+                                e.printStackTrace();
+                                result =new Result.Error(e);
+                            }
+                            catch (Exception e){
+
+                                e.printStackTrace();
+                                result = new Result.Error(new MyException("操作错误"));
+                            }finally {
+                                setPhoneTokenResult(result);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                            Result result = RetrofitOnErrorUtil.OnError(e);
+                            setPhoneTokenResult(result);
+                        }
+
+                        @Override
+                        public void onComplete() {
+
+                        }
+                    });
+   }
+
    private void setResult(Result result){
         smsResultListener.getSmsResult(result);
+   }
+   private void setPhoneTokenResult(Result result){
+       getPhoneTokenResultListener.getSmsResult(result);
    }
 }

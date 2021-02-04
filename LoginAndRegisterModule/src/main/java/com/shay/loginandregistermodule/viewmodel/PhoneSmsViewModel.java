@@ -14,6 +14,10 @@ import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.entity.params.AliSmsRequestParam;
 import com.shay.loginandregistermodule.data.entity.params.ConfrimPhoneNumParam;
 import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
+import com.shay.loginandregistermodule.data.entity.params.SendMsgParam;
+import com.shay.loginandregistermodule.data.entity.responsedata.PhoneReponseData;
+import com.shay.loginandregistermodule.data.entity.responsedata.SmsResponse;
+import com.shay.loginandregistermodule.data.entity.result.ComfrimPhoneResult;
 import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.data.repository.PhoneSmsRepository;
 
@@ -38,20 +42,12 @@ public class PhoneSmsViewModel extends ViewModel {
         return confrimPhoneResultMutableLiveData;
     }
 
-    class SmsAsyncTask extends AsyncTask<AliSmsRequestParam, Integer, Exception>{
+    class SmsAsyncTask extends AsyncTask<SendMsgParam, Integer, Exception>{
 
         @Override
-        protected Exception doInBackground(AliSmsRequestParam... aliSmsRequestParams) {
-            AliSmsRequestParam param = aliSmsRequestParams[0];
+        protected Exception doInBackground(SendMsgParam... sendMsgParams) {
+            SendMsgParam param = sendMsgParams[0];
 
-            Random random = new Random();
-            int codeInt = random.nextInt(8999) + 1000;
-
-            //request params
-            codeParam = String.valueOf(codeInt);
-            param.setTemplateParam(codeParam);
-            param.setTemplateCode(AliApiParams.SmsApi.TEMPLATE_CODE_LOGINRESGISTER);
-            param.setSignName(AliApiParams.SmsApi.SIGN_NAME);
             String gsonParam = new Gson().toJson(param);
             HashMap<String, Object> map = new Gson().fromJson(gsonParam, HashMap.class);
 
@@ -60,7 +56,8 @@ public class PhoneSmsViewModel extends ViewModel {
 
                     //主线程
                     if(result instanceof Result.Success){
-                        smsResultLiveData.setValue(new SmsResultStauts(){{setScertCode(codeParam);}});
+                        SmsResultStauts smsResultStauts = new SmsResultStauts();
+                        smsResultLiveData.setValue(smsResultStauts);
                     }else{
                         String msg = ((Result.Error)result).getErrorMsg();
                         smsResultLiveData.setValue(new SmsResultStauts(){{setErrorMsg(msg);}});
@@ -92,12 +89,24 @@ public class PhoneSmsViewModel extends ViewModel {
         @Override
         protected Exception doInBackground(ConfrimPhoneNumParam... confrimPhoneNumParams) {
             try {
-
                 ConfrimPhoneNumParam confrimPhoneNumParam = confrimPhoneNumParams[0];
                 Gson gson = new Gson();
                 String json = gson.toJson(confrimPhoneNumParam);
                 HashMap<String, Object> paramHashMap = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+                phoneSmsRepository.getPhoneToken(paramHashMap, new PhoneSmsRepository.SmsResultListener() {
+                    @Override
+                    public void getSmsResult(Result result) {
+                        ConfrimPhoneResult phoneResult = new ConfrimPhoneResult();
+                        if(result instanceof Result.Error){
+                            phoneResult.setErrorMsg(((Result.Error) result).getErrorMsg());
+                        }else if(result instanceof Result.Success){
+                            PhoneReponseData phoneReponseData = (PhoneReponseData) ((Result.Success) result).getData();
+                            phoneResult.setPhoneToken(phoneReponseData.getPhoneToken());
+                        }
 
+                        confrimPhoneResultMutableLiveData.setValue(phoneResult);
+                    }
+                });
                 /**
                  *
                  * **/
@@ -122,9 +131,9 @@ public class PhoneSmsViewModel extends ViewModel {
 
     public void sendSms(String phonenum){
        smsAsyncTask = (SmsAsyncTask) asyncTaskFactory.createAsyncTask(new SmsAsyncTask());
-       AliSmsRequestParam aliSmsRequestParam = new AliSmsRequestParam();
-       aliSmsRequestParam.setPhoneNumbers(phonenum);
-       smsAsyncTask.execute(aliSmsRequestParam);
+        SendMsgParam param = new SendMsgParam();
+        param.setPhoneNum(phonenum);
+       smsAsyncTask.execute(param);
     }
 
     public void confrimPhone(String phoneNum, String code){

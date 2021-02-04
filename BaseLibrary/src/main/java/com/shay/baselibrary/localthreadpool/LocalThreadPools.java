@@ -2,6 +2,7 @@ package com.shay.baselibrary.localthreadpool;
 
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.shay.baselibrary.AppContext;
@@ -102,6 +103,11 @@ public class LocalThreadPools {
         }
 
         return instance;
+    }
+
+
+    public  <T> void executeAsyncTask (AsyncTask asyncTask, T... objects){
+        asyncTask.executeOnExecutor(THREAD_POOL_EXECUTOR, objects);
     }
 
 

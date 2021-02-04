@@ -114,21 +114,17 @@ public class LoginViewModel extends ViewModel {
             HashMap<String, Object> param = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
 
             try {
-                loginRepository.checkPhone(param, new LoginRepository.ResultListener() {
-                    @Override
+                //主线程
+                loginRepository.checkPhone(param, result -> {
+                    if (result instanceof Result.Success) {
+                        CheckPhoneRepData data = (CheckPhoneRepData) ((Result.Success) result).getData();
+                        saveUserInfo(data.getToken(), data.getUserId(), data.getUserName());
 
-                    //主线程
-                    public void returnResult(Result result) {
-                        if (result instanceof Result.Success) {
-                            CheckPhoneRepData data = (CheckPhoneRepData) ((Result.Success) result).getData();
-                            saveUserInfo(data.getToken(), data.getUserId(), data.getUserName());
-
-                            phoneLoginResult.setValue(new PhoneLoginResult(){{setType(data.getUserType()); }});
-                        } else {
-                            PhoneLoginResult phoneResult = new PhoneLoginResult();
-                            phoneResult.setErrorMsg(((Result.Error) result).getErrorMsg());
-                            phoneLoginResult.setValue(phoneResult);
-                        }
+                        phoneLoginResult.setValue(new PhoneLoginResult(){{setType(data.getUserType()); }});
+                    } else {
+                        PhoneLoginResult phoneResult = new PhoneLoginResult();
+                        phoneResult.setErrorMsg(((Result.Error) result).getErrorMsg());
+                        phoneLoginResult.setValue(phoneResult);
                     }
                 });
                 return null;
