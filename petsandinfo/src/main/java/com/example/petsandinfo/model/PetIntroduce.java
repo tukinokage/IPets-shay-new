@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class PetIntroduce implements Serializable {
     private String petId;
-    rpiavte
     private String petStory;
     private String petAttention;
     private String headImgName;

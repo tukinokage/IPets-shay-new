@@ -12,7 +12,7 @@ import io.reactivex.Observable;
 public class LoadPetListDataSource {
     public Observable<BaseResponse<List<Pet>>> loadPetList(HashMap<String, Object> paramsMap){
         PetListService petListService =  new HttpUtil()
-                .getService(PetListService.class, UrlUtil.PET_URL.GET_PET_LIST_URL);
+                .getService(PetListService.class, UrlUtil.BASE_URL.BASE_URL);
         Observable<BaseResponse<List<Pet>>> result = petListService.loadPetsListData(paramsMap);
         return  result;
     }

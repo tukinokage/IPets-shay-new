@@ -28,14 +28,19 @@ public class PlaceHolderViewModel extends ViewModel {
     private MutableLiveData<List<String>> shapeLevelSelection = new MutableLiveData<>();
     private MutableLiveData<List<String>> rankTypeSelection = new MutableLiveData<>();
 
-
-
     private MutableLiveData<PetListLoadResult> petListLoadResultLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<List<Pet>> petListLiveData = new MutableLiveData<>();
 
     private LoadPetListRepository loadPetListRepository;
 
     private LoadPetListAsyncTask loadPetListAsyncTask;
+    private LoadMorePetListAsyncTask morePetListAsyncTask;
     private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
+    private final int perPagerCount = 15;
+    private int currentPagerNum = 1;
+
+    private List<Pet> currentPetList = new ArrayList<>();
 
     public class LoadPetListAsyncTask extends AsyncTask<LoadPetCondition, String, String>{
 
@@ -54,10 +59,44 @@ public class PlaceHolderViewModel extends ViewModel {
                     petListLoadResult.setErrorMsg(errorResult.getError().getMessage());
                     petListLoadResultLiveData.setValue(petListLoadResult);
                 }else if(result instanceof Result.Success){
+                    currentPagerNum = 1;
                     Result.Success successResult = (Result.Success<List<Pet>>) result;
+                    currentPetList.clear();
+                    currentPetList.addAll((List<Pet>) successResult.getData());
+                }
+
+            });
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+    public class LoadMorePetListAsyncTask extends AsyncTask<LoadPetCondition, String, String>{
+
+        @Override
+        protected String doInBackground(LoadPetCondition... loadPetConditions) {
+            LoadPetCondition loadPetCondition = loadPetConditions[0];
+            String json = new Gson().toJson(loadPetCondition);
+            HashMap<String, Object> paramsMap = new Gson().fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+
+            loadPetListRepository.loadPetList(paramsMap, result -> {
+
+                //rxjava回调在主线程
+                if(result instanceof Result.Error){
+                    Result.Error errorResult = (Result.Error) result;
                     PetListLoadResult petListLoadResult = new PetListLoadResult();
-                    petListLoadResult.setData((List<Pet>) successResult.getData());
+                    petListLoadResult.setErrorMsg(errorResult.getError().getMessage());
                     petListLoadResultLiveData.setValue(petListLoadResult);
+                }else if(result instanceof Result.Success){
+                    currentPagerNum ++;
+                    Result.Success successResult = (Result.Success<List<Pet>>) result;
+                    currentPetList.addAll((List<Pet>) successResult.getData());
+                    petListLiveData.setValue(currentPetList);
                 }
 
             });
@@ -76,7 +115,9 @@ public class PlaceHolderViewModel extends ViewModel {
         this.loadPetListRepository = loadPetListRepository;
     }
 
-
+    public MutableLiveData<List<Pet>> getpetListLiveData() {
+        return petListLiveData;
+    }
     public LiveData<PetListLoadResult> getPetListLoadResultLiveData() {
         return petListLoadResultLiveData;
     }
@@ -133,8 +174,23 @@ public class PlaceHolderViewModel extends ViewModel {
         loadPetCondition.setShapeLevel(shapeLevel);
         loadPetCondition.setRankType(rankType);
         loadPetCondition.setPetClass(petClass);
+        loadPetCondition.setCurrentPageNum(1);
+        loadPetCondition.setPerPageCount(perPagerCount);
         loadPetListAsyncTask = (LoadPetListAsyncTask) asyncTaskFactory.createAsyncTask(new LoadPetListAsyncTask());
         loadPetListAsyncTask.execute(loadPetCondition);
+    }
+
+    public void loadMore(int shapeLevel, int fetchLevel, int rankType, int petClass){
+
+        LoadPetCondition loadPetCondition = new LoadPetCondition();
+        loadPetCondition.setFetchLevel(fetchLevel);
+        loadPetCondition.setShapeLevel(shapeLevel);
+        loadPetCondition.setRankType(rankType);
+        loadPetCondition.setPetClass(petClass);
+        loadPetCondition.setCurrentPageNum(currentPagerNum);
+        loadPetCondition.setPerPageCount(perPagerCount);
+        morePetListAsyncTask = (LoadMorePetListAsyncTask) asyncTaskFactory.createAsyncTask(new LoadMorePetListAsyncTask());
+        morePetListAsyncTask.execute(loadPetCondition);
     }
 
     public void cancelAsync(){

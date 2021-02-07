@@ -13,9 +13,7 @@ import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.loginandregistermodule.data.entity.params.SetPwRequestParam;
 import com.shay.loginandregistermodule.data.entity.result.SetPwResult;
 import com.shay.loginandregistermodule.data.repository.SetPwRepository;
-
 import java.util.HashMap;
-import java.util.Set;
 
 public class SetPasswordViewModel extends ViewModel {
     private MutableLiveData<SetPwResult> setPwResultMutableLiveData = new MutableLiveData<>();
@@ -45,7 +43,7 @@ public class SetPasswordViewModel extends ViewModel {
                     public void getResult(Result result) {
                         if(result instanceof Result.Error){
                             setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg(((Result.Error) result).getErrorMsg());}});
-                        }else {
+                        } else {
                             setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg("");}});
                         }
                     }

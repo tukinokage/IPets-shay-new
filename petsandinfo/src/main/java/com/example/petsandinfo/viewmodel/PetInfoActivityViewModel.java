@@ -14,19 +14,27 @@ import com.example.petsandinfo.entity.Conditions.LoadPetHospitalCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetIntroductionCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetPicCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetStoreCondition;
+import com.example.petsandinfo.entity.PetInfoImg;
 import com.example.petsandinfo.entity.result.LoadHospitalResult;
 import com.example.petsandinfo.entity.result.LoadIntroduceResult;
 import com.example.petsandinfo.entity.result.LoadPetPicNameResult;
 import com.example.petsandinfo.entity.result.LoadStoreResult;
+import com.example.petsandinfo.entity.result.PetListLoadResult;
+import com.example.petsandinfo.model.Hospital;
+import com.example.petsandinfo.model.PetIntroduce;
+import com.example.petsandinfo.model.Store;
 import com.example.petsandinfo.repository.PetInfoRepository;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
+import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class PetInfoActivityViewModel extends ViewModel {
     private MutableLiveData<LoadIntroduceResult> introduceResultMutableLiveData = new MutableLiveData<>();
@@ -55,7 +63,37 @@ public class PetInfoActivityViewModel extends ViewModel {
             Gson gson = new Gson();
             String json = gson.toJson(loadPetPicCondition);
             HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
-            return null;
+            try {
+                petInfoRepository.loadPetPicNameList(params, new PetInfoRepository.PetPicNameListResultListener() {
+                    @Override
+                    public void getResult(Result result) {
+                        //
+                        LoadPetPicNameResult petPicNameResult = new LoadPetPicNameResult();
+                        if(result instanceof Result.Error){
+                            Result.Error errorResult;
+                            errorResult = (Result.Error) result;
+                            petPicNameResult.setErrorMsg(errorResult.getErrorMsg());
+                        }else if(result instanceof Result.Success){
+                            Result.Success successResult = (Result.Success<PetInfoImg>) result;
+                            petPicNameResult.setData(successResult.getData());
+                        }
+
+                        loadPetPicNameResultMutableLiveData.setValue(petPicNameResult);
+                    }
+                });
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "应用出错";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s != null){
+                loadPetPicNameResultMutableLiveData.setValue(new LoadPetPicNameResult(){{setErrorMsg(s);}});
+            }
         }
     }
 
@@ -64,11 +102,41 @@ public class PetInfoActivityViewModel extends ViewModel {
         @Override
         protected String doInBackground(LoadPetIntroductionCondition... loadPetIntroductionConditions) {
             LoadPetIntroductionCondition loadPetIntroductionCondition = loadPetIntroductionConditions[0];
-            Gson gson = new Gson();
-            String json = gson.toJson(loadPetIntroductionCondition);
-            HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+            try {
+                Gson gson = new Gson();
+                String json = gson.toJson(loadPetIntroductionCondition);
 
-            return null;
+                HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+                petInfoRepository.loadPetIntroduce(params, new PetInfoRepository.PetIntroduceResultListener() {
+                    @Override
+                    public void getResult(Result result) {
+                        //rxjava回调在主线程
+                        LoadIntroduceResult loadIntroduceResult = new LoadIntroduceResult();
+                        if(result instanceof Result.Error){
+                            Result.Error errorResult = (Result.Error) result;
+                            loadIntroduceResult.setErrorMsg(errorResult.getErrorMsg());
+                        }else if(result instanceof Result.Success){
+                            Result.Success successResult = (Result.Success<PetIntroduce>) result;
+                            loadIntroduceResult.setData((PetIntroduce) successResult.getData());
+                        }
+
+                        introduceResultMutableLiveData.setValue(loadIntroduceResult);
+                    }
+                });
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "应用出错";
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s != null){
+                introduceResultMutableLiveData.setValue(new LoadIntroduceResult(){{setErrorMsg(s);}} );
+            }
         }
     }
 
@@ -77,15 +145,41 @@ public class PetInfoActivityViewModel extends ViewModel {
         protected String doInBackground(LoadPetHospitalCondition... LoadPetHospitalConditions) {
             LoadPetHospitalCondition petHospitalCondition = LoadPetHospitalConditions[0];
             Gson gson = new Gson();
-            String json = gson.toJson(petHospitalCondition);
-            HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
-            petInfoRepository.loadPetHospital(params, new PetInfoRepository.PetHospitalResultListener() {
-                @Override
-                public void getResult(Result result) {
 
-                }
-            });
-            return null;
+            try {
+                String json = gson.toJson(petHospitalCondition);
+                HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+                petInfoRepository.loadPetHospital(params, new PetInfoRepository.PetHospitalResultListener() {
+                    @Override
+                    public void getResult(Result result) {
+                        //rxjava回调在主线程
+                        LoadHospitalResult loadHospitalResult = new LoadHospitalResult();
+                        if(result instanceof Result.Error){
+                            Result.Error errorResult = (Result.Error) result;
+                            loadHospitalResult.setErrorMsg(errorResult.getErrorMsg());
+
+                        }else if(result instanceof Result.Success){
+                            Result.Success successResult = (Result.Success<List<Hospital>>) result;
+                           loadHospitalResult.setData((List<Hospital>) successResult.getData());
+                        }
+
+                        loadHospitalResultMutableLiveData.setValue(loadHospitalResult);
+                    }
+                });
+                return null;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "应用出错";
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s != null){
+                loadHospitalResultMutableLiveData.setValue(new LoadHospitalResult(){{setErrorMsg(s);}});
+            }
         }
     }
 
@@ -95,10 +189,38 @@ public class PetInfoActivityViewModel extends ViewModel {
         protected String doInBackground(LoadPetStoreCondition... loadPetStoreConditions) {
             LoadPetStoreCondition loadPetStoreCondition = loadPetStoreConditions[0];
             Gson gson = new Gson();
-            String json = gson.toJson(loadPetStoreCondition);
-            HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+            try{
+                    String json = gson.toJson(loadPetStoreCondition);
+                    HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+                    petInfoRepository.loadPetStore(params, new PetInfoRepository.PetStoreResultListener() {
+                        @Override
+                        public void getResult(Result result) {
+                            //rxjava回调在主线程
+                            LoadStoreResult loadStoreResult = new LoadStoreResult();
+                            if(result instanceof Result.Error){
+                                Result.Error errorResult = (Result.Error) result;
+                                loadStoreResult.setErrorMsg(errorResult.getErrorMsg());
 
-            return null;
+                            }else if(result instanceof Result.Success){
+                                Result.Success successResult = (Result.Success<List<Store>>) result;
+                                 loadStoreResult.setData((List<Store>) successResult.getData());
+                            }
+                            loadStoreResultMutableLiveData.setValue(loadStoreResult);
+                        }
+                    });
+                    return null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "应用出错";
+                }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s != null){
+                loadStoreResultMutableLiveData.setValue(new LoadStoreResult(){{setErrorMsg(s);}});
+            }
         }
     }
 

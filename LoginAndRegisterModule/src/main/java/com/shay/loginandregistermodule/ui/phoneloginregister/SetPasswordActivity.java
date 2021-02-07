@@ -89,6 +89,7 @@ public class SetPasswordActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if(s.length() < 6){
+
                     confrimBtn.setEnabled(false);
                     return;
                 }
@@ -153,5 +154,6 @@ public class SetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        setPasswordViewModel.cancelAsyncTask();
     }
 }

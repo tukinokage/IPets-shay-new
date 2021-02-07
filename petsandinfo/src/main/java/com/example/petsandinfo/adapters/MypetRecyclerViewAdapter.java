@@ -43,7 +43,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
         View  view = null;
         if(viewType == FOOT_ITEM){
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.pet_list_foot_view_layout, parent, false);
+                    .inflate(R.layout.foot_item_layout, parent, false);
             viewHolder = new FootViewHolder(view);
         }else if(viewType == NORMAL_ITEM){
             view = LayoutInflater.from(parent.getContext())

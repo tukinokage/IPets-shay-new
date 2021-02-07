@@ -7,6 +7,24 @@ public class LoadPetCondition implements Serializable {
     int fetchLevel;
     int rankType;
     int petClass;
+    int perPageCount;
+    int currentPageNum;
+
+    public int getPerPageCount() {
+        return perPageCount;
+    }
+
+    public void setPerPageCount(int perPageCount) {
+        this.perPageCount = perPageCount;
+    }
+
+    public int getCurrentPageNum() {
+        return currentPageNum;
+    }
+
+    public void setCurrentPageNum(int currentPageNum) {
+        this.currentPageNum = currentPageNum;
+    }
 
     public int getShapeLevel() {
         return shapeLevel;

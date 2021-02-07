@@ -46,7 +46,7 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    LoginViewModel loginViewModel;
     @BindView(R.id.login_activity_phone_linearLayout)
     LinearLayout phoneLayout;
     @BindView(R.id.login_activity_weibo_linearLayout)
@@ -118,8 +118,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onChanged(SPSaveUserResult spSaveUserResult) {
                 if(TextUtils.isEmpty(spSaveUserResult.getErrorMsg())){
-                    setResult(Activity.RESULT_OK);
                     ToastUntil.showToast("＼＼登录成功／／", AppContext.getContext() );
+                    setResult(Activity.RESULT_OK);
                 }else {
                     ToastUntil.showToast("信息保存失败，重新登陆吧", AppContext.getContext() );
                 }
@@ -156,7 +156,6 @@ public class LoginActivity extends AppCompatActivity {
                     if(phoneLoginResult.getType() == 0){
                         //新用户
                         //跳转到设置密码
-
                         Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
                         startActivityForResult(intent, REQUEST_CODE_SET_PWD);
                     }else if(phoneLoginResult.getType() == 1){
@@ -235,17 +234,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         /*************************************/
-
-    }
-
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -202,7 +202,7 @@ public class BBSMainActivity extends AppCompatActivity {
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
-                            bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
+                            bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
                         }else {
                             ToastUntil.showToast("已无更多 ", AppContext.getContext());
                         }
