@@ -1,5 +1,7 @@
 package com.example.petsandinfo.datasource;
 
+import com.example.petsandinfo.entity.response.CheckIsStarResponse;
+import com.example.petsandinfo.entity.response.StarPetResponse;
 import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.model.Store;
 import com.example.petsandinfo.services.PetInfoService;
@@ -38,6 +40,18 @@ public class PetInfoDataSource {
     public Observable<BaseResponse<List<Hospital>>> loadPetHospital(HashMap<String, Object> paramsMasp){
         PetInfoService petInfoService = new HttpUtil().getService(PetInfoService.class, UrlUtil.BASE_URL.BASE_URL);
         return petInfoService.getPetHospitalList(paramsMasp);
+    }
+
+    //star
+    public Observable<BaseResponse<StarPetResponse>> starPet(HashMap<String, Object> paramsMasp){
+        PetInfoService petInfoService = new HttpUtil().getService(PetInfoService.class, UrlUtil.BASE_URL.BASE_URL);
+        return petInfoService.starPet(paramsMasp);
+    }
+
+    //checkstar
+    public Observable<BaseResponse<CheckIsStarResponse>> checkPet(HashMap<String, Object> paramsMasp){
+        PetInfoService petInfoService = new HttpUtil().getService(PetInfoService.class, UrlUtil.BASE_URL.BASE_URL);
+        return petInfoService.checkStar(paramsMasp);
     }
 
 }

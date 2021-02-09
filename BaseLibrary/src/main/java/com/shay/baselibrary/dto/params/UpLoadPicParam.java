@@ -5,6 +5,15 @@ public class UpLoadPicParam {
     private String uri;
     private String token;
     private int index;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public int getIndex() {
         return index;

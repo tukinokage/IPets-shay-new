@@ -26,8 +26,9 @@ import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.UserInfo;
-import com.shay.baselibrary.picUtils.LoadLocalPic;
+import com.shay.baselibrary.UserInfoUtil.*;
 import com.wildma.pictureselector.PictureSelector;
+
 
 
 import butterknife.BindView;
@@ -75,7 +76,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
     private void init() {
         try {
             //初始化个人信息
-            userInfoViewModel.getMyInfo();
+            userInfoViewModel.getMyInfo(UserInfoUtil.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
             ToastUntil.showToast("获取个人信息出错", AppContext.getContext());

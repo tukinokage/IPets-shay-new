@@ -6,6 +6,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.petsandinfo.datasource.PetInfoDataSource;
+import com.example.petsandinfo.entity.response.CheckIsStarResponse;
+import com.example.petsandinfo.entity.response.StarPetResponse;
 import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.model.Store;
 import com.shay.baselibrary.AppContext;
@@ -34,6 +36,8 @@ public class PetInfoRepository {
     private PetPicNameListResultListener petPicNameListResultListener;
     private PetHospitalResultListener petHospitalResultListener;
     private PetStoreResultListener petStoreResultListener;
+    private StarResultListener starPetResultListener;
+    private StarResultListener checkStarPetResultListener;
 
     public PetInfoRepository(PetInfoDataSource petInfoDataSource) {
         this.petInfoDataSource = petInfoDataSource;
@@ -46,14 +50,6 @@ public class PetInfoRepository {
         return instance;
     }
 
-    public void loadHeadIcon(String picName){
-        Glide.with(AppContext.getContext()).load(UrlUtil.PET_PIC_URL.HEAD_ICON_URL + picName).into(new SimpleTarget<Drawable>() {
-            @Override
-            public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-
-            }
-        });
-    }
 
     public void loadPetHospital(HashMap<String, Object> params, PetHospitalResultListener petHospitalResultListener){
         this.petHospitalResultListener = petHospitalResultListener;
@@ -69,13 +65,13 @@ public class PetInfoRepository {
                     @Override
                     public void onNext(BaseResponse<List<Hospital>> listBaseResponse) {
                         Result result = RetrofitOnResponseUtil.parseBaseResponse(listBaseResponse);
-                        setPicNameResult(result);
+                        setPetHospitalResult(result);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Result result = RetrofitOnErrorUtil.OnError(e);
-                        setPicNameResult(result);
+                        setPetHospitalResult(result);
                     }
 
                     @Override
@@ -99,13 +95,13 @@ public class PetInfoRepository {
                     @Override
                     public void onNext(BaseResponse<List<Store>> listBaseResponse) {
                         Result result = RetrofitOnResponseUtil.parseBaseResponse(listBaseResponse);
-                        setPicNameResult(result);
+                        setPetStoreResult(result);
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Result result = RetrofitOnErrorUtil.OnError(e);
-                        setPicNameResult(result);
+                        setPetStoreResult(result);
                     }
 
                     @Override
@@ -179,6 +175,70 @@ public class PetInfoRepository {
 
     }
 
+    public void starPet(HashMap<String, Object> params, StarResultListener starPetResultListener){
+
+        this.starPetResultListener = starPetResultListener;
+        petInfoDataSource.starPet(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<StarPetResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<StarPetResponse> starPetResponseBaseResponse) {
+                        Result result = RetrofitOnResponseUtil.parseBaseResponse(starPetResponseBaseResponse);
+                        setStarPetResult(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Result result = RetrofitOnErrorUtil.OnError(e);
+                        setStarPetResult(result);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
+    public void checkStarPet(HashMap<String, Object> params, StarResultListener checkStarPetResultListener){
+
+        this.checkStarPetResultListener = checkStarPetResultListener;
+        petInfoDataSource.checkPet(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<CheckIsStarResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<CheckIsStarResponse> checkIsStarResponseBaseResponse) {
+                        Result result = RetrofitOnResponseUtil.parseBaseResponse(checkIsStarResponseBaseResponse);
+                        setCheckStarPetResult(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Result result = RetrofitOnErrorUtil.OnError(e);
+                        setCheckStarPetResult(result);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
+
     //回调监听,可做聚合操作
     private void setResult(Result result){
         petIntroduceResultListener.getResult(result);
@@ -196,6 +256,14 @@ public class PetInfoRepository {
         petStoreResultListener.getResult(result);
     }
 
+    private void setStarPetResult(Result result){
+        starPetResultListener.getResult(result);
+    }
+
+    private void setCheckStarPetResult(Result result){
+        checkStarPetResultListener.getResult(result);
+    }
+
     public interface PetIntroduceResultListener{
         void getResult(Result result);
     }
@@ -209,6 +277,10 @@ public class PetInfoRepository {
     }
 
     public interface PetStoreResultListener{
+        void getResult(Result result);
+    }
+
+    public interface StarResultListener{
         void getResult(Result result);
     }
 }

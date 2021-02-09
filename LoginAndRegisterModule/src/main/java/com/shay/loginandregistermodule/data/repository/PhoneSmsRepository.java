@@ -41,7 +41,7 @@ public class PhoneSmsRepository {
          void getSmsResult(Result result);
    }
 
-   public void sendMs(HashMap<String, Object> paramsMap, final SmsResultListener smsResultListener)throws Exception{
+   public void sendMs(HashMap<String, Object> paramsMap, final SmsResultListener smsResultListener) throws Exception{
         this.smsResultListener = smsResultListener;
             phoneSmsDataSource.sendMsg(paramsMap)
                     .subscribeOn(Schedulers.io())

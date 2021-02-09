@@ -1,5 +1,7 @@
 package com.shay.ipets.repository;
 
+import android.text.TextUtils;
+
 import com.google.gson.Gson;
 import com.shay.baselibrary.FileTransfromUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
@@ -20,6 +22,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 public class PostRepository {
@@ -81,12 +84,13 @@ public class PostRepository {
         File file = new File(infoParam.getUri());
 
         infoParam.setToken(UserInfoUtil.getUserToken());
+        infoParam.setUserId(UserInfoUtil.getUserId());
 
         String json = new Gson().toJson(infoParam);
         byte[] bs = FileTransfromUtil.File2byte(file);
-        ResponseBody responseText = ResponseBody.create(MediaType.parse("text/plain"), json);
-        ResponseBody responsePic = ResponseBody.create(MediaType.parse("image/*"), bs);
-        HashMap<String, ResponseBody> hashMap = new HashMap<>();
+        RequestBody responseText = RequestBody.create(MediaType.parse("text/plain"), json);
+        RequestBody responsePic = RequestBody.create(MediaType.parse("image/*"), bs);
+        HashMap<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("info", responseText);
         hashMap.put("file", responsePic);
         postDatasource.uploadPic(hashMap)

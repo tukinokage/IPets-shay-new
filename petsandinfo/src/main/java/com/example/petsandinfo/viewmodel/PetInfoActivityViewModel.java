@@ -15,21 +15,24 @@ import com.example.petsandinfo.entity.Conditions.LoadPetIntroductionCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetPicCondition;
 import com.example.petsandinfo.entity.Conditions.LoadPetStoreCondition;
 import com.example.petsandinfo.entity.PetInfoImg;
+import com.example.petsandinfo.entity.params.CheckIsStarParam;
+import com.example.petsandinfo.entity.params.StarPetParam;
+import com.example.petsandinfo.entity.response.CheckIsStarResponse;
+import com.example.petsandinfo.entity.result.CheckPetIsStarResult;
 import com.example.petsandinfo.entity.result.LoadHospitalResult;
 import com.example.petsandinfo.entity.result.LoadIntroduceResult;
 import com.example.petsandinfo.entity.result.LoadPetPicNameResult;
 import com.example.petsandinfo.entity.result.LoadStoreResult;
-import com.example.petsandinfo.entity.result.PetListLoadResult;
+import com.example.petsandinfo.entity.result.StartPetResult;
 import com.example.petsandinfo.model.Hospital;
 import com.example.petsandinfo.model.PetIntroduce;
 import com.example.petsandinfo.model.Store;
 import com.example.petsandinfo.repository.PetInfoRepository;
 import com.google.gson.Gson;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
-import com.shay.baselibrary.dto.Pet;
+import com.shay.baselibrary.UserInfoUtil.*;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 
@@ -41,6 +44,18 @@ public class PetInfoActivityViewModel extends ViewModel {
     private MutableLiveData<LoadStoreResult> loadStoreResultMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<LoadHospitalResult> loadHospitalResultMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<LoadPetPicNameResult> loadPetPicNameResultMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<StartPetResult> startPetResultMutableLiveData = new MutableLiveData<>();
+
+    public MutableLiveData<StartPetResult> getStartPetResultMutableLiveData() {
+        return startPetResultMutableLiveData;
+    }
+
+
+    public MutableLiveData<CheckPetIsStarResult> getCheckPetIsStarResultMutableLiveData() {
+        return checkPetIsStarResultMutableLiveData;
+    }
+
+    private MutableLiveData<CheckPetIsStarResult> checkPetIsStarResultMutableLiveData = new MutableLiveData<>();
 
     private MutableLiveData<Drawable> bitmapMutableLiveData = new MutableLiveData<>();
 
@@ -50,6 +65,8 @@ public class PetInfoActivityViewModel extends ViewModel {
     LoadPetHospitalAsyncTask loadPetHospitalAsyncTask;
     LoadPetIntroAsyncTask loadPetIntroAsyncTask;
     LoadPetStoreAsyncTask loadPetStoreAsyncTask;
+    CheckStarAsyncTask checkStarAsyncTask;
+    StarPetAsyncTask starPetAsyncTask;
 
     public PetInfoActivityViewModel(PetInfoRepository petInfoRepository) {
         this.petInfoRepository = petInfoRepository;
@@ -75,7 +92,8 @@ public class PetInfoActivityViewModel extends ViewModel {
                             petPicNameResult.setErrorMsg(errorResult.getErrorMsg());
                         }else if(result instanceof Result.Success){
                             Result.Success successResult = (Result.Success<PetInfoImg>) result;
-                            petPicNameResult.setData(successResult.getData());
+                            PetInfoImg petInfoImg = (PetInfoImg) successResult.getData();
+                            petPicNameResult.setData(petInfoImg.getImgList());
                         }
 
                         loadPetPicNameResultMutableLiveData.setValue(petPicNameResult);
@@ -224,6 +242,82 @@ public class PetInfoActivityViewModel extends ViewModel {
         }
     }
 
+    private class CheckStarAsyncTask extends AsyncTask<CheckIsStarParam, String, String>{
+
+        @Override
+        protected String doInBackground(CheckIsStarParam... checkIsStarParams) {
+            Gson gson = new Gson();
+            try{
+                    String json = gson.toJson(checkIsStarParams[0]);
+                    HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+                    petInfoRepository.checkStarPet(params, new PetInfoRepository.StarResultListener() {
+                        @Override
+                        public void getResult(Result result) {
+                            //rxjava回调在主线程
+                            CheckPetIsStarResult checkPetIsStarResult = new CheckPetIsStarResult();
+                            if(result instanceof Result.Error){
+                                Result.Error errorResult = (Result.Error) result;
+                                checkPetIsStarResult.setErrorMsg(errorResult.getErrorMsg());
+
+                            }else if(result instanceof Result.Success){
+                                Result.Success successResult = (Result.Success<List<Store>>) result;
+                                CheckIsStarResponse checkIsStarResponse = (CheckIsStarResponse) successResult.getData();
+                                checkPetIsStarResult.setStar(checkIsStarResponse.isStar());
+                            }
+                            checkPetIsStarResultMutableLiveData.setValue(checkPetIsStarResult);
+                        }
+                    });
+                    return null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "应用出错";
+                }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s != null){
+                checkPetIsStarResultMutableLiveData.setValue(new CheckPetIsStarResult(){{setErrorMsg(s);}});
+            }
+        }
+    }
+
+    private class StarPetAsyncTask extends AsyncTask<StarPetParam, String, String>{
+
+        @Override
+        protected String doInBackground(StarPetParam... starPetParams) {
+            Gson gson = new Gson();
+            try{
+                    String json = gson.toJson(starPetParams[0]);
+                    HashMap<String, Object> params = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
+                    petInfoRepository.starPet(params, result -> {
+                        //rxjava回调在主线程
+                        StartPetResult startPetResult = new StartPetResult();
+                        if(result instanceof Result.Error){
+                            Result.Error errorResult = (Result.Error) result;
+                            startPetResult.setErrorMsg(errorResult.getErrorMsg());
+
+                        }else if(result instanceof Result.Success){
+                        }
+                        startPetResultMutableLiveData.setValue(startPetResult);
+                    });
+                    return null;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "应用出错";
+                }
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            if(s != null){
+                startPetResultMutableLiveData.setValue(new StartPetResult(){{setErrorMsg(s);}});
+            }
+        }
+    }
+
 
 
     /***************************MUTABLELIVEDATA GETTER**************************/
@@ -271,6 +365,21 @@ public class PetInfoActivityViewModel extends ViewModel {
         loadPetStoreAsyncTask.execute(condition);
     }
 
+    public void checkIsStar(String petId) throws Exception {
+        checkStarAsyncTask = (CheckStarAsyncTask) asyncTaskFactory.createAsyncTask(new CheckStarAsyncTask());
+        CheckIsStarParam checkIsStarParam = new CheckIsStarParam();
+        checkIsStarParam.setPetId(petId);
+        checkIsStarParam.setUserId(UserInfoUtil.getUserId());
+        checkStarAsyncTask.execute();
+    }
+    public void starPet(String petId) throws Exception {
+       starPetAsyncTask = (StarPetAsyncTask) asyncTaskFactory.createAsyncTask(new StarPetAsyncTask());
+       StarPetParam starPetParam = new StarPetParam();
+       starPetParam.setPetId(petId);
+       starPetParam.setUserId(UserInfoUtil.getUserId());
+        starPetAsyncTask.execute(starPetParam);
+    }
+
     //单独图片单独获取
     public void loadHeadPic(String picName){
          Glide.with(AppContext.getContext()).load(UrlUtil.PET_PIC_URL.HEAD_ICON_URL + picName).into(new SimpleTarget<Drawable>() {
@@ -280,6 +389,7 @@ public class PetInfoActivityViewModel extends ViewModel {
             }
         });
     }
+
 
     public void cancelAsyncTask(){
         asyncTaskFactory.cancelAsyncTask();

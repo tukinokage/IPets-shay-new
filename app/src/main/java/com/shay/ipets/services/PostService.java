@@ -2,11 +2,13 @@ package com.shay.ipets.services;
 
 import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.response.UpLoadPicResponse;
+import com.shay.baselibrary.UrlInfoUtil.*;
 import com.shay.ipets.entity.responses.PostResponse;
 
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -15,11 +17,11 @@ import retrofit2.http.POST;
 import retrofit2.http.PartMap;
 
 public interface PostService {
-    @POST("/")
+    @POST(UrlUtil.POST_URL.POST_NEW_URL)
     @FormUrlEncoded
     Observable<BaseResponse<PostResponse>> postNew(@FieldMap HashMap<String, Object> map);
 
-    @POST("/")
+    @POST(UrlUtil.POST_URL.UPLOAD_PIC_URL)
     @Multipart
-    Observable<BaseResponse<UpLoadPicResponse>> uploadPic(@PartMap HashMap<String, ResponseBody> responseBodyHashMap);
+    Observable<BaseResponse<UpLoadPicResponse>> uploadPic(@PartMap HashMap<String, RequestBody> responseBodyHashMap);
 }

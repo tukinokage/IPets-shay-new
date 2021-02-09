@@ -96,6 +96,7 @@ public class SreachResultActivity extends AppCompatActivity {
             if (i == 4){
                 bbsPost.setTitle("斯佩伯爵 海军上校String.valueOf(i)String.valueOf(i)String.valueOf(i)");
             }
+
             bbsPostsList.add(bbsPost);
             Log.d("测试post序号", String.valueOf(i));
         }
@@ -172,7 +173,7 @@ public class SreachResultActivity extends AppCompatActivity {
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
-                            bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
+                            bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM );
                         }else {
                             ToastUntil.showToast("已无更多", AppContext.getContext());
                         }

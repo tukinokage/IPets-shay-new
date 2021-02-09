@@ -23,6 +23,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 public class CommitCommentRepository {
@@ -85,9 +86,9 @@ public class CommitCommentRepository {
 
         String json = new Gson().toJson(infoParam);
         byte[] bs = FileTransfromUtil.File2byte(file);
-        ResponseBody responseText = ResponseBody.create(MediaType.parse("text/plain"), json);
-        ResponseBody responsePic = ResponseBody.create(MediaType.parse("image/*"), bs);
-        HashMap<String, ResponseBody> hashMap = new HashMap<>();
+        RequestBody responseText = RequestBody.create(MediaType.parse("text/plain"), json);
+        RequestBody responsePic = RequestBody.create(MediaType.parse("image/*"), bs);
+        HashMap<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("info", responseText);
         hashMap.put("file", responsePic);
         commitCommentDataSource.uploadPic(hashMap)

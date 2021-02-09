@@ -10,6 +10,7 @@ import com.shay.ipets.services.PostService;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 public class PostDatasource {
@@ -20,7 +21,7 @@ public class PostDatasource {
     }
 
 
-    public Observable<BaseResponse<UpLoadPicResponse>> uploadPic(HashMap<String, ResponseBody> responseBodyHashMap){
+    public Observable<BaseResponse<UpLoadPicResponse>> uploadPic(HashMap<String, RequestBody> responseBodyHashMap){
         PostService service = new HttpUtil().getService(PostService.class, UrlUtil.BASE_URL.BASE_URL);
         Observable<BaseResponse<UpLoadPicResponse>> observable = service.uploadPic(responseBodyHashMap);
         return observable;

@@ -1,5 +1,7 @@
 package com.shay.loginandregistermodule.data.services;
 
+import android.webkit.URLUtil;
+
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.dto.TestUser;
@@ -23,7 +25,7 @@ public interface UserUrlService  {
     Observable<BaseResponse<LoginResponseData>> login(@FieldMap HashMap<String, Object> map);
     //Observable<Result<BaseResponse<T>>> test(@Body RequestBody requestBody);
 
-    @POST("/")
+    @POST(UrlUtil.USER_URL.UPDATE_PW_URL)
     @FormUrlEncoded
    Observable<BaseResponse<SetPwResponseData>> setPassword(@FieldMap HashMap<String, Object> map);
 
