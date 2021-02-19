@@ -86,6 +86,7 @@ public class UpdateUserInfoRepository {
         File file = new File(updateHeadImgParam.getUri());
 
         updateHeadImgParam.setUserToken(UserInfoUtil.getUserToken());
+        updateHeadImgParam.setUserId(UserInfoUtil.getUserId());
 
         String json = new Gson().toJson(updateHeadImgParam);
         byte[] bs = FileTransfromUtil.File2byte(file);
@@ -133,6 +134,7 @@ public class UpdateUserInfoRepository {
         File file = new File(updateBgParam.getUri());
 
         updateBgParam.setUserToken(UserInfoUtil.getUserToken());
+        updateBgParam.setUserId(UserInfoUtil.getUserId());
 
         String json = new Gson().toJson(updateBgParam);
         byte[] bs = FileTransfromUtil.File2byte(file);

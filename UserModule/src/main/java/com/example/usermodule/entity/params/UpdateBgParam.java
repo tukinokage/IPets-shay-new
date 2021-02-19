@@ -2,6 +2,16 @@ package com.example.usermodule.entity.params;
 
 public class UpdateBgParam {
     String userToken;
+    String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
     String uri;
 
     public String getUri() {

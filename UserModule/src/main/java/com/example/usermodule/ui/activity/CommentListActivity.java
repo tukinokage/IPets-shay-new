@@ -34,7 +34,7 @@ import butterknife.ButterKnife;
 @Route(path = AroutePath.CommentActivity)
 public class CommentListActivity extends AppCompatActivity {
     public  static int PER_PAPER_NUM = 15;
-    public  static int CURRENT_PAPER_NUM = 1;
+    public  static int CURRENT_PAPER_NUM = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
 

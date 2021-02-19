@@ -16,7 +16,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface UserInfoService {
-    @POST(UrlUtil.USER_URL.GET_USER_INFO_LIST_URL)
+    @POST(UrlUtil.USER_URL.GET_USER_INFO_URL)
     @FormUrlEncoded
     Observable<BaseResponse<GetUserInfoResponse>> getUserInfo(@FieldMap HashMap<String, Object> map);
 

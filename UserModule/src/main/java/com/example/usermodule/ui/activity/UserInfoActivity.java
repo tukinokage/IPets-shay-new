@@ -182,7 +182,7 @@ public class UserInfoActivity extends AppCompatActivity {
         pwLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ARouter.getInstance().build(AroutePath.).withString("userId", userId).navigation();
+               ARouter.getInstance().build(AroutePath.PhoneActivity).withString("userId", userId).navigation();
             }
         });
 

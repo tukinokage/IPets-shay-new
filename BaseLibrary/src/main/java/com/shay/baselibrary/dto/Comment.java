@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Comment implements Serializable {
     String postId;
+    String commentId;
     String userId;
     String userName;
     String contentText;
@@ -12,6 +13,13 @@ public class Comment implements Serializable {
     String headPicName;
     List<String> picList;
 
+    public String getCommentId() {
+        return commentId;
+    }
+
+    public void setCommentId(String commentId) {
+        this.commentId = commentId;
+    }
     public String getUserName() {
         return userName;
     }

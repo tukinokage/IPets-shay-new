@@ -32,7 +32,7 @@ public class UrlUtil {
         public static final String UPDATE_PW_URL = BASE_URL.BASE_URL + "usr/updatePassword";
         public static final String GET_COMMENT_LIST_URL = BASE_URL.BASE_URL + "usr/getCommentList";
         public static final String GET_STAR_PET_LIST_URL = BASE_URL.BASE_URL + "usr/getStarPetList";
-        public static final String GET_USER_INFO_LIST_URL = BASE_URL.BASE_URL + "usr/getUserInfo";
+        public static final String GET_USER_INFO_URL = BASE_URL.BASE_URL + "usr/getUserInfo";
         public static final String UPDATE_INFO_URL = BASE_URL.BASE_URL + "usr/updateInfo";
         public static final String UPDATE_BG_URL = BASE_URL.BASE_URL + "usr/updateBg";
         public static final String UPDATE_HEAD_IMG_URL = BASE_URL.BASE_URL + "usr/updateHeadImg";
@@ -61,15 +61,15 @@ public class UrlUtil {
 
     public static class COMMENT_URL{
 
-        public static final String GET_COMMENT_LIST_URL = BASE_URL.BASE_URL + "comment/petCommentList";
-        public static final String POST_COMMENT_URL = BASE_URL.BASE_URL + "comment/postCommentList";
+        public static final String GET_COMMENT_LIST_URL = BASE_URL.BASE_URL + "comment/getCommentList";
+        public static final String POST_COMMENT_URL = BASE_URL.BASE_URL + "comment/postComment";
         public static final String UPLOAD_COMMENT_PIC_URL = BASE_URL.BASE_URL + "comment/uploadPic";
 
     }
 
     public static class DAILY_RECORD_URL{
-        public static final String POST_DAILY_RECORD_URL = BASE_URL.BASE_URL + "dailyRecord/postDailyRecord";
-        public static final String GET_DAILY_RECORD_URL = BASE_URL.BASE_URL + "dailyRecord/getDailyRecord";
+        public static final String POST_DAILY_RECORD_URL = BASE_URL.BASE_URL + "usr/postDailyRecord";
+        public static final String GET_DAILY_RECORD_URL = BASE_URL.BASE_URL + "usr/getDailyRecord";
     }
 
 
