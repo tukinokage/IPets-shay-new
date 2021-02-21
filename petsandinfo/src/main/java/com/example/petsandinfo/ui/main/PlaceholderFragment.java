@@ -22,10 +22,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.MypetRecyclerViewAdapter;
 import com.example.petsandinfo.adapters.SelectionsAdapter;
 import com.example.petsandinfo.views.AdvanceSwipeRefreshLayout;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.dto.Pet;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModel;
 import com.example.petsandinfo.viewmodel.PlaceHolderViewModelFactory;
@@ -75,17 +77,18 @@ public class PlaceholderFragment extends Fragment {
 
     //标识当前界面类型
     private int classNum;
-    private String name;
+    private  String name;
 
     //选项默认值
     private static int mShapeLevel = 0;
     private static int mFetchLevel = 0;
-    private static int mRankType = 0;
-    private static int mPetClass = 0;
+    private static int mRankType = 1;
+    private int mPetClass;
 
     private PlaceHolderViewModel placeHolderViewModel;
 
     boolean isShowSelectGridView = false;
+    boolean isLoading = false;
 
     public String getName() {
         return name;
@@ -97,7 +100,6 @@ public class PlaceholderFragment extends Fragment {
         bundle.putInt(ARG_SECTION_NUMBER, index);
         bundle.putString(ARG_SECTION_NAME, className);
         fragment.setArguments(bundle);
-        mPetClass = index;
         Log.d("当前界面标识",  fragment+ className +index);
         return fragment;
     }
@@ -108,7 +110,7 @@ public class PlaceholderFragment extends Fragment {
         placeHolderViewModel =new ViewModelProvider(this, new PlaceHolderViewModelFactory())
                 .get(PlaceHolderViewModel.class);
         if (getArguments() != null) {
-            classNum = getArguments().getInt(ARG_SECTION_NUMBER);
+            mPetClass = getArguments().getInt(ARG_SECTION_NUMBER);
             name = getArguments().getString(ARG_SECTION_NAME);
         }
 
@@ -139,12 +141,7 @@ public class PlaceholderFragment extends Fragment {
         Log.d(this.getClass().getSimpleName(), name +"onStart()");
         mSeletionList = new ArrayList<>();
         petList = new ArrayList<>();
-        for (int i = 0; i < 10; i++){
-            Pet pet = new Pet();
-            pet.setPetName(String.valueOf(i));
-            pet.setViewNum(50);
-            petList.add(pet);
-        }
+
 
         petRecylerAdapter = new MypetRecyclerViewAdapter();
         petRecylerAdapter.setmValues(petList);
@@ -165,6 +162,7 @@ public class PlaceholderFragment extends Fragment {
         super.onResume();
         Log.d(this.getClass().getSimpleName(), name + "onResume()");
         Log.d(this.getClass().getSimpleName(), String.valueOf(shapeCheck.hashCode()));
+        loadList(mShapeLevel, mFetchLevel, mRankType);
 
     }
 
@@ -196,6 +194,8 @@ public class PlaceholderFragment extends Fragment {
                 Toast.makeText(getContext(), petListLoadResult.getErrorMsg(), Toast.LENGTH_SHORT).show();
             }
 
+            isLoading = false;
+
         });
 
         placeHolderViewModel.getpetListLiveData().observe(getViewLifecycleOwner(), new Observer<List<Pet>>() {
@@ -204,6 +204,7 @@ public class PlaceholderFragment extends Fragment {
                 petRecylerAdapter.hideFootTip();
                 petRecylerAdapter.setmValues(petList);
                 petRecylerAdapter.notifyDataSetChanged();
+                PlaceholderFragment.this.petList = petList;
             }
         });
     }
@@ -305,13 +306,13 @@ public class PlaceholderFragment extends Fragment {
 
                     @Override
                     protected void onPostExecute(String s) {
-                        int mSize = petList.size();
+                        /*int mSize = petList.size();
                         for(int i = mSize; i < mSize + 5; i++){
                             Pet pet = new Pet();
                             pet.setPetName(String.valueOf(i));
                             pet.setViewNum(23445);
                             petList.add(pet);
-                        }
+                        }*/
                         ToastUntil.showToast("刷新完毕", getContext());
                         swipeRefreshLayout.setRefreshing(false);
                         petRecylerAdapter.setmValues(petList);
@@ -347,10 +348,23 @@ public class PlaceholderFragment extends Fragment {
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == petRecylerAdapter.getItemCount()){
                         ToastUntil.showToast("已到底部", getContext());
-                       // placeHolderViewModel.loadList(mShapeLevel, mFetchLevel, mRankType);
-                       loadLoadMore(mShapeLevel, mFetchLevel, mRankType);
-                        petRecylerAdapter.showFootTip();
-                        new AsyncTask<String, String, String>(){
+                        if(isLoading){
+                            return;
+                        }else {
+                            if(placeHolderViewModel.hasMore()){
+                                loadLoadMore(mShapeLevel, mFetchLevel, mRankType);
+                                isLoading = true;
+                                petRecylerAdapter.hasMoreData();
+                                petRecylerAdapter.showFootTip();
+
+                            }else {
+                                petRecylerAdapter.noMoreData();
+                                petRecylerAdapter.showFootTip();
+                            }
+
+                        }
+
+                        /*new AsyncTask<String, String, String>(){
 
                             @Override
                             protected String doInBackground(String... strings) {
@@ -376,7 +390,7 @@ public class PlaceholderFragment extends Fragment {
                                 petRecylerAdapter.hideFootTip();
 
                             }
-                        }.execute();
+                        }.execute();*/
 
                     }
                 }
@@ -385,8 +399,8 @@ public class PlaceholderFragment extends Fragment {
 
 
         petRecylerAdapter.setPetItemOnclickListener(position -> {
-
             ToastUntil.showToast(petList.get(position).getPetName(), getContext());
+            ARouter.getInstance().build(AroutePath.PetInfoActivity).withParcelable(AroutePath.paramName.MPET, petList.get(position)).navigation();
         });
 
     }

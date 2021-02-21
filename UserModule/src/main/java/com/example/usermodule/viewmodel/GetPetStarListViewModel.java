@@ -41,7 +41,7 @@ public class GetPetStarListViewModel extends ViewModel {
         for (int i = 0; i < 10; i++){
             Pet pet = new Pet();
             pet.setPetName(String.valueOf(i));
-            pet.setViewNum(String.valueOf(50));
+            pet.setViewNum(50);
             petList.add(pet);
         }
 

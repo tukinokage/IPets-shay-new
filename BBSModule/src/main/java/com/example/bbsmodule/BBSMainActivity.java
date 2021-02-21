@@ -45,7 +45,7 @@ import static com.shay.baselibrary.AppContext.getContext;
 public class BBSMainActivity extends AppCompatActivity {
 
     public  static int PER_PAPER_NUM = 15;
-    public  static int CURRENT_PAPER_NUM = 0;
+    public  static int CURRENT_PAPER_NUM = 1;
     public  static int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
@@ -107,7 +107,7 @@ public class BBSMainActivity extends AppCompatActivity {
         selectionList = new ArrayList<>();
         postsAdapter = new PostsAdapter(this);
 
-        for(int i = 0; i < 10; i++ ){
+        for(int i = 0; i < 3; i++ ){
             BBSPost bbsPost = new BBSPost();
             bbsPost.setTitle(String.valueOf(i));
             if (i == 4){

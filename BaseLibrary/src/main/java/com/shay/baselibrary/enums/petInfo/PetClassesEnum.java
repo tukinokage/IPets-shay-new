@@ -2,7 +2,7 @@ package com.shay.baselibrary.enums.petInfo;
 
 public enum PetClassesEnum {
     //0为全部
-//    all(0, "全部"),
+    all(0, "全部"),
     cat(1, "猫类"),
     dog(2, "犬类"),
     mouse(3, "啮齿类"),
@@ -19,13 +19,10 @@ public enum PetClassesEnum {
     public String getChinese() {
         return chinese;
     }
+
     PetClassesEnum(int num, String chinese){
         this.num = num;
         this.chinese = chinese;
-    }
-
-    public int getNum() {
-        return num;
     }
 
     public static PetClassesEnum getEnumByNum(int i){

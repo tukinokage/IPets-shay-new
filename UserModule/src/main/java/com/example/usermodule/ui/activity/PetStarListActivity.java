@@ -67,7 +67,6 @@ public class PetStarListActivity extends AppCompatActivity {
     }
 
     private  void init(){
-
         petRecyclerViewAdapter = new MyPetRecyclerViewAdapter();
         LinearLayoutManager layoutManager= new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -86,8 +85,8 @@ public class PetStarListActivity extends AppCompatActivity {
         petRecyclerViewAdapter.setPetItemOnclickListener(new MyPetRecyclerViewAdapter.PetItemOnclickListener() {
             @Override
             public void onClick(int position) {
-                String petId = getPetStarListViewModel.getCurrentList().get(position).getPetId();
-                ARouter.getInstance().build(AroutePath.PetInfoActivity).withString(AroutePath.paramName.PET_ID, petId);
+                Pet pet = getPetStarListViewModel.getCurrentList().get(position);
+                ARouter.getInstance().build(AroutePath.PetInfoActivity).withParcelable(AroutePath.paramName.MPET, pet);
             }
         });
 
@@ -125,7 +124,7 @@ public class PetStarListActivity extends AppCompatActivity {
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
-                            getPetStarListViewModel.getStarPetListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
+                            getPetStarListViewModel.getStarPetListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
                         }else {
                             ToastUntil.showToast("已无更多", AppContext.getContext());
                         }
