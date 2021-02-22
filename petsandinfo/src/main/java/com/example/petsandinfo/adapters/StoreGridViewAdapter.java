@@ -61,7 +61,8 @@ public class StoreGridViewAdapter extends BaseAdapter {
         }
 
         //由于是固定的，只要在第一次初始化就可
-        viewholder.textView.setText(storeList.get(position).getStoreName());
+        viewholder.nameText.setText(storeList.get(position).getStoreName());
+        viewholder.introText.setText(storeList.get(position).getStoreIntroduce());
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,7 +83,9 @@ public class StoreGridViewAdapter extends BaseAdapter {
 
     class StoreViewholder{
         @BindView(R.id.pet_store_name_tv)
-        TextView textView;
+        TextView nameText;
+        @BindView(R.id.pet_store_intro_tv)
+        TextView introText;
         @BindView(R.id.pet_store_icon_iv)
         QMUIRadiusImageView imageView;
 

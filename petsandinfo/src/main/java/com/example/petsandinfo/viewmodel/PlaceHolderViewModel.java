@@ -59,10 +59,13 @@ public class PlaceHolderViewModel extends ViewModel {
                     petListLoadResult.setErrorMsg(errorResult.getError().getMessage());
                     petListLoadResultLiveData.setValue(petListLoadResult);
                 }else if(result instanceof Result.Success){
-                    currentPagerNum = 1;
+                    currentPagerNum = 2;
                     Result.Success successResult = (Result.Success<List<Pet>>) result;
                     currentPetList.clear();
                     currentPetList.addAll((List<Pet>) successResult.getData());
+                    PetListLoadResult petListLoadResult = new PetListLoadResult();
+                    petListLoadResultLiveData.setValue(petListLoadResult);
+                    petListLiveData.setValue(currentPetList);
                 }
 
             });
@@ -97,6 +100,8 @@ public class PlaceHolderViewModel extends ViewModel {
                     Result.Success successResult = (Result.Success<List<Pet>>) result;
                     currentPetList.addAll((List<Pet>) successResult.getData());
                     petListLiveData.setValue(currentPetList);
+                    PetListLoadResult petListLoadResult = new PetListLoadResult();
+                    petListLoadResultLiveData.setValue(petListLoadResult);
                 }
 
             });
@@ -191,6 +196,13 @@ public class PlaceHolderViewModel extends ViewModel {
         loadPetCondition.setPerPageCount(perPagerCount);
         morePetListAsyncTask = (LoadMorePetListAsyncTask) asyncTaskFactory.createAsyncTask(new LoadMorePetListAsyncTask());
         morePetListAsyncTask.execute(loadPetCondition);
+    }
+    public boolean hasMore(){
+        if( currentPetList.size() < perPagerCount){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     public void cancelAsync(){

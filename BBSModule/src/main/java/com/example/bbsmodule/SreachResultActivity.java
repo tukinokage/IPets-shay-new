@@ -90,7 +90,7 @@ public class SreachResultActivity extends AppCompatActivity {
         selectionList = new ArrayList<>();
         postsAdapter = new PostsAdapter(this);
 
-        for(int i = 0; i < 10; i++ ){
+        for(int i = 0; i < 2; i++ ){
             BBSPost bbsPost = new BBSPost();
             bbsPost.setTitle(String.valueOf(i));
             if (i == 4){

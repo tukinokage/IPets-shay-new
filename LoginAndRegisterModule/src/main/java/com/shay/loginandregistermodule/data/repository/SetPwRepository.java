@@ -24,7 +24,6 @@ public class SetPwRepository {
         this.setPwDataSource = setPwDataSource;
     }
 
-
     synchronized public static SetPwRepository getInstance(SetPwDataSource setPwDataSource){
         if(instance == null){
             instance = new SetPwRepository(setPwDataSource);
@@ -35,12 +34,11 @@ public class SetPwRepository {
     public void setPassword(HashMap<String, Object> paramsMap, SetPwResultListener setPwResultListener) throws Exception{
         this.setPwResultListener = setPwResultListener;
         setPwDataSource.setPw(paramsMap)
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<BaseResponse<SetPwResponseData>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
                     }
 
                     @Override

@@ -2,6 +2,7 @@ package com.example.bbsmodule.repository;
 
 import com.example.bbsmodule.datasource.BBSDatasource;
 import com.example.bbsmodule.entity.params.GetPostListParam;
+import com.example.bbsmodule.entity.response.GetPostListResponse;
 import com.example.bbsmodule.entity.result.GetPostListResult;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
@@ -40,14 +41,14 @@ public class BBSRepository {
         bbsDatasource.getGetList(map)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<BaseResponse<GetPostListResult>>() {
+                .subscribe(new Observer<BaseResponse<GetPostListResponse>>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(BaseResponse<GetPostListResult> getPostListResultBaseResponse) {
+            public void onNext(BaseResponse<GetPostListResponse> getPostListResultBaseResponse) {
                 Result result = RetrofitOnResponseUtil.parseBaseResponse(getPostListResultBaseResponse);
                 setGetPostListResult(result);
             }

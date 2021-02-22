@@ -107,7 +107,7 @@ public class BBSMainActivity extends AppCompatActivity {
         selectionList = new ArrayList<>();
         postsAdapter = new PostsAdapter(this);
 
-        for(int i = 0; i < 3; i++ ){
+        for(int i = 0; i < 2; i++ ){
             BBSPost bbsPost = new BBSPost();
             bbsPost.setTitle(String.valueOf(i));
             if (i == 4){
@@ -126,6 +126,9 @@ public class BBSMainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(postsAdapter);
         selectGridView.setAdapter(postSelectionsAdapter);
+
+        bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        IS_LOADING_MORE = true;
 
         bbsViewModel.getSelectionList();
         postsAdapter.notifyDataSetChanged();
@@ -148,6 +151,7 @@ public class BBSMainActivity extends AppCompatActivity {
                     CURRENT_PAPER_NUM += 1;
                     HASH_MORE = getPostListResult.isHasMore();
                     bbsPostsList.addAll(getPostListResult.getBbsPostList());
+                    postsAdapter.notifyDataSetChanged();
                     IS_LOADING_MORE = false;
                 }else {
                     ToastUntil.showToast(getPostListResult.getErrorMg(), AppContext.getContext());
@@ -173,6 +177,7 @@ public class BBSMainActivity extends AppCompatActivity {
             public void onClick(int position) {
                 CURRENT_TYPE = position;
                 CURRENT_PAPER_NUM = 1;
+                bbsPostsList.clear();
                 bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM);
             }
         });
@@ -218,7 +223,7 @@ public class BBSMainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String c = searchInput.getText().toString().trim();
                 if(!TextUtils.isEmpty(c)){
-                   Intent intent = new Intent(BBSMainActivity.this, PostInfoActivity.class);
+                   Intent intent = new Intent(BBSMainActivity.this, SreachResultActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(SreachResultActivity.SEARCH_DATA_BUNDLE_NAME, c);
                     intent.putExtras(bundle);

@@ -76,9 +76,9 @@ public class BBSViewModel extends ViewModel {
 
     public void getBBSPostLIst(int type, int perPaperNum, int currentPaperNum){
         GetPostListParam getPostListParam = new GetPostListParam();
-        getPostListParam.setCurrentPaperNum(currentPaperNum);
-        getPostListParam.setPerPaperNum(perPaperNum);
-        getPostListParam.setType(type);
+        getPostListParam.setCurrentPaperNum(String.valueOf(currentPaperNum));
+        getPostListParam.setPerPaperNum(String.valueOf(perPaperNum));
+        getPostListParam.setType(String.valueOf(type));
         searchPostListAsyncTask = (SearchPostListAsyncTask) asyncTaskFactory
                 .createAsyncTask(new SearchPostListAsyncTask());
 
@@ -87,10 +87,10 @@ public class BBSViewModel extends ViewModel {
 
     public void getBBSPostLIstByCondition(int type, String searchCondition, int perPaperNum, int currentPaperNum){
         GetPostListParam getPostListParam = new GetPostListParam();
-        getPostListParam.setCurrentPaperNum(currentPaperNum);
-        getPostListParam.setPerPaperNum(perPaperNum);
+        getPostListParam.setCurrentPaperNum(String.valueOf(currentPaperNum));
+        getPostListParam.setPerPaperNum(String.valueOf(perPaperNum));
         getPostListParam.setSearchCondition(searchCondition);
-        getPostListParam.setType(type);
+        getPostListParam.setType(String.valueOf(type));
         searchPostListAsyncTask = (SearchPostListAsyncTask) asyncTaskFactory
                 .createAsyncTask(new SearchPostListAsyncTask());
 
@@ -99,10 +99,10 @@ public class BBSViewModel extends ViewModel {
 
     public void getBBSPostListByUId(int type, String searchUid, int perPaperNum, int currentPaperNum){
         GetPostListParam getPostListParam = new GetPostListParam();
-        getPostListParam.setCurrentPaperNum(currentPaperNum);
-        getPostListParam.setPerPaperNum(perPaperNum);
+        getPostListParam.setCurrentPaperNum(String.valueOf(currentPaperNum));
+        getPostListParam.setPerPaperNum(String.valueOf(perPaperNum));
         getPostListParam.setSearchUid(searchUid);
-        getPostListParam.setType(type);
+        getPostListParam.setType(String.valueOf(type));
         searchPostListAsyncTask = (SearchPostListAsyncTask) asyncTaskFactory
                 .createAsyncTask(new SearchPostListAsyncTask());
 

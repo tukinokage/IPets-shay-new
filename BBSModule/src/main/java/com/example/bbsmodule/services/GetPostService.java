@@ -4,6 +4,7 @@ import android.webkit.URLUtil;
 
 import com.example.bbsmodule.entity.response.GetCommentResponse;
 import com.example.bbsmodule.entity.response.GetPostInfoResponse;
+import com.example.bbsmodule.entity.response.GetPostListResponse;
 import com.example.bbsmodule.entity.result.GetPostListResult;
 import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.UrlInfoUtil.*;
@@ -18,7 +19,7 @@ import retrofit2.http.POST;
 public interface GetPostService {
     @POST(UrlUtil.POST_URL.GET_POST_LIST_URL)
     @FormUrlEncoded
-    Observable<BaseResponse<GetPostListResult>> getList(@FieldMap HashMap<String, Object> map);
+    Observable<BaseResponse<GetPostListResponse>> getList(@FieldMap HashMap<String, Object> map);
 
     @POST(UrlUtil.POST_URL.GET_POST_INFO_URL)
     @FormUrlEncoded

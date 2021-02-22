@@ -23,6 +23,8 @@ import com.shay.loginandregistermodule.viewmodel.SetPasswordFactory;
 import com.shay.loginandregistermodule.viewmodel.SetPasswordViewModel;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /***
  * 其他模块调用该验证码模块后会以intent附带字段为result的boolean结果
@@ -36,12 +38,15 @@ public class SetPasswordActivity extends AppCompatActivity {
     @BindView(R.id.activtiy_set_password_confrim_btn)
     QMUIRoundButton confrimBtn;
 
+    Unbinder unbinder;
+
     private SetPasswordViewModel setPasswordViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_password);
+        unbinder = ButterKnife.bind(this);
 
         setPasswordViewModel = new ViewModelProvider(this, new SetPasswordFactory())
                 .get(SetPasswordViewModel.class);
@@ -154,6 +159,7 @@ public class SetPasswordActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbinder.unbind();
         setPasswordViewModel.cancelAsyncTask();
     }
 }

@@ -20,5 +20,12 @@
         android:text="格里芬后勤处"
         android:textColor="@color/material_grey_600"
         android:layout_marginTop="5dp"/>
+    <TextView
+        android:id="@+id/pet_store_intro_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="出售杂货"
+        android:textColor="@color/material_grey_600"
+        android:layout_marginTop="5dp"/>
 
 </LinearLayout>

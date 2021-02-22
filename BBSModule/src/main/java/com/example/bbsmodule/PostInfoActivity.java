@@ -95,7 +95,7 @@ public class PostInfoActivity extends AppCompatActivity {
     @BindView(R.id.activity_post_info_top_title)
     TextView titleTextView;
 
-    @BindView(R.id.activity_post_info_top_title)
+    @BindView(R.id.post_info_comment_rv)
     RecyclerView contentRV;
 
 

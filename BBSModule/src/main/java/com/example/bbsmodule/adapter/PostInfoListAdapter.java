@@ -76,7 +76,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         if(holder instanceof PostViewHolder){
             PostViewHolder postViewHolder = (PostViewHolder) holder;
             postViewHolder.contentText.setText(post.getContextText());
-            postViewHolder.icon.setImageResource(R.drawable.pic_ZB26_icon);
+            postViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
             postViewHolder.name.setText(post.getUserName());
             postViewHolder.dateTextView.setText(post.getDateTime());
             postViewHolder.numTextView.setText("楼主");
@@ -102,7 +102,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         }else {
             CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
             commentViewHolder.contentText.setText(commentsList.get(position).getContentText());
-            commentViewHolder.icon.setImageResource(R.drawable.pic_ZB26_icon);
+            commentViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
             commentViewHolder.name.setText(commentsList.get(position).getUserName());
             commentViewHolder.dateTextView.setText(commentsList.get(position).getDateTime());
             commentViewHolder.numTextView.setText("#" + position);
@@ -151,7 +151,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
 
         @BindView(R.id.post_comment_item_headicon_iv)
         ImageView icon;
-        @BindView(R.id.post_comment_item_headicon_iv)
+        @BindView(R.id.post_comment_item_usernamne_textview)
         TextView name;
 
         @BindView(R.id.post_comment_item_contenttext_textview)
@@ -159,7 +159,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         @BindView(R.id.post_comment_item_content_pic_rv)
         RecyclerView picRv;
 
-        @BindView(R.id.post_comment_item_num_textview)
+        @BindView(R.id.post_comment_item_datetime_textview)
         TextView dateTextView;
         @BindView(R.id.post_comment_item_num_textview)
         TextView numTextView;
@@ -173,7 +173,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
     public class CommentViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.post_comment_item_headicon_iv)
         ImageView icon;
-        @BindView(R.id.post_comment_item_headicon_iv)
+        @BindView(R.id.post_comment_item_usernamne_textview)
         TextView name;
 
         @BindView(R.id.post_comment_item_contenttext_textview)
@@ -181,7 +181,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         @BindView(R.id.post_comment_item_content_pic_rv)
         RecyclerView picRv;
 
-        @BindView(R.id.post_comment_item_num_textview)
+        @BindView(R.id.post_comment_item_datetime_textview)
         TextView dateTextView;
         @BindView(R.id.post_comment_item_num_textview)
         TextView numTextView;

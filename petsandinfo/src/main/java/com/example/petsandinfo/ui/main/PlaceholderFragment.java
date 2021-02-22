@@ -347,7 +347,6 @@ public class PlaceholderFragment extends Fragment {
                 if(lastCompletelyVisibleItemPosition == layoutManager.getItemCount()-1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == petRecylerAdapter.getItemCount()){
-                        ToastUntil.showToast("已到底部", getContext());
                         if(isLoading){
                             return;
                         }else {
@@ -363,34 +362,6 @@ public class PlaceholderFragment extends Fragment {
                             }
 
                         }
-
-                        /*new AsyncTask<String, String, String>(){
-
-                            @Override
-                            protected String doInBackground(String... strings) {
-                                try {
-                                    Thread.sleep(5000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                                return null;
-                            }
-
-                            @Override
-                            protected void onPostExecute(String s) {
-                               int mSize = petList.size();
-                                for(int i = mSize; i < mSize + 5; i++){
-                                    Pet pet = new Pet();
-                                    pet.setPetName(String.valueOf(i));
-                                    pet.setViewNum(23445);
-                                    petList.add(pet);
-                                }
-
-                                petRecylerAdapter.setmValues(petList);
-                                petRecylerAdapter.hideFootTip();
-
-                            }
-                        }.execute();*/
 
                     }
                 }

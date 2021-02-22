@@ -19,6 +19,7 @@ public class SetPasswordViewModel extends ViewModel {
     private MutableLiveData<SetPwResult> setPwResultMutableLiveData = new MutableLiveData<>();
     private SetPwRepository setPwRepository;
     private AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
+    private SetPwAsyncTask setPwAsyncTask;
 
     public SetPasswordViewModel(SetPwRepository setPwRepository) {
         this.setPwRepository = setPwRepository;
@@ -32,17 +33,18 @@ public class SetPasswordViewModel extends ViewModel {
 
         @Override
         protected Exception doInBackground(SetPwRequestParam... setPwRequestParams) {
-            SetPwRequestParam setPwRequestParam = setPwRequestParams[0];
+
             Gson gson = new Gson();
-            String json = gson.toJson(setPwRequestParam);
+            String json = gson.toJson(setPwRequestParams[0]);
             HashMap<String, Object> param = gson.fromJson(json, new TypeToken<HashMap<String, Object>>(){}.getType());
             try {
                 setPwRepository.setPassword(param, new SetPwRepository.SetPwResultListener() {
                     //rxjava回调在主线程
                     @Override
-                    public void getResult(Result result) {
+                    public void getResult(Result result){
                         if(result instanceof Result.Error){
-                            setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg(((Result.Error) result).getErrorMsg());}});
+                            String errorMsg = ((Result.Error) result).getErrorMsg();
+                            setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg(errorMsg);}});
                         } else {
                             setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg("");}});
                         }
@@ -66,11 +68,10 @@ public class SetPasswordViewModel extends ViewModel {
     }
 
     public void confirm(String pw)  {
-        AsyncTask asyncTask = asyncTaskFactory.createAsyncTask(new SetPwAsyncTask());
-        SetPwRequestParam setPwRequestParam = null;
+        setPwAsyncTask = (SetPwAsyncTask) asyncTaskFactory.createAsyncTask(new SetPwAsyncTask());
         try {
-            setPwRequestParam = new SetPwRequestParam(UserInfoUtil.getUserId(), pw);
-            asyncTask.execute(setPwRequestParam);
+            SetPwRequestParam setPwRequestParam = new SetPwRequestParam(UserInfoUtil.getUserId(), pw);
+            setPwAsyncTask.execute(setPwRequestParam);
         } catch (Exception e) {
             e.printStackTrace();
             setPwResultMutableLiveData.setValue(new SetPwResult(){{setErrorMsg("无法获取用户信息");}});

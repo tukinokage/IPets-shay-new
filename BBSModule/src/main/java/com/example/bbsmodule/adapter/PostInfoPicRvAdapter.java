@@ -17,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.http.Url;
 
 public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
    private List<String> picList;
@@ -50,7 +49,7 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
         Glide.with(context)
                 .load(UrlUtil.BASE_URL.BASE_URL + picList.get(position))
                 .into(picholder.imageView)
-        .onLoadStarted(context.getDrawable(R.drawable.pic_ZB26_icon));
+        .onLoadStarted(context.getDrawable(R.drawable.pic_zb26_icon));
 
         picholder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -18,7 +18,7 @@ public class AroutePath {
         public static final String SEARCH_ID_NAME = "searchId";
         public static final String USER_ID_PARAM_NAME = "userId";
         public static final String CURRENT_USER_STATUS = "isMyUserInfo";
-        public static final String PET_ID = "petId";
+        public static final String MPET = "mPet";
         public static final String POST_ID = "postId";
         public static final String RESULT_PARAM_NAME = "data";
         public static final String SET_PW_RESULT_PARAM_NAME = "result";

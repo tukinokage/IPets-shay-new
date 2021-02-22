@@ -64,8 +64,7 @@ public class LoadPetListRepository {
                             } catch (MyException e) {
                                 e.printStackTrace();
                                 result =new Result.Error(e);
-                            }
-                            catch (Exception e){
+                            } catch (Exception e){
 
                                 e.printStackTrace();
                                 result = new Result.Error(new MyException("操作错误：301"));

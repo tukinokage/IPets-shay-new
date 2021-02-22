@@ -15,7 +15,6 @@ import java.util.List;
 
 public class PetInfoPicRvAdapter extends RecyclerView.Adapter {
 
-
     Context context;
     List<String> picNameList;
     private ImageOnClickListener onClickListener;

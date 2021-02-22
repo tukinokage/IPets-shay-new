@@ -99,8 +99,7 @@ public class PetsContentFragment extends Fragment {
        //viewpage
         viewPager.setOffscreenPageLimit(classesNum/2);
 
-        sectionsPagerAdapter.addFragment(AllPetsFragment.newInstance(0, "全部"));
-        for (int i = 1; i <= classesNum; i++){
+        for (int i = 0; i < classesNum; i++){
             sectionsPagerAdapter.addFragment(
                     PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
         }

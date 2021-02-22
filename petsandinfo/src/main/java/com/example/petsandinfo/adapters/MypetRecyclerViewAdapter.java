@@ -21,7 +21,6 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private  List<Pet> mValues;
 
-
     private PetItemOnclickListener petItemOnclickListener;
 
     public static final int NORMAL_ITEM = 0;
@@ -77,7 +76,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             Pet pet = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
             normalViewHolder.nameView.setText(pet.getPetName());
-            normalViewHolder.numView.setText(pet.getViewNum());
+           // normalViewHolder.numView.setText(pet.getViewNum());
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

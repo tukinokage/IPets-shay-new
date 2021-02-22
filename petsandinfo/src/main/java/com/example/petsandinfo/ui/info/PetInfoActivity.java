@@ -5,6 +5,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +15,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.petsandinfo.R;
 import com.example.petsandinfo.adapters.HospitalGridViewAdapter;
 import com.example.petsandinfo.adapters.PetInfoPicRvAdapter;
@@ -29,6 +33,7 @@ import com.example.petsandinfo.entity.result.LoadPetPicNameResult;
 import com.example.petsandinfo.entity.result.LoadStoreResult;
 import com.example.petsandinfo.entity.result.StartPetResult;
 import com.example.petsandinfo.model.Hospital;
+import com.example.petsandinfo.model.Store;
 import com.example.petsandinfo.viewmodel.PetInfoActivityViewModel;
 import com.example.petsandinfo.viewmodel.PetInfoActivityViewModelFactory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,11 +41,14 @@ import com.qmuiteam.qmui.alpha.QMUIAlphaTextView;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.*;
+import com.shay.baselibrary.enums.petInfo.*;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-
+@Route(path = AroutePath.PetInfoActivity)
 public class PetInfoActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_pet_info_nest_scroll_view)
@@ -81,17 +89,25 @@ public class PetInfoActivity extends AppCompatActivity {
     private PetInfoActivityViewModel petInfoActivityViewModel;
     //滑动隐藏距离
     private int fadingHeight = 400;
-    private Pet mPet;
+
+    @Autowired
+    public Pet mPet;
+
 
     private HospitalGridViewAdapter hospitalGridViewAdapter;
     private PetInfoPicRvAdapter petInfoPicRvAdapter;
     private StoreGridViewAdapter storeGridViewAdapter;
+
+    ArrayList<Hospital> hospitals = new ArrayList<>();
+    ArrayList<Store> stores = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_info);
         unbinder = ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         petInfoActivityViewModel = new ViewModelProvider(this, new PetInfoActivityViewModelFactory())
                 .get(PetInfoActivityViewModel.class);
@@ -101,7 +117,8 @@ public class PetInfoActivity extends AppCompatActivity {
         initListener();
     }
     public void initListener(){
-        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener)
+                (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             float fadding = scrollY > fadingHeight? fadingHeight:scrollY;
             float offest = fadding / fadingHeight;
             updateTopAlpha(offest);
@@ -120,14 +137,27 @@ public class PetInfoActivity extends AppCompatActivity {
             }
         });
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     private void init()  {
         //top默认透明
         topLayout.setAlpha(0);
 
+        hospitalGridViewAdapter = new HospitalGridViewAdapter(hospitals, this);
+        storeGridViewAdapter = new StoreGridViewAdapter(stores, this);
+        petInfoPicRvAdapter = new PetInfoPicRvAdapter(this);
+        storeGridView.setAdapter(storeGridViewAdapter);
+        hospitalGridView.setAdapter(hospitalGridViewAdapter);
+
         Bundle extras = getIntent().getExtras();
-        mPet = (Pet) extras.get("pet");
+        //mPet = (Pet) extras.get("pet");
 
         if(mPet == null){
             Toast.makeText(this, "未获取到宠物", Toast.LENGTH_SHORT).show();
@@ -135,7 +165,16 @@ public class PetInfoActivity extends AppCompatActivity {
         }
 
        //mPet = new Pet();
-        petInfoActivityViewModel.loadHeadPic(mPet.getPetId() +".jpg");
+        petInfoActivityViewModel.loadHeadPic( mPet.getPetHeadImg() );
+
+        nameTextView.setText(mPet.getPetName());
+        introductionTv.setText("全名：" + mPet.getPetName() + "\n"
+                + "英文名：" + mPet.getPetEnglishName() + "\n"
+                + "产地：" + mPet.getOriginPlace() + "\n"
+                + "成年雄性体重：" + mPet.getMaleWeight() + "\n"
+                + "成年雌性体重：" + mPet.getFemaleWeight() + "\n"
+        + "分类：" + PetClassesEnum.getEnumByNum(mPet.getPetClass()).getChinese() +"\n");
+
         try {
             petInfoActivityViewModel.checkIsStar(mPet.getPetId());
         } catch (Exception e) {
@@ -217,6 +256,13 @@ public class PetInfoActivity extends AppCompatActivity {
             }else {
                 storeGridViewAdapter.setStoreList(loadStoreResult.getData());
                 storeGridViewAdapter.notifyDataSetChanged();
+            }
+        });
+
+        petInfoActivityViewModel.getBitmapMutableLiveData().observe(this, new Observer<Drawable>() {
+            @Override
+            public void onChanged(Drawable drawable) {
+                radiusHeadImageV.setImageDrawable(drawable);
             }
         });
 

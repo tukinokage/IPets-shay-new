@@ -4,6 +4,7 @@ public class UrlUtil {
     public static class BASE_URL{
         //public static final String BASE_URL = "http://172.27.35.1:7371/";
         public static final String BASE_URL = "http://192.168.1.101:7371/";
+        public static final String BASE_STATIC_URL = "http://192.168.1.101:7371/IPET_RESOURCES/";
         public static final String ALI_MSG_API_BASE_URL = "http://dysmsapi.aliyuncs.com/?";
     }
 
@@ -12,12 +13,12 @@ public class UrlUtil {
     }
 
     public static class PET_PIC_URL{
-        public static final String HEAD_ICON_URL = BASE_URL.BASE_URL + "pet/getHeadImg";
+        public static final String HEAD_ICON_URL = BASE_URL.BASE_STATIC_URL + "pet/head_img/";
     }
 
     public static class STATIC_RESOURCE{
-        public static final String HEAD_ICON_URL = BASE_URL.BASE_URL + "pic/headicon";
-        public static final String BG_PIC_URL = BASE_URL.BASE_URL + "pic/bg";
+        public static final String HEAD_ICON_URL = BASE_URL.BASE_STATIC_URL + "pic/headicon";
+        public static final String BG_PIC_URL = BASE_URL.BASE_STATIC_URL + "pic/bg";
     }
 
     public static class USER_URL{

@@ -2,9 +2,9 @@ package com.example.bbsmodule.entity.params;
 
 public class GetPostListParam {
     String searchCondition;
-    int type;
-    int perPaperNum;
-    int currentPaperNum;
+    String type;
+    String perPaperNum;
+    String currentPaperNum;
     String searchUid;
 
     public String getSearchUid() {
@@ -23,27 +23,27 @@ public class GetPostListParam {
         this.searchCondition = searchCondition;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public int getPerPaperNum() {
+    public String getPerPaperNum() {
         return perPaperNum;
     }
 
-    public void setPerPaperNum(int perPaperNum) {
+    public void setPerPaperNum(String perPaperNum) {
         this.perPaperNum = perPaperNum;
     }
 
-    public int getCurrentPaperNum() {
+    public String getCurrentPaperNum() {
         return currentPaperNum;
     }
 
-    public void setCurrentPaperNum(int currentPaperNum) {
+    public void setCurrentPaperNum(String currentPaperNum) {
         this.currentPaperNum = currentPaperNum;
     }
 }

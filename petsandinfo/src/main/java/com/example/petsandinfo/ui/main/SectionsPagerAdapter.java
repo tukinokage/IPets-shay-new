@@ -11,6 +11,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
+
 import java.util.ArrayList;
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
@@ -43,13 +45,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-       Fragment mfragment = fs.get(position);
-        if(mfragment instanceof AllPetsFragment){
-            //第0默认为展示全部
-            return ((AllPetsFragment)mfragment).getName();
-        }else {
-           return  ((PlaceholderFragment)mfragment).getName();
-        }
+      /* Fragment mfragment = fs.get(position);
+       return  ((PlaceholderFragment)mfragment).getName();
+*/
+        return PetClassesEnum.getEnumByNum(position).getChinese();
 
     }
 

@@ -201,7 +201,6 @@ public class PetInfoRepository {
 
                     @Override
                     public void onComplete() {
-
                     }
                 });
 

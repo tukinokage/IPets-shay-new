@@ -50,7 +50,6 @@ public class PetInfoActivityViewModel extends ViewModel {
         return startPetResultMutableLiveData;
     }
 
-
     public MutableLiveData<CheckPetIsStarResult> getCheckPetIsStarResultMutableLiveData() {
         return checkPetIsStarResultMutableLiveData;
     }

@@ -12,6 +12,7 @@
         android:layout_height="25dp"
         android:text="选项"
         android:textSize="12sp"
+        android:layout_margin="5dp"
         app:qmui_borderColor="@color/material_orange_600"
         android:textColor="@color/material_orange_600"/>
 

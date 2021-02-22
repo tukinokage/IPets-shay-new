@@ -20,7 +20,6 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
 
 public interface PetInfoService {
-
     @POST(UrlUtil.PET_URL.GET_PET_INTRODUCE_URL)
     @FormUrlEncoded
     Observable<BaseResponse<PetIntroduce>> getPetIntroduction(@FieldMap HashMap<String, Object> map);
@@ -44,5 +43,4 @@ public interface PetInfoService {
     @POST(UrlUtil.PET_URL.CHECK_PET_URL)
     @FormUrlEncoded
     Observable<BaseResponse<CheckIsStarResponse>> checkStar(@FieldMap HashMap<String, Object> map);
-
 }
