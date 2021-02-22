@@ -10,6 +10,7 @@ import com.shay.baselibrary.dto.response.UpLoadPicResponse;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
@@ -21,9 +22,9 @@ public class CommitCommentDataSource {
     }
 
 
-    public Observable<BaseResponse<UpLoadPicResponse>> uploadPic(HashMap<String, RequestBody> responseBodyHashMap){
+    public Observable<BaseResponse<UpLoadPicResponse>> uploadPic(HashMap<String, RequestBody> responseBodyHashMap, MultipartBody.Part part){
         CommentService service = new HttpUtil().getService(CommentService.class, UrlUtil.BASE_URL.BASE_URL);
-        Observable<BaseResponse<UpLoadPicResponse>> observable = service.uploadPic(responseBodyHashMap);
+        Observable<BaseResponse<UpLoadPicResponse>> observable = service.uploadPic(responseBodyHashMap, part);
         return observable;
     }
 }

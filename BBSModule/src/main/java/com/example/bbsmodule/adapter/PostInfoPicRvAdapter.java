@@ -37,7 +37,7 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.rv_pic_layout, parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.rv_pic_layout, parent, false);
 
         return new PicViewHolder(view);
     }

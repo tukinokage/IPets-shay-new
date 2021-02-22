@@ -15,6 +15,7 @@ import com.example.bbsmodule.R;
 import com.shay.baselibrary.dto.Comment;
 import com.shay.baselibrary.dto.Post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,10 +41,11 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
     public PostInfoListAdapter(Context context) {
         this.context = context;
         mLayoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
+        commentsList = new ArrayList<>();
     }
 
     public void setCommentsList(List<Comment> commentsList) {
-        this.commentsList = commentsList;
+        this.commentsList.addAll(commentsList);
     }
 
     public void setOnUserHeadClickListener(ClickUserHeadIconListener onClickListener) {
@@ -61,7 +63,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             return null;
         }
 
-        View view = LayoutInflater.from(context).inflate(R.layout.post_comment_item_layout, parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.post_comment_item_layout, parent, false);
         if(viewType == POST){
             return new PostViewHolder(view);
         }else{
@@ -100,17 +102,19 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
                 postViewHolder.picRv.setAdapter(picRvAdapter);
             }
         }else {
+
+            int rposition = position -1;
             CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
-            commentViewHolder.contentText.setText(commentsList.get(position).getContentText());
+            commentViewHolder.contentText.setText(commentsList.get(rposition).getContentText());
             commentViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
-            commentViewHolder.name.setText(commentsList.get(position).getUserName());
-            commentViewHolder.dateTextView.setText(commentsList.get(position).getDateTime());
+            commentViewHolder.name.setText(commentsList.get(rposition).getUserName());
+            commentViewHolder.dateTextView.setText(commentsList.get(rposition).getDateTime());
             commentViewHolder.numTextView.setText("#" + position);
             if(onClickListener != null){
                 ((CommentViewHolder) holder).icon.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        int rposition = position -1;
+
                         onClickListener.onclick(rposition);
                     }
                 });
@@ -143,8 +147,14 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public int getItemCount() {
-        return commentsList.size() + 1;
+    public int getItemCount()
+    {
+        if(post == null){
+            return 0;
+        }else {
+            return commentsList.size() + 1;
+        }
+
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder{

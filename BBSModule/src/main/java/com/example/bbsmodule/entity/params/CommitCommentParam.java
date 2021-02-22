@@ -9,7 +9,7 @@ public class CommitCommentParam {
     String userId;
     String postId;
     String commentText;
-    List<Picture> picList;
+    List<String> picList;
     public String getToken() {
         return token;
     }
@@ -38,15 +38,16 @@ public class CommitCommentParam {
         return commentText;
     }
 
+    public List<String> getPicList() {
+        return picList;
+    }
+
+    public void setPicList(List<String> picList) {
+        this.picList = picList;
+    }
+
     public void setCommentText(String commentText) {
         this.commentText = commentText;
     }
 
-    public List<Picture> getPicList() {
-        return picList;
-    }
-
-    public void setPicList(List<Picture> picList) {
-        this.picList = picList;
-    }
 }

@@ -2,16 +2,20 @@ package com.example.bbsmodule;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
@@ -54,6 +58,7 @@ import com.zhihu.matisse.internal.entity.Item;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -96,7 +101,7 @@ public class PostInfoActivity extends AppCompatActivity {
     TextView titleTextView;
 
     @BindView(R.id.post_info_comment_rv)
-    RecyclerView contentRV;
+    RecyclerView contentPostItemRV;
 
 
     @Override
@@ -122,14 +127,19 @@ public class PostInfoActivity extends AppCompatActivity {
         commitCommentLayout.measure(0,0);
         //mHiddenViewMeasuredHeight = (int) (mDensity * commitCommentLayout.getHeight() + 0.5);
        //输入框高度
-        mHiddenViewMeasuredHeight = commitCommentLayout.getHeight() + 10;
+        //mHiddenViewMeasuredHeight = commitCommentLayout.getHeight() + 10;
+        mHiddenViewMeasuredHeight = 865;
 
         postInfoListAdapter = new PostInfoListAdapter(this);
-        contentRV.setAdapter(postInfoListAdapter);
+        contentPostItemRV.setLayoutManager(new LinearLayoutManager(this));
+        contentPostItemRV.setAdapter(postInfoListAdapter);
 
         commitButton.setEnabled(false);
         selectPicAdapter = new SelectPicAdapter(this);
+        selectPicAdapter.setPostPicInfoList(new ArrayList<>());
         picGridView.setAdapter(selectPicAdapter);
+
+
 
         if(currentBBPost != null){
             postInfoViewModel.getPost(currentBBPost.getPostId());
@@ -275,7 +285,8 @@ public class PostInfoActivity extends AppCompatActivity {
             @Override
             public void onChanged(GetPostInfoResult getPostInfoResult) {
                 if(TextUtils.isEmpty(getPostInfoResult.getErrorMsg())){
-                    postInfoListAdapter.setPost(getPostInfoResult.getPost());
+                    Post post = getPostInfoResult.getPost();
+                    postInfoListAdapter.setPost(post);
                     titleTextView.setText(getPostInfoResult.getPost().getTitle());
                     postInfoListAdapter.notifyDataSetChanged();
                 }else {
@@ -311,6 +322,7 @@ public class PostInfoActivity extends AppCompatActivity {
                     //可编辑状态
                     ToastUntil.showToast("回复成功", AppContext.getContext());
                     setCommentEditorStatus(true);
+                    postInfoViewModel.getComment(currentBBPost.getPostId());
 
                 }else {
                     ToastUntil.showToast(commitCommentResult.getErrorMsg(), AppContext.getContext());
@@ -323,8 +335,9 @@ public class PostInfoActivity extends AppCompatActivity {
             @Override
             public void onChanged(UploadPicResult uploadPicResult) {
                 if(TextUtils.isEmpty(uploadPicResult.getErrorMsg())){
-                    commitCommentViewModel.isPicAllIsSucceed();
                     commitCommentViewModel.setPicSucceed(uploadPicResult.getIndex());
+                    commitCommentViewModel.isPicAllIsSucceed();
+
                 }else {
                     setCommentEditorStatus(true);
                     commitCommentViewModel.setPicFailed(uploadPicResult.getIndex());
@@ -337,6 +350,14 @@ public class PostInfoActivity extends AppCompatActivity {
 
     //matisse选择图片
     private void selectPic(){
+        int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_CHOOSE);
+            return;
+        }
+
         Matisse.from(this)
                 .choose(MimeType.ofImage())
                 .capture(true)

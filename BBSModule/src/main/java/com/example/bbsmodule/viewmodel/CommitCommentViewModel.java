@@ -38,7 +38,7 @@ public class CommitCommentViewModel extends ViewModel {
     private MutableLiveData<UploadPicResult> uploadPicResultMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<CommitCommentResult> commitCommentResultMutableLiveData = new MutableLiveData<>();
 
-    private List<Picture> succeedPic = new ArrayList<>();
+    private List<String> succeedPic = new ArrayList<>();
     private List<PostPicInfo> selectPicList = new ArrayList<>();
     private CommitCommentParam currentCommentParam = new CommitCommentParam();
 
@@ -115,8 +115,10 @@ public class CommitCommentViewModel extends ViewModel {
 
         //生成succeed list
         for(PostPicInfo picInfo:getSelectPicList()){
-            Picture picture = picInfo.getPicture();
-            succeedPic.add(picture);
+            if(picInfo.isSucceed()){
+                Picture picture = picInfo.getPicture();
+                succeedPic.add(picture.getPicName());
+            }
         }
 
         currentCommentParam.setPicList(succeedPic);
@@ -227,7 +229,7 @@ public class CommitCommentViewModel extends ViewModel {
                     public void getResult(Result result) {
                         CommitCommentResult commitCommentResult = new CommitCommentResult();
                         if(result instanceof Result.Success){
-
+                            succeedPic.clear();
                         }else {
                             String error = ((Result.Error) result).getErrorMsg();
                             commitCommentResult.setErrorMsg(error);
