@@ -83,9 +83,9 @@ public class UserInfoRepository {
         getUserInfoListener.getResult(result);
     }
 
-    public void getStarPetList(GetUserPetParam getUserInfoParam, GetResultListener getStarPetList) throws Exception{
+    public void getStarPetList(GetUserPetParam getUserPetParam, GetResultListener getStarPetList) throws Exception{
         this.getStarPetList = getStarPetList;
-        HashMap map = (HashMap) ObjectTransformUtil.objectToMap(getUserInfoParam);
+        HashMap map = (HashMap) ObjectTransformUtil.objectToMap(getUserPetParam);
         userDataSource.getStarPetList(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -187,7 +187,7 @@ public class UserInfoRepository {
         getCommentListener.getResult(result);
     }
     public void setGetDaliyRecord(Result result){
-        getCommentListener.getResult(result);
+        getDailyRecordListener.getResult(result);
     }
 
 

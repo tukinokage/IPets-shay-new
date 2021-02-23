@@ -29,6 +29,8 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.bbsmodule.adapter.PostInfoListAdapter;
 import com.example.bbsmodule.entity.BBSPost;
@@ -65,6 +67,7 @@ import java.util.Set;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@Route(path = AroutePath.PostInfoActivity)
 public class PostInfoActivity extends AppCompatActivity {
 
     private PostInfoViewModel postInfoViewModel;
@@ -77,6 +80,8 @@ public class PostInfoActivity extends AppCompatActivity {
     int mHiddenViewMeasuredHeight;
 
     public static final String POST_DATA_BUNDLE_NAME = "BBSPost";
+    @Autowired
+    public String postId;
     private BBSPost currentBBPost;
 
     @BindView(R.id.comment_text_input_et)
@@ -109,12 +114,20 @@ public class PostInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_info);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         postInfoViewModel = new ViewModelProvider(this, new PostInfoModelFactory())
                 .get(PostInfoViewModel.class);
         commitCommentViewModel = new ViewModelProvider(this, new CommitCommentViewModelFactory())
                 .get(CommitCommentViewModel.class);
-        currentBBPost = (BBSPost) getIntent().getExtras().get(POST_DATA_BUNDLE_NAME);
+
+        if(getIntent().getExtras().isEmpty()){
+            currentBBPost = new BBSPost();
+            currentBBPost.setPostId(postId);
+        }else {
+            currentBBPost = (BBSPost) getIntent().getExtras().get(POST_DATA_BUNDLE_NAME);
+        }
+
 
         init();
         initListener();
@@ -323,6 +336,7 @@ public class PostInfoActivity extends AppCompatActivity {
                     ToastUntil.showToast("回复成功", AppContext.getContext());
                     setCommentEditorStatus(true);
                     postInfoViewModel.getComment(currentBBPost.getPostId());
+                    animatorClose(commitCommentLayout);
 
                 }else {
                     ToastUntil.showToast(commitCommentResult.getErrorMsg(), AppContext.getContext());

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -37,26 +38,27 @@ import butterknife.ButterKnife;
 
 @Route(path = AroutePath.PetStarActivity)
 public class PetStarListActivity extends AppCompatActivity {
-    public  static int PER_PAPER_NUM = 15;
-    public  static int CURRENT_PAPER_NUM = 1;
+    public   int PER_PAPER_NUM = 15;
+    public   int CURRENT_PAPER_NUM = 1;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
    @BindView(R.id.star_pet_list_rv)
     RecyclerView starPetListRecycler;
-   @BindView(R.id.user_info_top_back_tv)
+   @BindView(R.id.main_activity_go_register_tv)
     TextView backTv;
 
     GetPetStarListViewModel getPetStarListViewModel;
     MyPetRecyclerViewAdapter petRecyclerViewAdapter;
 
     @Autowired
-    private String userId;
+    public String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pet_star_list);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         getPetStarListViewModel = new ViewModelProvider(this, new GetPetStarViewModelFactory())
                 .get(GetPetStarListViewModel.class);
@@ -72,6 +74,8 @@ public class PetStarListActivity extends AppCompatActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         starPetListRecycler.setLayoutManager(layoutManager);
         starPetListRecycler.setAdapter(petRecyclerViewAdapter);
+
+        getPetStarListViewModel.getStarPetListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
     }
 
     private  void initListener(){
@@ -109,12 +113,11 @@ public class PetStarListActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 //到底部
-                StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 assert layoutManager != null;
-                int spanCount = layoutManager.getSpanCount();
-                int[] lastPositions = new int[spanCount];
-                int[] lastCompletelyVisibleItemPosition = layoutManager.findLastVisibleItemPositions(lastPositions);
-                if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
+                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                Log.i("刷新", "lastCompletelyVisibleItemPosition: "+lastCompletelyVisibleItemPosition);
+                if(lastCompletelyVisibleItemPosition == layoutManager.getItemCount() -1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == petRecyclerViewAdapter.getItemCount()){
                         if(IS_LOADING_MORE){

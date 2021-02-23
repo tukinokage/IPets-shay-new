@@ -4,12 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -33,15 +36,18 @@ import butterknife.ButterKnife;
 
 @Route(path = AroutePath.CommentActivity)
 public class CommentListActivity extends AppCompatActivity {
-    public  static int PER_PAPER_NUM = 15;
-    public  static int CURRENT_PAPER_NUM = 0;
+    public  int PER_PAPER_NUM = 15;
+    public  int CURRENT_PAPER_NUM = 1;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
 
     @Autowired
-    private String userId;
+    public String userId;
+
     @BindView(R.id.comment_list_rv)
      RecyclerView recyclerView;
+    @BindView(R.id.main_activity_go_register_tv)
+    TextView backTv;
 
     GetUserCommentListViewModel commentListViewModel;
     UserCommentViewAdapter userCommentViewAdapter;
@@ -50,6 +56,7 @@ public class CommentListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comment_list);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         commentListViewModel = new ViewModelProvider(this, new GetUserCommentViewModelFactory())
                 .get(GetUserCommentListViewModel.class);
@@ -62,10 +69,21 @@ public class CommentListActivity extends AppCompatActivity {
     private void init(){
         userCommentViewAdapter = new UserCommentViewAdapter(this);
         recyclerView.setAdapter(userCommentViewAdapter);
+        LinearLayoutManager layoutManager= new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
+        commentListViewModel.getCommentListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
     }
 
 
     private void initListener(){
+        backTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -77,12 +95,11 @@ public class CommentListActivity extends AppCompatActivity {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 //到底部
-                StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
                 assert layoutManager != null;
-                int spanCount = layoutManager.getSpanCount();
-                int[] lastPositions = new int[spanCount];
-                int[] lastCompletelyVisibleItemPosition = layoutManager.findLastVisibleItemPositions(lastPositions);
-                if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
+                int lastCompletelyVisibleItemPosition = layoutManager.findLastCompletelyVisibleItemPosition();
+                Log.i("刷新", "lastCompletelyVisibleItemPosition: "+lastCompletelyVisibleItemPosition);
+                if(lastCompletelyVisibleItemPosition == layoutManager.getItemCount() -1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == userCommentViewAdapter.getItemCount()){
                         if(IS_LOADING_MORE){
@@ -92,7 +109,7 @@ public class CommentListActivity extends AppCompatActivity {
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
-                            commentListViewModel.getCommentListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM + 1);
+                            commentListViewModel.getCommentListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM );
                         }else {
                             ToastUntil.showToast("已无更多", AppContext.getContext());
                         }
@@ -105,7 +122,7 @@ public class CommentListActivity extends AppCompatActivity {
             @Override
             public void onclick(int position) {
                 String posId = commentListViewModel.getCurrentList().get(position).getPostId();
-                ARouter.getInstance().build(AroutePath.PostInfoActivity).withString(AroutePath.paramName.PET_ID, posId).navigation();
+                ARouter.getInstance().build(AroutePath.PostInfoActivity).withString(AroutePath.paramName.POST_ID, posId).navigation();
             }
         });
 

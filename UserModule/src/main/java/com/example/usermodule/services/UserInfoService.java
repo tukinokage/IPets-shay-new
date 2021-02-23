@@ -32,5 +32,4 @@ public interface UserInfoService {
     @FormUrlEncoded
     Observable<BaseResponse<GetDailyRecordResponse>> getDailyRecordService(@FieldMap HashMap<String, Object> map);
 
-
 }

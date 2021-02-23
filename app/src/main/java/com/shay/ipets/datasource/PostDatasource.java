@@ -10,8 +10,10 @@ import com.shay.ipets.services.PostService;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.Multipart;
 
 public class PostDatasource {
     public Observable<BaseResponse<PostResponse>> postNew(HashMap<String, Object> map){
@@ -21,9 +23,9 @@ public class PostDatasource {
     }
 
 
-    public Observable<BaseResponse<UpLoadPicResponse>> uploadPic(HashMap<String, RequestBody> responseBodyHashMap){
+    public Observable<BaseResponse<UpLoadPicResponse>> uploadPic(HashMap<String, RequestBody> responseBodyHashMap, MultipartBody.Part body){
         PostService service = new HttpUtil().getService(PostService.class, UrlUtil.BASE_URL.BASE_URL);
-        Observable<BaseResponse<UpLoadPicResponse>> observable = service.uploadPic(responseBodyHashMap);
+        Observable<BaseResponse<UpLoadPicResponse>> observable = service.uploadPic(responseBodyHashMap, body);
         return observable;
     }
 

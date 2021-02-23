@@ -44,9 +44,9 @@ import static com.shay.baselibrary.AppContext.getContext;
 
 public class BBSMainActivity extends AppCompatActivity {
 
-    public  static int PER_PAPER_NUM = 15;
-    public  static int CURRENT_PAPER_NUM = 1;
-    public  static int CURRENT_TYPE = 0;
+    public  int PER_PAPER_NUM = 15;
+    public  int CURRENT_PAPER_NUM = 1;
+    public  int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
 

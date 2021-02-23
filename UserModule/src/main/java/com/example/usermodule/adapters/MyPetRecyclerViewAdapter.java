@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Pet;
+
+import java.util.ArrayList;
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +38,7 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public static final String FOOT_ITEM_TIP_NOT_MORE_TEXT = "下面没有了";
 
     public MyPetRecyclerViewAdapter() {
-
+        mValues = new ArrayList<>();
     }
 
     @Override

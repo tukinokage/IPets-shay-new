@@ -16,6 +16,7 @@ import com.shay.baselibrary.ObjectTransformUtil;
 import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.dto.response.BaseResponse;
+import com.shay.baselibrary.UserInfoUtil.*;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
@@ -49,6 +51,8 @@ public class UpdateUserInfoRepository {
     //info
     public void  updateUserInfo(UpdateUserInfoParam updateUserInfoParam, GetResultListener updateUserInfoListener) throws Exception{
         this.updateUserInfoListener = updateUserInfoListener;
+        updateUserInfoParam.setUserId(UserInfoUtil.getUserId());
+        updateUserInfoParam.setUserToken(UserInfoUtil.getUserToken());
         HashMap map = (HashMap) ObjectTransformUtil.objectToMap(updateUserInfoParam);
         updateInfoDataSource.updateUserInfo(map)
                 .subscribeOn(Schedulers.io())
@@ -89,15 +93,14 @@ public class UpdateUserInfoRepository {
         updateHeadImgParam.setUserId(UserInfoUtil.getUserId());
 
         String json = new Gson().toJson(updateHeadImgParam);
-        byte[] bs = FileTransfromUtil.File2byte(file);
         RequestBody responseText = RequestBody.create(MediaType.parse("text/plain"), json);
-        RequestBody responsePic = RequestBody.create(MediaType.parse("image/*"), bs);
+        RequestBody responsePic = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), responsePic);
         HashMap<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("info", responseText);
-        hashMap.put("file", responsePic);
 
         HashMap map = (HashMap) ObjectTransformUtil.objectToMap(hashMap);
-        updateInfoDataSource.updateUserHeadIcon(map)
+        updateInfoDataSource.updateUserHeadIcon(map, part)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<UpdateUserInfoResponse>>() {
@@ -137,15 +140,14 @@ public class UpdateUserInfoRepository {
         updateBgParam.setUserId(UserInfoUtil.getUserId());
 
         String json = new Gson().toJson(updateBgParam);
-        byte[] bs = FileTransfromUtil.File2byte(file);
         RequestBody responseText = RequestBody.create(MediaType.parse("text/plain"), json);
-        RequestBody responsePic = RequestBody.create(MediaType.parse("image/*"), bs);
+        RequestBody responsePic = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), responsePic);
         HashMap<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("info", responseText);
-        hashMap.put("file", responsePic);
 
         HashMap map = (HashMap) ObjectTransformUtil.objectToMap(hashMap);
-        updateInfoDataSource.updateUserBg(map)
+        updateInfoDataSource.updateUserBg(map, part)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<UpdateUserInfoResponse>>() {

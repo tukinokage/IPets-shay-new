@@ -80,9 +80,9 @@ public class PlaceholderFragment extends Fragment {
     private  String name;
 
     //选项默认值
-    private static int mShapeLevel = 0;
-    private static int mFetchLevel = 0;
-    private static int mRankType = 1;
+    private  int mShapeLevel = 0;
+    private  int mFetchLevel = 0;
+    private  int mRankType = 1;
     private int mPetClass;
 
     private PlaceHolderViewModel placeHolderViewModel;

@@ -13,6 +13,7 @@ import com.example.usermodule.R;
 import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.dto.UserCommentItem;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,6 +39,7 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public UserCommentViewAdapter(Context context) {
         this.context = context;
+        mValues = new ArrayList<>();
     }
 
     public void setmValues(List<UserCommentItem> mValues) {
@@ -52,11 +54,11 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         View  view = null;
         if(viewType == FOOT_ITEM){
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.comment_list_item_layout, parent, false);
+                    .inflate(R.layout.foot_item_layout, parent, false);
             viewHolder = new FootViewHolder(view);
         }else if(viewType == NORMAL_ITEM){
             view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.star_pet_list_item_layout, parent, false);
+                    .inflate(R.layout.comment_list_item_layout, parent, false);
             viewHolder = new NormalViewHolder(view);
         }
         return viewHolder;

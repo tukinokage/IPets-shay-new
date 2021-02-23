@@ -8,6 +8,15 @@ public class UserInfo {
     private String headPicName;
     private String bgPicName;
     private int sex;
+    private String userId;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;

@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.bbsmodule.adapter.PostsAdapter;
 import com.example.bbsmodule.entity.BBSPost;
 import com.example.bbsmodule.entity.result.GetPostListResult;
@@ -34,9 +35,9 @@ import butterknife.ButterKnife;
 
 @Route(path = AroutePath.SearchResultActivity)
 public class SreachResultActivity extends AppCompatActivity {
-    public  static int PER_PAPER_NUM = 15;
-    public  static int CURRENT_PAPER_NUM = 1;
-    public  static int CURRENT_TYPE = 0;
+    public  int PER_PAPER_NUM = 15;
+    public  int CURRENT_PAPER_NUM = 1;
+    public  int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
 
@@ -67,6 +68,7 @@ public class SreachResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sreach_result);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
         bbsViewModel = new ViewModelProvider(this, new BBSViewModelFactory())
                 .get(BBSViewModel.class);
         if(!getIntent().getExtras().isEmpty()){

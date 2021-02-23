@@ -159,7 +159,7 @@ public class UpdateInfoViewModel extends ViewModel {
         UpdateUserInfoParam param = new UpdateUserInfoParam();
         param.setSign(sign);
         param.setUserName(name);
-        updateInfoAsyncTask = (UpdateInfoAsyncTask) asyncTaskFactory.createAsyncTask(new UpdateBgAsyncTask());
+        updateInfoAsyncTask = (UpdateInfoAsyncTask) asyncTaskFactory.createAsyncTask(new UpdateInfoAsyncTask());
         updateInfoAsyncTask.execute(param);
     }
 

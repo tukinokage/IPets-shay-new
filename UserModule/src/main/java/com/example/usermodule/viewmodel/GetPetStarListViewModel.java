@@ -28,7 +28,7 @@ public class GetPetStarListViewModel extends ViewModel {
     UserInfoRepository userInfoRepository;
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     GetStarPetListAsyncTask getStarPetListAsyncTask;
-
+    RemoveStarPetAsyncTask removeStarPetAsyncTask;
     private List<Pet> petList;
 
     private MutableLiveData<List<Pet>> petListMutableLiveData = new MutableLiveData<>();
@@ -141,6 +141,12 @@ public class GetPetStarListViewModel extends ViewModel {
     }
 
     public void removeIndexPet(int position, String userId){
+
+/*
+        removeStarPetAsyncTask = (RemoveStarPetAsyncTask) asyncTaskFactory.createAsyncTask(new RemoveStarPetAsyncTask());
+        removeStarPetAsyncTask.execute();
+*/
+
         if(petList.size() > position){
             petList.remove(position);
             petListMutableLiveData.setValue(petList);

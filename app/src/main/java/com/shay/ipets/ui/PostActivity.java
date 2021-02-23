@@ -1,5 +1,6 @@
 package com.shay.ipets.ui;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.lifecycle.Observer;
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
@@ -25,6 +27,7 @@ import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.dto.PostPicInfo;
 import com.shay.baselibrary.GlideLoadEngine;
+import com.shay.baselibrary.enums.PostTypeEnum;
 import com.shay.ipets.R;
 import com.shay.ipets.adapter.SelectPicAdapter;
 import com.shay.ipets.entity.result.PostResult;
@@ -57,7 +60,10 @@ public class PostActivity extends AppCompatActivity {
     @BindView(R.id.post_text_input_et)
     public TextInputEditText contentTextInput;
     @BindView(R.id.post_title_input_et)
+
     public TextInputEditText titleTextInput;
+    @BindView(R.id.post_post_class_tv)
+    public TextView classSelectTv;
 
     private SelectPicAdapter selectPicAdapter;
 
@@ -66,7 +72,11 @@ public class PostActivity extends AppCompatActivity {
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     public static final int REQUEST_CODE_CHOOSE = 001;
     private final int MAX_PIC_NUM = 9;
-    @Override
+
+    private int currentClass = 1;
+    private String[] classPositives = {};
+
+   @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
@@ -82,6 +92,10 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void init(){
+       for(int i = 1; i < PostTypeEnum.values().length; i++){
+           classPositives[i-1] = PostTypeEnum.getRankEnumByNum(i).getRankName();
+       }
+
         int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
 
@@ -124,6 +138,26 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void initListener(){
+
+
+        classSelectTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(PostActivity.this);
+                builder.setTitle("选择帖子的类型")
+                        .setItems(classPositives, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PostActivity.this.currentClass = which;
+                            }
+                        });
+
+                builder.show();
+            }
+        });
+
+
         selectPicAdapter.setAddOnclickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +193,7 @@ public class PostActivity extends AppCompatActivity {
                 //先上传图片
                 String title = titleTextInput.getText().toString();
                 String contentText = titleTextInput.getText().toString();
-                int type = 0;
+                int type = currentClass;
 
                 postViewModel.submitAll(title, contentText, type);
             }

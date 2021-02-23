@@ -40,11 +40,12 @@ public class UserInfoActivity extends AppCompatActivity {
 
     public static final String PARAM_NAME = "userId";
     @Autowired
-    private String userId;
+    public String userId;
 
     UserInfoViewModel userInfoViewModel;
 
     boolean isMyUserInfo = false;
+    boolean isLogined = false;
 
     @BindView(R.id.user_info_top_back_tv)
     TextView backBtn;
@@ -81,6 +82,7 @@ public class UserInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_info);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         userInfoViewModel = new ViewModelProvider(this, new UserInfoModelFactory())
                 .get(UserInfoViewModel.class);
@@ -90,14 +92,47 @@ public class UserInfoActivity extends AppCompatActivity {
         initObserver();
     }
 
-    public void init(){
+    public void init()  {
         try {
-            if(userId == null){
-                isMyUserInfo = true;
+
+            if(TextUtils.isEmpty(userInfoViewModel.getMyId())){
+                //未登录
+                isLogined = false;
             }else {
-                if(userInfoViewModel.getMyId() == userId){
+                isLogined = true;
+            }
+
+
+            if(userId == null){
+                if(isLogined){
+                    userId = userInfoViewModel.getMyId();
                     isMyUserInfo = true;
+                }else {
+                    isMyUserInfo = false;
+                    userNameTv.setText("未登录");
+                    signTv.setText("签名");
                 }
+            }else {
+                if(isLogined){
+                    if(userInfoViewModel.getMyId().equals(userId)){
+                        isMyUserInfo = true;
+                    }else {
+                        isMyUserInfo = false;
+                    }
+                }
+
+            }
+
+            //判断是否是自己的账户
+            if(isMyUserInfo){
+                isLogined = true;
+                //开启修改头像功能
+                initUpdateHeadIcon();
+                userInfoViewModel.getMyInfo(userId);
+
+            }else {
+                hideUpdateFunction();
+                userInfoViewModel.getUserInfo(userId);
             }
 
         } catch (MyException e){
@@ -107,16 +142,9 @@ public class UserInfoActivity extends AppCompatActivity {
             ToastUntil.showToast("应用出错", AppContext.getContext());
         }
 
-        //判断是否是自己的账户
-        if(isMyUserInfo){
 
-            //开启修改头像功能
-            initUpdateHeadIcon();
-            userInfoViewModel.getMyInfo(userId);
-        }else {
-            hideUpdateFunction();
-            userInfoViewModel.getUserInfo(userId);
-        }
+
+
     }
 
     private void initObserver(){
@@ -129,6 +157,7 @@ public class UserInfoActivity extends AppCompatActivity {
                      userNameTv.setText(userInfo.getUserName());
                      postNumTv.setText(userInfo.getPostNum());
                      daliyrecordNumTv.setText(userInfo.getDailyNum());
+                     userId = userInfo.getUserId();
                      loadPic(userInfo);
                  }else {
                      ToastUntil.showToast(getUserResult.getErrorMsg(), AppContext.getContext());
@@ -150,7 +179,7 @@ public class UserInfoActivity extends AppCompatActivity {
         postLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(AroutePath.SearchResultActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.SearchResultActivity).withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId).navigation();
             }
         });
 
@@ -158,7 +187,7 @@ public class UserInfoActivity extends AppCompatActivity {
         dailyRecordLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(AroutePath.DailyRecordActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.DailyRecordActivity).withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId).navigation();
             }
         });
 
@@ -166,7 +195,7 @@ public class UserInfoActivity extends AppCompatActivity {
         commentLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(AroutePath.CommentActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.CommentActivity).withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId).navigation();
             }
         });
 
@@ -174,7 +203,7 @@ public class UserInfoActivity extends AppCompatActivity {
         updateInfoLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)  {
-                ARouter.getInstance().build(AroutePath.UpdateInfoActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.UpdateInfoActivity).withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId).navigation();
             }
         });
 
@@ -182,7 +211,7 @@ public class UserInfoActivity extends AppCompatActivity {
         pwLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               ARouter.getInstance().build(AroutePath.PhoneActivity).withString("userId", userId).navigation();
+               ARouter.getInstance().build(AroutePath.PhoneActivity).withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId).navigation();
             }
         });
 
@@ -190,7 +219,7 @@ public class UserInfoActivity extends AppCompatActivity {
         petStarLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ARouter.getInstance().build(AroutePath.PetStarActivity).withString("userId", userId).navigation();
+                ARouter.getInstance().build(AroutePath.PetStarActivity).withString(AroutePath.paramName.USER_ID_PARAM_NAME, userId).navigation();
             }
         });
 

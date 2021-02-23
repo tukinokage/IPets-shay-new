@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
 import com.example.usermodule.entity.result.UpdateUserInfoResult;
@@ -27,9 +29,13 @@ import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.UserInfo;
 import com.shay.baselibrary.UserInfoUtil.*;
+import com.shay.baselibrary.*;
+import com.shay.baselibrary.picUtils.LoadLocalPic;
+import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
 
+import java.io.FileNotFoundException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,21 +53,22 @@ public class UpdateInfoActivity extends AppCompatActivity {
     TextInputEditText signTextInput;
     @BindView(R.id.update_info_sumit)
     TextView submitTv;
-    @BindView(R.id.user_info_top_back_tv)
+    @BindView(R.id.main_activity_go_register_tv)
     TextView backTv;
 
     UserInfoViewModel userInfoViewModel;
     UpdateInfoViewModel updateInfoViewModel;
     UserInfo currentUserInfo;
 
-    public static final int SELECT_HEAD_REQUEST_CODE = 0x01;
-    public static final int SELECT_BG_REQUEST_CODE = 0x02;
+    public static final int SELECT_HEAD_REQUEST_CODE = 1;
+    public static final int SELECT_BG_REQUEST_CODE = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_info);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         userInfoViewModel = new ViewModelProvider(this, new UserInfoModelFactory())
                 .get(UserInfoViewModel.class);
@@ -71,6 +78,17 @@ public class UpdateInfoActivity extends AppCompatActivity {
         init();
         initListener();
         initObserver();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+            userInfoViewModel.getMyInfo(UserInfoUtil.getUserId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "应用出错", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void init() {
@@ -99,6 +117,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
         });
 
         imageView.setOnClickListener(v -> PictureSelector.create(UpdateInfoActivity.this, SELECT_BG_REQUEST_CODE)
+                //.selectPicture(  true, 800, 480, 4, 3));
                 .selectPicture(  false));
 
         nickNameEditText.setOnClickListener(v -> {
@@ -117,7 +136,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
             }
 
             if(!signTextInput.getText().toString().isEmpty()){
-                sign = nickNameEditText.getText().toString().trim();
+                sign = signTextInput.getText().toString().trim();
             }
 
             updateInfoViewModel.updateInfo(name, sign);
@@ -206,20 +225,34 @@ public class UpdateInfoActivity extends AppCompatActivity {
         /*结果回调*/
         if (requestCode == SELECT_HEAD_REQUEST_CODE) {
             if (data != null) {
-                String picturePath = data.getStringExtra(PictureSelector.PICTURE_RESULT);
-                updateInfoViewModel.uploadHeadImg(picturePath);
+                PictureBean p =  data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+                String picturePath = p.getPath();
+                try {
+                    imageView.setImageBitmap(LoadLocalPic.loadPic(picturePath));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    updateInfoViewModel.uploadHeadImg(p.getUri().getPath());
+                }
             }
         }else  if(requestCode == SELECT_BG_REQUEST_CODE){
             if (data != null) {
-                String picturePath = data.getStringExtra(PictureSelector.PICTURE_RESULT);
-                updateInfoViewModel.uploadBg(picturePath);
-            }
+                PictureBean p =  data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
+                String path = p.getPath();
+                //String picturePath = LoadLocalPic.getRealPathFromUri(this, p.getUri());
+                    try {
+                        imageView.setImageBitmap(LoadLocalPic.loadPic(path));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                updateInfoViewModel.uploadBg(path);
+
+         }
         }
     }
 
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy(){
         super.onDestroy();
         updateInfoViewModel.cancelAsyncTask();
     }

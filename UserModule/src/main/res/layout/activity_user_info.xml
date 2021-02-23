@@ -33,10 +33,10 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/material_white"
-                android:shadowColor="#ffffff00"
-                android:shadowDx="10"
-                android:shadowDy="10"
-                android:shadowRadius="10"
+                android:shadowColor="@color/material_blueGrey_800"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="5"
                 android:lineSpacingExtra="2dp"
                 android:text="这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名
                 这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名"/>
@@ -47,7 +47,8 @@
             android:layout_height="match_parent">
             <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -257,54 +258,57 @@
     </FrameLayout>
 
 
-        <com.google.android.material.appbar.AppBarLayout
+        <LinearLayout
             android:id="@+id/activity_post_info_top_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:layout_constraintTop_toTopOf="parent">
-            <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|enterAlways">
 
-                    <TextView
-                        android:id="@+id/user_info_top_back_tv"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="left"
-                        android:background="@drawable/ic_arrow_back_black_24dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/user_info_loginout_ly"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/user_info_top_back_tv"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_gravity="left"
+                            android:background="@drawable/ic_arrow_back_black_24dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/user_info_loginout_ly"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="15dp"
                         android:gravity="center"
-                        android:textColor="@color/material_grey_200"
-                        android:text="退出登录" />
-                </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-         </com.google.android.material.appbar.AppBarLayout>
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textColor="@color/material_grey_200"
+                            android:text="退出登录" />
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+         </LinearLayout>
 
 
 

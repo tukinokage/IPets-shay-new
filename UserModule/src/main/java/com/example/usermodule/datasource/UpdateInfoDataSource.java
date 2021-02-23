@@ -9,6 +9,8 @@ import com.shay.baselibrary.dto.response.BaseResponse;
 import java.util.HashMap;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 
 public class UpdateInfoDataSource {
@@ -18,14 +20,14 @@ public class UpdateInfoDataSource {
         return service.updateUserInfo(map);
     }
 
-    public Observable<BaseResponse<UpdateUserInfoResponse>> updateUserHeadIcon(HashMap<String, ResponseBody> map){
+    public Observable<BaseResponse<UpdateUserInfoResponse>> updateUserHeadIcon(HashMap<String, RequestBody> map, MultipartBody.Part part){
         UpdateInfoService service = new HttpUtil().getService(UpdateInfoService.class, UrlUtil.BASE_URL.BASE_URL);
-        return service.updateHeadImg(map);
+        return service.updateHeadImg(map, part);
     }
 
-    public Observable<BaseResponse<UpdateUserInfoResponse>> updateUserBg(HashMap<String, ResponseBody> map){
+    public Observable<BaseResponse<UpdateUserInfoResponse>> updateUserBg(HashMap<String, RequestBody> map, MultipartBody.Part part){
         UpdateInfoService service = new HttpUtil().getService(UpdateInfoService.class, UrlUtil.BASE_URL.BASE_URL);
-        return service.updateBg(map);
+        return service.updateBg(map, part);
     }
 
 

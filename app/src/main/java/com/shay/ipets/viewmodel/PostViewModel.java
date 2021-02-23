@@ -164,7 +164,7 @@ public class PostViewModel extends ViewModel {
 
        postParam.setTitle(title);
        postParam.setContentText(ContentText);
-       postParam.setType(type);
+       postParam.setType(String.valueOf(type));
        currentPostParam = postParam;
 
         if( getSelectPicList().size() == 0){
