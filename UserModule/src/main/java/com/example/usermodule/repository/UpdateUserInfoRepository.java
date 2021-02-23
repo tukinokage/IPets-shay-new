@@ -99,8 +99,7 @@ public class UpdateUserInfoRepository {
         HashMap<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("info", responseText);
 
-        HashMap map = (HashMap) ObjectTransformUtil.objectToMap(hashMap);
-        updateInfoDataSource.updateUserHeadIcon(map, part)
+        updateInfoDataSource.updateUserHeadIcon(hashMap, part)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<UpdateUserInfoResponse>>() {
@@ -145,9 +144,7 @@ public class UpdateUserInfoRepository {
         MultipartBody.Part part = MultipartBody.Part.createFormData("file", file.getName(), responsePic);
         HashMap<String, RequestBody> hashMap = new HashMap<>();
         hashMap.put("info", responseText);
-
-        HashMap map = (HashMap) ObjectTransformUtil.objectToMap(hashMap);
-        updateInfoDataSource.updateUserBg(map, part)
+        updateInfoDataSource.updateUserBg(hashMap, part)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<UpdateUserInfoResponse>>() {
