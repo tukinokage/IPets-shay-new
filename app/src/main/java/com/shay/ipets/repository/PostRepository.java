@@ -48,9 +48,12 @@ public class PostRepository {
         this.getResultListener = resultListener;
         postParam.setToken(UserInfoUtil.getUserToken());
         postParam.setUserId(UserInfoUtil.getUserId());
-
-        HashMap<String, Object> stringObjectMap = (HashMap<String, Object>) ObjectTransformUtil.objectToMap(postParam);
-        postDatasource.postNew(stringObjectMap)
+        String json = new Gson().toJson(postParam);
+        RequestBody requesjson = RequestBody.create(MediaType.parse("text/plain"), json);
+        HashMap<String, RequestBody> hashMap = new HashMap<>();
+        hashMap.put("info", requesjson);
+        //HashMap<String, Object> stringObjectMap = (HashMap<String, Object>) ObjectTransformUtil.objectToMap(postParam);
+        postDatasource.postNew(hashMap)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<BaseResponse<PostResponse>>() {

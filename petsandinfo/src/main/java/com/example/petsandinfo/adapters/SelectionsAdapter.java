@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.R2;
 
 import java.util.List;
 
@@ -81,7 +82,7 @@ public class SelectionsAdapter extends BaseAdapter {
     }
 
     class SelectionViewholder{
-        @BindView(R.id.selection_btn)
+        @BindView(R2.id.selection_btn)
         TextView btn;
 
         public SelectionViewholder(View v){

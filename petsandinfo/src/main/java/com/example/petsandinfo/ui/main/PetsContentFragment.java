@@ -13,9 +13,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.R2;
 import com.google.android.material.tabs.TabLayout;
 import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
+import com.shay.baselibrary.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +31,13 @@ import butterknife.ButterKnife;
 * 要在主activity销毁pagerAdapter
 * 第0固定为全部
 * */
+@Route(path = AroutePath.fragmentUrl.PetsContentFragment)
 public class PetsContentFragment extends Fragment {
 
-    @BindView(R.id.view_pager)
+    @BindView(R2.id.view_pager)
     ViewPager viewPager;
 
-    @BindView(R.id.tabs)
+    @BindView(R2.id.tabs)
     TabLayout tabLayout;
     SectionsPagerAdapter sectionsPagerAdapter;
 
@@ -112,7 +116,7 @@ public class PetsContentFragment extends Fragment {
         super.onStart();
 
         //tabLayout
-        int tabLayoutWidth = 200 * (classesNum + 1);
+        int tabLayoutWidth = 200 * (classesNum);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(tabLayoutWidth, LinearLayout.LayoutParams.WRAP_CONTENT);
         tabLayout.setLayoutParams(layoutParams);
         tabLayout.setupWithViewPager(viewPager);

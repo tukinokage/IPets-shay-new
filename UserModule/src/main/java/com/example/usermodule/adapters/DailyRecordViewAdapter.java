@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.dto.UserDailyRecordItem;
 
@@ -109,9 +110,9 @@ public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        @BindView(R.id.daily_record_tv)
+        @BindView(R2.id.daily_record_tv)
         TextView contentTv;
-        @BindView(R.id.daily_record_date_tv)
+        @BindView(R2.id.daily_record_date_tv)
         TextView dateTimeTv;
 
 
@@ -131,7 +132,7 @@ public class DailyRecordViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public final View view;
 
-        @BindView(R.id.pet_list_foot_tips)
+        @BindView(R2.id.pet_list_foot_tips)
         TextView textView;
 
 

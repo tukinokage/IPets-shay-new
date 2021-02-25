@@ -23,6 +23,7 @@ import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.localthreadpool.*;
 import com.shay.loginandregistermodule.R;
 import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
+import com.shay.loginandregistermodule.R2;
 import com.shay.loginandregistermodule.data.entity.result.SmsResultStauts;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModel;
 import com.shay.loginandregistermodule.viewmodel.PhoneSmsViewModelFactory;
@@ -43,17 +44,17 @@ public class PhoneCheckActivity extends AppCompatActivity {
     //类型
 
     private PhoneSmsViewModel phoneSmsViewModel;
-    @BindView(R.id.activtiy_phone_login_register_msg_submit_btn)
+    @BindView(R2.id.activtiy_phone_login_register_msg_submit_btn)
     Button submitSmsBtn;
-    @BindView(R.id.activtiy_phone_login_register_confrim_btn)
+    @BindView(R2.id.activtiy_phone_login_register_confrim_btn)
     Button confrimBtn;
-    @BindView(R.id.activtiy_phone_login_register_smsCode_et)
+    @BindView(R2.id.activtiy_phone_login_register_smsCode_et)
     EditText sgmCodeEt;
-    @BindView(R.id.activtiy_phone_login_register_phoneNum_et)
+    @BindView(R2.id.activtiy_phone_login_register_phoneNum_et)
     EditText phoneNumEt;
-    @BindView(R.id.login_activity_go_register_tv)
+    @BindView(R2.id.login_activity_go_register_tv)
     TextView backTextView;
-    @BindView(R.id.activtiy_phone_login_register_phonetip_tv)
+    @BindView(R2.id.activtiy_phone_login_register_phonetip_tv)
     TextView phoneTipTv;
 
     CountTimeAsyncTask countTimeAsyncTask;
@@ -223,7 +224,10 @@ public class PhoneCheckActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         phoneSmsViewModel.cancelAsyncTask();
-        countTimeAsyncTask.cancel(true);
+        if(countTimeAsyncTask != null){
+            countTimeAsyncTask.cancel(true);
+        }
+
         super.onDestroy();
     }
 

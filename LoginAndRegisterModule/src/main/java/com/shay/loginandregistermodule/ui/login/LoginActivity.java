@@ -27,12 +27,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.android.arouter.core.LogisticsCenter;
+import com.alibaba.android.arouter.facade.Postcard;
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
 import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
+import com.shay.loginandregistermodule.R2;
 import com.shay.loginandregistermodule.data.entity.result.PhoneLoginResult;
 import com.shay.loginandregistermodule.data.entity.result.SPSaveUserResult;
 import com.shay.loginandregistermodule.ui.phoneloginregister.PhoneCheckActivity;
@@ -43,25 +47,26 @@ import com.shay.loginandregistermodule.viewmodel.LoginViewModelFactory;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
+@Route(path = AroutePath.LoginActivity)
 public class LoginActivity extends AppCompatActivity {
 
     LoginViewModel loginViewModel;
-    @BindView(R.id.login_activity_phone_linearLayout)
+    @BindView(R2.id.login_activity_phone_linearLayout)
     LinearLayout phoneLayout;
-    @BindView(R.id.login_activity_weibo_linearLayout)
+    @BindView(R2.id.login_activity_weibo_linearLayout)
     LinearLayout weiboLayout;
-    @BindView(R.id.login_activity_go_register_tv)
+    @BindView(R2.id.login_activity_go_register_tv)
     TextView backTextView;
-    @BindView(R.id.login_activity_account_et)
+    @BindView(R2.id.login_activity_account_et)
     EditText usernameEditText ;
-    @BindView(R.id.login_activity_password_tv)
+    @BindView(R2.id.login_activity_password_tv)
     EditText passwordEditText ;
-    @BindView(R.id.login_activity_login_bt)
+    @BindView(R2.id.login_activity_login_bt)
     Button loginButton;
-    @BindView(R.id.login_activity_loading_pb)
+    @BindView(R2.id.login_activity_loading_pb)
     ProgressBar loadingProgressBar;
 
+    private String phoneToken = "";
     public final static int REQUEST_CODE_PHONE = 1;
     public final static int REQUEST_CODE_SET_PWD = 2;
     @Override
@@ -69,6 +74,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
+
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
@@ -84,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
             ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(AroutePath.paramName.RESULT_PARAM_NAME);
             //检查手机号码是否注册，存在就登录，不存在注册，并跳转设置密码
             loginViewModel.CheckPhoneIsExist(confrimPhoneResult.getPhoneToken());
+            phoneToken = confrimPhoneResult.getPhoneToken();
             Log.d("phoneToken:", confrimPhoneResult.getPhoneToken());
         }else if(requestCode == REQUEST_CODE_SET_PWD && resultCode == AroutePath.resultCode.SET_PW_RESULT_CODE){
             boolean result = (boolean) data.getExtras().get(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME);
@@ -136,6 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(loginResult.getErrorMsg())) {
                     loginViewModel.saveUserInfo(loginResult.token, loginResult.userId, loginResult.userName);
                     ToastUntil.showToast("欢迎" + loginResult.userName, AppContext.getContext() );
+                    ARouter.getInstance().build(AroutePath.MainActivity).navigation();
                 }else {
                     ToastUntil.showToast(loginResult.errorMsg, AppContext.getContext() );
                 }
@@ -156,11 +165,18 @@ public class LoginActivity extends AppCompatActivity {
                     if(phoneLoginResult.getType() == 0){
                         //新用户
                         //跳转到设置密码
-                        Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
-                        startActivityForResult(intent, REQUEST_CODE_SET_PWD);
+                        /*Intent intent = new Intent(LoginActivity.this, SetPasswordActivity.class);
+                        startActivityForResult(intent, REQUEST_CODE_SET_PWD);*/
+                        Postcard postcard = ARouter.getInstance().build(AroutePath.SetPassActivity);
+                        LogisticsCenter.completion(postcard);
+                        Intent intent = new Intent(LoginActivity.this, postcard.getDestination());
+                        intent.putExtra(AroutePath.paramName.PHONE_TOKEN_PARAM_NAME, phoneToken);
+                        startActivityForResult(intent, AroutePath.requestCode.REQUEST_CODE_SET_PWD);
+
                     }else if(phoneLoginResult.getType() == 1){
                         //老用户
                         //跳转主界面
+                        ARouter.getInstance().build(AroutePath.MainActivity).navigation();
                     }
                 }else {
                     ToastUntil.showToast(phoneLoginResult.getErrorMsg(), AppContext.getContext());

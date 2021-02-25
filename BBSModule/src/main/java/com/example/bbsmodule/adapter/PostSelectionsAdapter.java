@@ -9,6 +9,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 
 import com.example.bbsmodule.R;
+import com.example.bbsmodule.R2;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 
 import java.util.List;
@@ -106,7 +107,7 @@ public class PostSelectionsAdapter extends BaseAdapter {
     }
 
     class SelectionViewholder{
-        @BindView(R.id.post_selection_btn)
+        @BindView(R2.id.post_selection_btn)
         RadioButton btn;
 
         public SelectionViewholder(View v){

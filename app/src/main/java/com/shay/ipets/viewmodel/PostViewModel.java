@@ -228,6 +228,9 @@ public class PostViewModel extends ViewModel {
     }
 
 
+    public void clearSucceed(){
+        succeedPic.clear();
+    }
 
     public void removePic(int position){
         selectPicList.remove(position);

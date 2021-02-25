@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.example.usermodule.adapters.UserCommentViewAdapter;
 import com.example.usermodule.entity.result.GetStarPetListResult;
 import com.example.usermodule.entity.result.GetUserCommentResult;
@@ -44,9 +45,9 @@ public class CommentListActivity extends AppCompatActivity {
     @Autowired
     public String userId;
 
-    @BindView(R.id.comment_list_rv)
+    @BindView(R2.id.comment_list_rv)
      RecyclerView recyclerView;
-    @BindView(R.id.main_activity_go_register_tv)
+    @BindView(R2.id.main_activity_go_register_tv)
     TextView backTv;
 
     GetUserCommentListViewModel commentListViewModel;

@@ -18,13 +18,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/bottombar_layout">
-
         <Button
             android:id="@+id/bottom_operate_btn"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="+"
+            android:textAlignment="center"
+            android:textSize="40sp"
+            android:textColor="@color/theme_color"
             android:background="@drawable/operator_btn_shape"
             />
 

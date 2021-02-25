@@ -15,26 +15,45 @@
         android:layout_height="wrap_content"
         android:columnCount="2"
         android:layout_gravity="center">
-        <Button
-            android:id="@+id/operator_dialog_post_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"/>
-        <Button
-            android:id="@+id/operator_dialog_post_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"/>
-        <Button
-            android:id="@+id/operator_dialog_post_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp" />
-        <Button
-            android:id="@+id/operator_dialog_post_btn"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/operator_dialog_daily_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_daily"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="写日志"
+                android:textColor="@color/material_white"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            android:gravity="center">
+            <Button
+                android:id="@+id/operator_dialog_post_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_postp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发帖子"
+            android:textColor="@color/material_white"
+            />
+    </LinearLayout>
     </GridLayout>
 
 </FrameLayout>

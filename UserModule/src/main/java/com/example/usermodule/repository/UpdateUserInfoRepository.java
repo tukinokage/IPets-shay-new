@@ -128,7 +128,6 @@ public class UpdateUserInfoRepository {
 
     }
 
-
     //bg
     public void updateBg(UpdateBgParam updateBgParam, GetResultListener updateBgListener) throws Exception{
         this.updateBgListener = updateBgListener;

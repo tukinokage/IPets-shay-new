@@ -12,12 +12,16 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 
+import com.alibaba.android.arouter.facade.annotation.Autowired;
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.android.material.textfield.TextInputEditText;
 import com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.loginandregistermodule.R;
+import com.shay.loginandregistermodule.R2;
 import com.shay.loginandregistermodule.data.entity.result.SetPwResult;
 import com.shay.loginandregistermodule.viewmodel.SetPasswordFactory;
 import com.shay.loginandregistermodule.viewmodel.SetPasswordViewModel;
@@ -29,16 +33,19 @@ import butterknife.Unbinder;
 /***
  * 其他模块调用该验证码模块后会以intent附带字段为result的boolean结果
  */
+@Route(path = AroutePath.SetPassActivity)
 public class SetPasswordActivity extends AppCompatActivity {
 
-    @BindView(R.id.activtiy_set_pw_frist_et)
+    @BindView(R2.id.activtiy_set_pw_frist_et)
      TextInputEditText firstEt;
-    @BindView(R.id.activtiy_set_pw_second_et)
+    @BindView(R2.id.activtiy_set_pw_second_et)
      TextInputEditText secondEt;
-    @BindView(R.id.activtiy_set_password_confrim_btn)
+    @BindView(R2.id.activtiy_set_password_confrim_btn)
     QMUIRoundButton confrimBtn;
 
     Unbinder unbinder;
+
+    public String phone_token;
 
     private SetPasswordViewModel setPasswordViewModel;
 
@@ -47,10 +54,12 @@ public class SetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_password);
         unbinder = ButterKnife.bind(this);
+        ARouter.getInstance().inject(this);
 
         setPasswordViewModel = new ViewModelProvider(this, new SetPasswordFactory())
                 .get(SetPasswordViewModel.class);
 
+        phone_token = getIntent().getStringExtra(AroutePath.paramName.PHONE_TOKEN_PARAM_NAME);
         init();
         initObserver();
         initListener();
@@ -150,7 +159,7 @@ public class SetPasswordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String pw = firstEt.getText().toString().trim();
                 if(!pw.isEmpty()){
-                    setPasswordViewModel.confirm(pw);
+                    setPasswordViewModel.confirm(pw, phone_token);
                 }
             }
         });

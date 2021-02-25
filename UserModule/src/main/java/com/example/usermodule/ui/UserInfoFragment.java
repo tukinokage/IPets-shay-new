@@ -1,21 +1,25 @@
-package com.example.usermodule.ui.activity;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
+package com.example.usermodule.ui;
 
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
@@ -25,24 +29,24 @@ import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
 import com.example.usermodule.R2;
-import com.shay.baselibrary.AroutePath;
-import com.shay.baselibrary.dto.UserInfo;
 import com.example.usermodule.entity.result.GetUserResult;
 import com.example.usermodule.viewmodel.UserInfoModelFactory;
 import com.example.usermodule.viewmodel.UserInfoViewModel;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
 import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
+import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
+import com.shay.baselibrary.dto.UserInfo;
 import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.baselibrary.myexceptions.MyException;
-import com.shay.baselibrary.UserInfoUtil.*;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@Route(path = AroutePath.UserInfoActivity)
-public class UserInfoActivity extends AppCompatActivity {
+@Route(path = AroutePath.fragmentUrl.UserInfoFragment)
+public class UserInfoFragment extends Fragment {
 
     public static final String PARAM_NAME = "userId";
     @Autowired
@@ -83,41 +87,41 @@ public class UserInfoActivity extends AppCompatActivity {
     LinearLayout petStarLy;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_info);
-        ButterKnife.bind(this);
-        ARouter.getInstance().inject(this);
-
         userInfoViewModel = new ViewModelProvider(this, new UserInfoModelFactory())
                 .get(UserInfoViewModel.class);
+
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_user_info, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        ButterKnife.bind(this, getActivity());
+        ARouter.getInstance().inject(this);
+
 
         init();
         initListener();
         initObserver();
-
-
-        Window window = getWindow();
-        View decorView = window.getDecorView();
-        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-        decorView.setSystemUiVisibility(option);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(Color.TRANSPARENT);
-        }
     }
 
     public void init()  {
+
         try {
-
-            if(TextUtils.isEmpty(userInfoViewModel.getMyId())){
-                //未登录
-                isLogined = false;
-            }else {
+            if(UserInfoUtil.isLogin()){
                 isLogined = true;
+            }else {
+                 //未登录
+                isLogined = false;
             }
-
 
             if(userId == null){
                 if(isLogined){
@@ -135,19 +139,21 @@ public class UserInfoActivity extends AppCompatActivity {
                     }else {
                         isMyUserInfo = false;
                     }
+                }else {
+                    isMyUserInfo = false;
                 }
 
             }
 
             //判断是否是自己的账户
             if(isMyUserInfo){
-                isLogined = true;
                 //开启修改头像功能
                 initUpdateHeadIcon();
-                userInfoViewModel.getMyInfo(userId);
-
             }else {
                 hideUpdateFunction();
+            }
+
+            if(userId != null){
                 userInfoViewModel.getUserInfo(userId);
             }
 
@@ -164,7 +170,7 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void initObserver(){
-         userInfoViewModel.getGetUserResultMutableLiveData().observe(this, new Observer<GetUserResult>() {
+         userInfoViewModel.getGetUserResultMutableLiveData().observe(getViewLifecycleOwner(), new Observer<GetUserResult>() {
              @Override
              public void onChanged(GetUserResult getUserResult) {
                  if(TextUtils.isEmpty(getUserResult.getErrorMsg())){
@@ -193,12 +199,12 @@ public class UserInfoActivity extends AppCompatActivity {
             }
         });
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        /*backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });
+        });*/
 
         //跳转帖子列表
         postLy.setOnClickListener(new View.OnClickListener() {
@@ -238,8 +244,9 @@ public class UserInfoActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Postcard postcard = ARouter.getInstance().build(AroutePath.PhoneActivity);
                 LogisticsCenter.completion(postcard);
-                Intent intent = new Intent(UserInfoActivity.this, postcard.getDestination());
-                startActivityForResult(intent, AroutePath.requestCode.REQUEST_CODE_PHONE);    }
+                Intent intent = new Intent(getActivity(), postcard.getDestination());
+                startActivityForResult(intent, AroutePath.requestCode.REQUEST_CODE_PHONE);
+            }
         });
 
         //跳转收藏宠物
@@ -255,6 +262,8 @@ public class UserInfoActivity extends AppCompatActivity {
         loginoutLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UserInfoUtil.saveUserId("");
+                UserInfoUtil.saveUserToken("");
                 UserInfoUtil.cleanSharedPreference(AppContext.getContext());
                 ARouter.getInstance().build(AroutePath.LoginActivity).navigation();
             }
@@ -286,7 +295,7 @@ public class UserInfoActivity extends AppCompatActivity {
             Glide.with(AppContext.getContext())
                     .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + userInfo.getHeadPicName())
                     .placeholder(R.drawable.head_icon)
-                    .error(R.drawable.ic_img_preview_default)
+                    .error(R.drawable.head_icon)
                     .into(headIv);
         }
 
@@ -298,27 +307,11 @@ public class UserInfoActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == AroutePath.requestCode.REQUEST_CODE_PHONE && resultCode == AroutePath.resultCode.PHONE_RESULT_CODE){
-            ConfrimPhoneResult confrimPhoneResult = (ConfrimPhoneResult) data.getExtras().get(AroutePath.paramName.RESULT_PARAM_NAME);
-            Postcard postcard = ARouter.getInstance().build(AroutePath.SetPassActivity);
-            LogisticsCenter.completion(postcard);
-            Intent intent = new Intent(this, postcard.getDestination());
-            startActivityForResult(intent, AroutePath.requestCode.REQUEST_CODE_SET_PWD);
-
-        }else if(requestCode == AroutePath.requestCode.REQUEST_CODE_SET_PWD && resultCode == AroutePath.resultCode.SET_PW_RESULT_CODE){
-            boolean result = (boolean) data.getExtras().get(AroutePath.paramName.SET_PW_RESULT_PARAM_NAME);
-            if(result){
-                ToastUntil.showToast("成功更改", AppContext.getContext());
-            }
-        }
-    }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onDetach() {
+        super.onDetach();
+        userId = null;
         userInfoViewModel.cancelAsyncTask();
     }
 }

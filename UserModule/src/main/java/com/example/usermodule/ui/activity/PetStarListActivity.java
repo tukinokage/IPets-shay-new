@@ -20,6 +20,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.example.usermodule.adapters.MyPetRecyclerViewAdapter;
 import com.example.usermodule.entity.result.GetStarPetListResult;
 import com.example.usermodule.viewmodel.GetDailyRecordListViewModel;
@@ -42,9 +43,9 @@ public class PetStarListActivity extends AppCompatActivity {
     public   int CURRENT_PAPER_NUM = 1;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
-   @BindView(R.id.star_pet_list_rv)
+   @BindView(R2.id.star_pet_list_rv)
     RecyclerView starPetListRecycler;
-   @BindView(R.id.main_activity_go_register_tv)
+   @BindView(R2.id.main_activity_go_register_tv)
     TextView backTv;
 
     GetPetStarListViewModel getPetStarListViewModel;

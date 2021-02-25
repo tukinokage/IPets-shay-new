@@ -38,8 +38,7 @@
                 android:shadowDy="2"
                 android:shadowRadius="5"
                 android:lineSpacingExtra="2dp"
-                android:text="这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名
-                这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名这是签名"/>
+                android:text="这是签名 "/>
         </FrameLayout>
 
         <LinearLayout
@@ -71,6 +70,8 @@
                                 android:id="@+id/user_info_name_textview"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+
+                                android:textSize="18sp"
                                 android:layout_margin="5dp"
                                 android:text="这是用户名(^_−)☆" />
 
@@ -162,6 +163,7 @@
 
 
                             <LinearLayout
+                                android:layout_marginTop="10dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
@@ -176,7 +178,8 @@
                                     <ImageView
                                         android:layout_width="50dp"
                                         android:layout_height="50dp"
-                                        android:layout_margin="10dp"/>
+                                        android:layout_margin="10dp"
+                                        android:src="@drawable/ic_comment"/>
                                     <TextView
                                         android:gravity="center"
                                         android:layout_width="wrap_content"
@@ -194,7 +197,8 @@
                                     <ImageView
                                         android:layout_width="50dp"
                                         android:layout_height="50dp"
-                                        android:layout_margin="10dp"/>
+                                        android:layout_margin="10dp"
+                                        android:src="@drawable/ic_startpet"/>
                                     <TextView
                                         android:gravity="center"
                                         android:layout_width="wrap_content"
@@ -212,7 +216,9 @@
                                     <ImageView
                                         android:layout_width="50dp"
                                         android:layout_height="50dp"
-                                        android:layout_margin="10dp"/>
+                                        android:layout_margin="10dp"
+                                        android:padding="3dp"
+                                        android:src="@drawable/ic_setting"/>
                                     <TextView
                                         android:gravity="center"
                                         android:layout_width="wrap_content"
@@ -229,7 +235,9 @@
                                     <ImageView
                                         android:layout_width="50dp"
                                         android:layout_height="50dp"
-                                        android:layout_margin="10dp"/>
+                                        android:layout_margin="10dp"
+                                        android:padding="5dp"
+                                        android:src="@drawable/ic_pw"/>
                                     <TextView
                                         android:gravity="center"
                                         android:layout_width="wrap_content"
@@ -260,6 +268,7 @@
 
         <LinearLayout
             android:id="@+id/activity_post_info_top_layout"
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

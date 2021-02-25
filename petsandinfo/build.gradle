@@ -1,3 +1,4 @@
+apply plugin: 'com.jakewharton.butterknife'
 if (IsBuildMudle.toBoolean()) {
     apply plugin: 'com.android.application'
 } else {
@@ -10,7 +11,10 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.example.petsandinfo"
+        if(IsBuildMudle.toBoolean()){
+
+            applicationId "com.example.petsandinfo"
+        }
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

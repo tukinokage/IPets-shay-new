@@ -50,13 +50,13 @@ public class BBSMainActivity extends AppCompatActivity {
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
 
-    @BindView(R.id.posts_activity_post_rv)
+    @BindView(R2.id.posts_activity_post_rv)
     RecyclerView recyclerView;
-    @BindView(R.id.posts_activity_selection_grid_view)
+    @BindView(R2.id.posts_activity_selection_grid_view)
     GridView selectGridView;
-    @BindView(R.id.posts_activity_auto_t)
+    @BindView(R2.id.posts_activity_auto_t)
     AutoCompleteTextView searchInput;
-    @BindView(R.id.posts_activity_btn)
+    @BindView(R2.id.posts_activity_btn)
     Button searchBtn;
 
     PostsAdapter postsAdapter;

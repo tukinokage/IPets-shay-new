@@ -67,10 +67,11 @@ public class SetPasswordViewModel extends ViewModel {
         }
     }
 
-    public void confirm(String pw)  {
+    public void confirm(String pw, String phoneToken)  {
         setPwAsyncTask = (SetPwAsyncTask) asyncTaskFactory.createAsyncTask(new SetPwAsyncTask());
         try {
             SetPwRequestParam setPwRequestParam = new SetPwRequestParam(UserInfoUtil.getUserId(), pw);
+            setPwRequestParam.setPhoneToken(phoneToken);
             setPwAsyncTask.execute(setPwRequestParam);
         } catch (Exception e) {
             e.printStackTrace();

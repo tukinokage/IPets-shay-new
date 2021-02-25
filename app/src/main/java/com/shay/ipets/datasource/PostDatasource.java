@@ -16,7 +16,7 @@ import okhttp3.ResponseBody;
 import retrofit2.http.Multipart;
 
 public class PostDatasource {
-    public Observable<BaseResponse<PostResponse>> postNew(HashMap<String, Object> map){
+    public Observable<BaseResponse<PostResponse>> postNew(HashMap<String, RequestBody> map){
         PostService service = new HttpUtil().getService(PostService.class, UrlUtil.BASE_URL.BASE_URL);
         Observable<BaseResponse<PostResponse>> observable = service.postNew(map);
         return observable;

@@ -1,15 +1,11 @@
 package com.example.petsandinfo.ui.main;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.shay.baselibrary.enums.petInfo.PetClassesEnum;
 
@@ -21,7 +17,7 @@ import java.util.ArrayList;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     private FragmentManager fm;
-    private static final ArrayList<Fragment> fs = new ArrayList<>();
+    private  ArrayList<Fragment> fs = new ArrayList<>();
 
 
     public SectionsPagerAdapter(FragmentManager fm) {
@@ -48,8 +44,11 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
       /* Fragment mfragment = fs.get(position);
        return  ((PlaceholderFragment)mfragment).getName();
 */
-        return PetClassesEnum.getEnumByNum(position).getChinese();
+      if(position < PetClassesEnum.values().length){
+          return PetClassesEnum.getEnumByNum(position).getChinese();
+      }
 
+      return null;
     }
 
 

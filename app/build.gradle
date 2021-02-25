@@ -59,7 +59,11 @@ dependencies {
     println IsBuildMudle.toBoolean()
     if (!IsBuildMudle.toBoolean()) {
         //app
-
+        implementation project(':BaseLibrary')
+        implementation project(':BBSModule')
+        implementation project(':LoginAndRegisterModule')
+        implementation project(':petsandinfo')
+        implementation project(':UserModule')
     } else {
         //module
         implementation project(':BaseLibrary')

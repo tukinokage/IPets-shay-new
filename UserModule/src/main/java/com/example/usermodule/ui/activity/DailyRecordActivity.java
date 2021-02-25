@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +17,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.example.usermodule.adapters.DailyRecordViewAdapter;
 import com.example.usermodule.entity.result.GetDaliyRecordResult;
 import com.example.usermodule.viewmodel.GetDailyRecordListViewModel;
@@ -25,7 +25,6 @@ import com.example.usermodule.viewmodel.GetDailyViewModelFactory;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
-import com.shay.baselibrary.dto.UserCommentItem;
 import com.shay.baselibrary.dto.UserDailyRecordItem;
 
 import java.util.List;
@@ -42,9 +41,9 @@ public class DailyRecordActivity extends AppCompatActivity {
     private boolean IS_LOADING_MORE = false;
     GetDailyRecordListViewModel dailyRecordListViewModel;
     DailyRecordViewAdapter dailyRecordViewAdapter;
-    @BindView(R.id.daily_list_rv)
+
     RecyclerView recyclerView;
-    @BindView(R.id.main_activity_go_register_tv)
+    @BindView(R2.id.main_activity_go_register_tv)
     TextView backTv;
 
     @Autowired
@@ -52,13 +51,14 @@ public class DailyRecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_record);
+        setContentView(R.layout.activity_my_daily_record);
         ButterKnife.bind(this);
         ARouter.getInstance().inject(this);
 
         dailyRecordListViewModel = new ViewModelProvider(this, new GetDailyViewModelFactory())
                 .get(GetDailyRecordListViewModel.class);
 
+        recyclerView = findViewById(R.id.daily_list_rv);
         init();
         initListener();
         initObserver();

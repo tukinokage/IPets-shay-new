@@ -1,17 +1,22 @@
 package com.example.bbsmodule.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bbsmodule.R;
+import com.example.bbsmodule.R2;
 import com.example.bbsmodule.entity.BBSPost;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 
 import java.util.List;
 
@@ -54,6 +59,15 @@ public class PostsAdapter extends RecyclerView.Adapter {
             });
         }
         ((PostViewHolder) holder).imageView.setImageResource(R.drawable.post_none);
+
+        if(!TextUtils.isEmpty(postList.get(position).getPicName())){
+            Glide.with(context)
+                    .load(UrlUtil.STATIC_RESOURCE.POST_PIC_URL + postList.get(position).getPicName())
+                    .into(((PostViewHolder) holder).imageView)
+                    .onLoadFailed(context.getDrawable(R.color.material_blue_200));
+        }
+
+
         ((PostViewHolder) holder).textView.setText(postList.get(position).getTitle());
 
     }
@@ -64,9 +78,9 @@ public class PostsAdapter extends RecyclerView.Adapter {
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.post_item_img)
+        @BindView(R2.id.post_item_img)
         ImageView imageView;
-        @BindView(R.id.post_item_title_tv)
+        @BindView(R2.id.post_item_title_tv)
         TextView textView;
 
         public PostViewHolder(@NonNull View itemView) {

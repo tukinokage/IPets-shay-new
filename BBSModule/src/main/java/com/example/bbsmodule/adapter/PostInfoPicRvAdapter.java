@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.bbsmodule.R;
+import com.example.bbsmodule.R2;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 
 import java.util.List;
@@ -22,11 +23,16 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
    private List<String> picList;
    private PicOnClickListener picOnClickListener;
    private PicOnClickListener onPicClikedListener;
+   private int picType = 0;
+   private final static int POST = 0;
+   private final static int COMMENT = 1;
 
-    public PostInfoPicRvAdapter(Context context, List<String> picList, PicOnClickListener picOnClickListener) {
+
+    public PostInfoPicRvAdapter(Context context, List<String> picList, PicOnClickListener picOnClickListener, int picType) {
         this.picList = picList;
         this.context = context;
-        this.picOnClickListener = picOnClickListener;
+        this.onPicClikedListener = picOnClickListener;
+        this.picType = picType;
     }
 
     public PostInfoPicRvAdapter(Context context) {
@@ -34,6 +40,8 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
     }
 
     Context context;
+
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,10 +54,17 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         PicViewHolder picholder = (PicViewHolder)holder;
+
+        String url = "";
+        if(picType == POST){
+            url = UrlUtil.STATIC_RESOURCE.POST_PIC_URL;
+        }else if(picType == COMMENT){
+            url = UrlUtil.STATIC_RESOURCE.COMMENT_PIC_URL;
+        }
         Glide.with(context)
-                .load(UrlUtil.BASE_URL.BASE_URL + picList.get(position))
+                .load( url + picList.get(position))
                 .into(picholder.imageView)
-        .onLoadStarted(context.getDrawable(R.drawable.pic_zb26_icon));
+                .onLoadFailed(context.getDrawable(R.color.material_blueGrey_200)) ;
 
         picholder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +81,7 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
 
     class PicViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.rv_pic_imageview)
+        @BindView(R2.id.rv_pic_imageview)
         ImageView imageView;
         public PicViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,7 +89,8 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
         }
     }
 
-    interface PicOnClickListener{
+
+    public interface PicOnClickListener{
         void onclick(String picName);
     }
 }

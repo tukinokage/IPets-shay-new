@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.shay.baselibrary.AppContext;
@@ -74,7 +75,7 @@ public class PostActivity extends AppCompatActivity {
     private final int MAX_PIC_NUM = 9;
 
     private int currentClass = 1;
-    private String[] classPositives = {};
+    private String[] classPositives = new String[PostTypeEnum.values().length - 1];
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,7 +116,15 @@ public class PostActivity extends AppCompatActivity {
         postViewModel.getPostResultMutableLiveData().observe(this, new Observer<PostResult>() {
             @Override
             public void onChanged(PostResult postResult) {
+                postViewModel.clearSucceed();
 
+                if(TextUtils.isEmpty(postResult.getErrorMsg())){
+                    ToastUntil.showToast("发送成功", AppContext.getContext());
+                    finish();
+                } else {
+                    ToastUntil.showToast(postResult.getErrorMsg(), AppContext.getContext());
+
+                }
             }
         });
 
@@ -149,7 +158,8 @@ public class PostActivity extends AppCompatActivity {
                         .setItems(classPositives, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                PostActivity.this.currentClass = which;
+                                PostActivity.this.currentClass = which + 1;
+                                PostActivity.this.classSelectTv.setText("当前类型：" + PostTypeEnum.getRankEnumByNum(which + 1).getRankName());
                             }
                         });
 
@@ -191,10 +201,15 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //先上传图片
+
                 String title = titleTextInput.getText().toString();
-                String contentText = titleTextInput.getText().toString();
+                String contentText = contentTextInput.getText().toString();
                 int type = currentClass;
 
+                if(TextUtils.isEmpty(title) || TextUtils.isEmpty(contentText)){
+                    ToastUntil.showToast("请输入正确内容", AppContext.getContext());
+                    return;
+                }
                 postViewModel.submitAll(title, contentText, type);
             }
         });
@@ -212,6 +227,10 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void selectPic(){
+       if(postViewModel.mContentListLength() == MAX_PIC_NUM){
+           ToastUntil.showToast("不能超过" + MAX_PIC_NUM + "张", AppContext.getContext());
+       }
+
         Matisse.from(this)
                 .choose(MimeType.ofImage())
                 .capture(true)

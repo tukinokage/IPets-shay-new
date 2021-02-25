@@ -268,7 +268,7 @@ public class PlaceholderFragment extends Fragment {
                     loadList(mShapeLevel, mFetchLevel, mRankType);
 
                 }else if(rankCheck.isChecked()){
-                    mRankType = position;
+                    mRankType = position + 1;
                     loadList(mShapeLevel, mFetchLevel, mRankType);
 
                 }

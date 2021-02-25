@@ -1,3 +1,4 @@
+apply plugin: 'com.jakewharton.butterknife'
 if (IsBuildMudle.toBoolean()) {
     apply plugin: 'com.android.application'
 } else {
@@ -11,7 +12,10 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.bbsmodule"
+        if(IsBuildMudle.toBoolean()){
+            applicationId "com.example.bbsmodule"
+        }
+
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.shay.baselibrary.dto.Pet;
 import com.shay.baselibrary.dto.UserCommentItem;
 
@@ -116,9 +117,9 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        @BindView(R.id.comment_content_text_tv)
+        @BindView(R2.id.comment_content_text_tv)
         TextView commentTextTv ;
-        @BindView(R.id.comment_post_title_tv)
+        @BindView(R2.id.comment_post_title_tv)
         TextView postTitleTv ;
 
         public NormalViewHolder(View view) {
@@ -137,7 +138,7 @@ public class UserCommentViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public final View view;
 
-        @BindView(R.id.pet_list_foot_tips)
+        @BindView(R2.id.pet_list_foot_tips)
         TextView textView;
 
         public FootViewHolder(@NonNull View itemView) {

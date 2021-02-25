@@ -1,3 +1,4 @@
+apply plugin: 'com.jakewharton.butterknife'
 if (IsBuildMudle.toBoolean()) {
     apply plugin: 'com.android.application'
 } else {
@@ -10,7 +11,9 @@ android {
 
 
     defaultConfig {
-        applicationId "com.example.usermodule"
+        if(IsBuildMudle.toBoolean()){
+            applicationId "com.example.usermodule"
+        }
         minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
@@ -63,6 +66,7 @@ android {
 
 
     //记得注释掉
+
     splits {
         abi {
             enable true

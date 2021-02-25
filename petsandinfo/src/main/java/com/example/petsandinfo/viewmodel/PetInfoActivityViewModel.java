@@ -259,9 +259,14 @@ public class PetInfoActivityViewModel extends ViewModel {
                                 checkPetIsStarResult.setErrorMsg(errorResult.getErrorMsg());
 
                             }else if(result instanceof Result.Success){
-                                Result.Success successResult = (Result.Success<List<Store>>) result;
+                                Result.Success successResult = (Result.Success<CheckIsStarResponse>) result;
                                 CheckIsStarResponse checkIsStarResponse = (CheckIsStarResponse) successResult.getData();
-                                checkPetIsStarResult.setStar(checkIsStarResponse.isStar());
+                                if(checkIsStarResponse.getIsStar() == 0){
+                                    checkPetIsStarResult.setStar(false);
+                                }else {
+                                    checkPetIsStarResult.setStar(true);
+                                }
+
                             }
                             checkPetIsStarResultMutableLiveData.setValue(checkPetIsStarResult);
                         }
@@ -369,7 +374,7 @@ public class PetInfoActivityViewModel extends ViewModel {
         CheckIsStarParam checkIsStarParam = new CheckIsStarParam();
         checkIsStarParam.setPetId(petId);
         checkIsStarParam.setUserId(UserInfoUtil.getUserId());
-        checkStarAsyncTask.execute();
+        checkStarAsyncTask.execute(checkIsStarParam);
     }
     public void starPet(String petId) throws Exception {
        starPetAsyncTask = (StarPetAsyncTask) asyncTaskFactory.createAsyncTask(new StarPetAsyncTask());

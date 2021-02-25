@@ -5,13 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/theme_color"
     tools:context=".BBSMainActivity"
     tools:ignore="ResourceName">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:background="@color/material_orange_500"
+        android:background="@color/light_grey_bg_color"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         app:elevation="0dp"
         >
         <androidx.constraintlayout.widget.ConstraintLayout

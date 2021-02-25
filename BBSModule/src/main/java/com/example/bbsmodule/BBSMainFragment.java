@@ -1,31 +1,37 @@
 package com.example.bbsmodule;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.GridView;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-
-import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.alibaba.android.arouter.launcher.ARouter;
+import com.example.bbsmodule.adapter.PostSelectionsAdapter;
 import com.example.bbsmodule.adapter.PostsAdapter;
 import com.example.bbsmodule.entity.BBSPost;
 import com.example.bbsmodule.entity.result.GetPostListResult;
 import com.example.bbsmodule.viewmodel.BBSViewModel;
 import com.example.bbsmodule.viewmodel.BBSViewModelFactory;
 import com.shay.baselibrary.AppContext;
-import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
+import com.shay.baselibrary.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,65 +39,74 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@Route(path = AroutePath.SearchResultActivity)
-public class SreachResultActivity extends AppCompatActivity {
+@Route(path = AroutePath.fragmentUrl.BBSMainFragment)
+public class BBSMainFragment extends Fragment {
+
     public  int PER_PAPER_NUM = 15;
     public  int CURRENT_PAPER_NUM = 1;
     public  int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
 
-    @Autowired
-     String searchCondition = "";
-
-    @Autowired
-    String userId = "";
-
     @BindView(R2.id.posts_activity_post_rv)
     RecyclerView recyclerView;
-
-    @BindView(R2.id.activity_post_top_back_btn)
-    Button backBtn;
-    @BindView(R2.id.activity_post_info_top_title)
-    TextView topText;
+    @BindView(R2.id.posts_activity_selection_grid_view)
+    GridView selectGridView;
+    @BindView(R2.id.posts_activity_auto_t)
+    AutoCompleteTextView searchInput;
+    @BindView(R2.id.posts_activity_btn)
+    Button searchBtn;
 
     PostsAdapter postsAdapter;
+    PostSelectionsAdapter postSelectionsAdapter;
     List<String> selectionList;
     List<BBSPost> bbsPostsList;
 
     BBSViewModel bbsViewModel;
 
-    public static final String SEARCH_DATA_BUNDLE_NAME = "searchCondition";
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sreach_result);
-        ButterKnife.bind(this);
-        ARouter.getInstance().inject(this);
-
         bbsViewModel = new ViewModelProvider(this, new BBSViewModelFactory())
                 .get(BBSViewModel.class);
-        if(!getIntent().getExtras().isEmpty()){
-            searchCondition = getIntent().getExtras().getString(SEARCH_DATA_BUNDLE_NAME);
-        }
 
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.activity_bbsmain, container, false);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ButterKnife.bind(this, getActivity());
         init();
         initObserver();
         initListener();
+    }
 
-        if(!TextUtils.isEmpty(searchCondition)){
-            bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM);
-        }else if(!TextUtils.isEmpty(userId)){
-            bbsViewModel.getBBSPostListByUId(CURRENT_TYPE, userId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
         }
 
+        return super.onOptionsItemSelected(item);
     }
 
     private void init(){
         bbsPostsList = new ArrayList<>();
         selectionList = new ArrayList<>();
-        postsAdapter = new PostsAdapter(this);
+        postsAdapter = new PostsAdapter(getContext());
 
         for(int i = 0; i < 2; i++ ){
             BBSPost bbsPost = new BBSPost();
@@ -99,42 +114,47 @@ public class SreachResultActivity extends AppCompatActivity {
             if (i == 4){
                 bbsPost.setTitle("斯佩伯爵 海军上校String.valueOf(i)String.valueOf(i)String.valueOf(i)");
             }
-
             bbsPostsList.add(bbsPost);
-            Log.d("测试post序号", String.valueOf(i));
+            Log.d("sdbb", String.valueOf(i));
         }
 
-        topText.setText(searchCondition);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 finish();
-            }
-        });
-
         postsAdapter.setPostList(bbsPostsList);
+        postSelectionsAdapter = new PostSelectionsAdapter(selectionList, getContext());
+
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
-        // manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+       // manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(postsAdapter);
+        selectGridView.setAdapter(postSelectionsAdapter);
+
+        bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        IS_LOADING_MORE = true;
 
         bbsViewModel.getSelectionList();
         postsAdapter.notifyDataSetChanged();
     }
 
     private void initObserver(){
-        bbsViewModel.getPostListResultMutableLiveData().observe(this, new Observer<GetPostListResult>() {
+
+        bbsViewModel.getSelectonListMutableLiveData().observe(getViewLifecycleOwner(), new Observer<List<String>>() {
+            @Override
+            public void onChanged(List<String> strings) {
+                postSelectionsAdapter.setSeletionList(strings);
+                postSelectionsAdapter.notifyDataSetChanged();
+            }
+        });
+
+        bbsViewModel.getPostListResultMutableLiveData().observe(getViewLifecycleOwner(), new Observer<GetPostListResult>() {
             @Override
             public void onChanged(GetPostListResult getPostListResult) {
                 if (TextUtils.isEmpty(getPostListResult.getErrorMg())){
                     CURRENT_PAPER_NUM += 1;
                     HASH_MORE = getPostListResult.isHasMore();
                     bbsPostsList.addAll(getPostListResult.getBbsPostList());
-                    postsAdapter.setPostList(bbsPostsList);
                     postsAdapter.notifyDataSetChanged();
                     IS_LOADING_MORE = false;
-                } else {
+                }else {
                     ToastUntil.showToast(getPostListResult.getErrorMg(), AppContext.getContext());
                 }
             }
@@ -145,11 +165,21 @@ public class SreachResultActivity extends AppCompatActivity {
         postsAdapter.setOnClickListener(new PostsAdapter.PostOnclickListener() {
             @Override
             public void onclick(int position) {
-                Intent intent = new Intent(SreachResultActivity.this, PostInfoActivity.class);
+                Intent intent = new Intent(getActivity(), PostInfoActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(PostInfoActivity.POST_DATA_BUNDLE_NAME, bbsPostsList.get(position));
                 intent.putExtras(bundle);
                 startActivity(intent);
+                }
+        });
+
+        postSelectionsAdapter.setSelectionOnclickListener(new PostSelectionsAdapter.SelectionOnclickListener() {
+            @Override
+            public void onClick(int position) {
+                CURRENT_TYPE = position;
+                CURRENT_PAPER_NUM = 1;
+                bbsPostsList.clear();
+                bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM);
             }
         });
 
@@ -178,19 +208,39 @@ public class SreachResultActivity extends AppCompatActivity {
                         if(HASH_MORE){
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
-                            bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, searchCondition, PER_PAPER_NUM, CURRENT_PAPER_NUM );
+                            bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
                         }else {
-                            ToastUntil.showToast("已无更多", AppContext.getContext());
+                            ToastUntil.showToast("已无更多 ", AppContext.getContext());
                         }
+
                     }
                 }
+
             }
         });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String c = searchInput.getText().toString().trim();
+                if(!TextUtils.isEmpty(c)){
+                   Intent intent = new Intent(getActivity(), SreachResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(SreachResultActivity.SEARCH_DATA_BUNDLE_NAME, c);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }else {
+                    ToastUntil.showToast("不能为空", AppContext.getContext());
+                }
+
+            }
+        });  
+
 
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         bbsViewModel.cancelAsyTask();
     }

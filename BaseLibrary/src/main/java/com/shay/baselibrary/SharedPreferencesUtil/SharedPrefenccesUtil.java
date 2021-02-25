@@ -12,8 +12,6 @@ import java.util.NoSuchElementException;
 
 public class SharedPrefenccesUtil {
 
-
-
     public static SharedPreferences getSharedPreferences(String filename){
         return AppContext.getContext().getSharedPreferences(filename, Context.MODE_PRIVATE);
     }

@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-i
 import com.shay.baselibrary.dto.Result;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 import com.shay.ipets.entity.params.ConfrimDaliyRecord;
@@ -67,7 +66,9 @@ public class DaliRecordModel extends ViewModel {
         confirmDailyRecordAsyncTask = (ConfirmDailyRecordAsyncTask) asyncTaskFactory
                 .createAsyncTask(new ConfirmDailyRecordAsyncTask());
 
-        confirmDailyRecordAsyncTask.execute();
+        ConfrimDaliyRecord confrimDaliyRecord = new ConfrimDaliyRecord();
+        confrimDaliyRecord.setContent(contentText);
+        confirmDailyRecordAsyncTask.execute(confrimDaliyRecord);
 
     }
 

@@ -147,7 +147,6 @@ public class PlaceHolderViewModel extends ViewModel {
         //默认
         fechLevelList.add("全部");
         shapeLevelList.add("全部");
-        rankTypeList.add("全部");
 
         for (FetchLevelEnum e:
              FetchLevelEnum.values()) {

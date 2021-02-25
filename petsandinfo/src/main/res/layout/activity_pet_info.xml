@@ -18,37 +18,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="350dp">
 
-                <ImageView
+                <!--<ImageView
                     android:id="@+id/activity_pet_info_pics_rv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     android:src="@drawable/info_bg"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"/>
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"/>-->
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/pet_info_pic_view_pager"
 
-                <FrameLayout
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="60dp"
-                    android:layout_marginLeft="20dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:padding="5dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:alpha="0.5"
-                        android:layout_gravity="center"
-                        android:background="@drawable/text_nums_radius_bg_shape"
-                        />
-                    <com.qmuiteam.qmui.alpha.QMUIAlphaTextView
-                        android:id="@+id/pet_info_pic_num_tv"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="1/8"
-                        android:layout_gravity="center"/>
-                </FrameLayout>
+
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         <include layout="@layout/pet_info_content_text"/>
@@ -56,8 +41,8 @@
         <LinearLayout
             android:id="@+id/activity_pet_info_top_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="55dp"
+            android:gravity="bottom"
             android:background="@color/theme_color">
 
             <Button
@@ -78,36 +63,63 @@
         </LinearLayout>
 
 
-        <LinearLayout
+        <FrameLayout
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="20dp">
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/activity_pet_info_like_fab"
-                android:backgroundTint="@color/colorPrimary"
-                app:borderWidth="0dp"
-                app:elevation="5dp"
-                app:pressedTranslationZ="12dp"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_like_defult"
-                app:fabCustomSize="50dp"/>
+                android:orientation="vertical">
+                <FrameLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    >
+                    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:qmui_radius="20dp"
+                        app:qmui_backgroundColor="@color/theme_color"
+                        app:elevation="5dp"
+                        app:pressedTranslationZ="12dp"/>
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/activity_pet_info_share_fab"
-                android:backgroundTint="@color/colorPrimary"
-                app:borderWidth="0dp"
-                app:elevation="5dp"
-                app:pressedTranslationZ="12dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/fab_margin"
-                app:srcCompat="@drawable/ic_share"
-                app:fabCustomSize="50dp"/>
+                    <TextView
+                        android:id="@+id/activity_pet_info_like_fab"
+                        android:layout_gravity="center"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_like_defult"/>
+                </FrameLayout>
 
-        </LinearLayout>
+                <FrameLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="10dp"
+                    >
+                    <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundLinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:qmui_radius="20dp"
+                        app:qmui_backgroundColor="@color/material_red_400"
+                        app:elevation="5dp"
+                        app:pressedTranslationZ="12dp"/>
+
+                    <TextView
+                        android:id="@+id/activity_pet_info_share_fab"
+                        android:layout_gravity="center"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/ic_share"/>
+                </FrameLayout>
+
+            </LinearLayout>
+
+
+        </FrameLayout>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

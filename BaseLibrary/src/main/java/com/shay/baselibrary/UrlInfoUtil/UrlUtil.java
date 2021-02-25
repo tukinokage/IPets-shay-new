@@ -17,8 +17,14 @@ public class UrlUtil {
     }
 
     public static class STATIC_RESOURCE{
-        public static final String HEAD_ICON_URL = BASE_URL.BASE_STATIC_URL + "pic/headicon";
-        public static final String BG_PIC_URL = BASE_URL.BASE_STATIC_URL + "pic/bg";
+        public static final String HEAD_ICON_URL = BASE_URL.BASE_STATIC_URL + "user/head_img/";
+        public static final String BG_PIC_URL = BASE_URL.BASE_STATIC_URL + "user/bg_img/";
+        public static final String POST_PIC_URL = BASE_URL.BASE_STATIC_URL + "post_img/";
+        public static final String COMMENT_PIC_URL = BASE_URL.BASE_STATIC_URL + "comment_img/";
+        public static final String PET_PIC_URL = BASE_URL.BASE_STATIC_URL + "pet/img/";
+        public static final String PET_HEAD_PIC_URL = BASE_URL.BASE_STATIC_URL + "pet/head_img/";
+        public static final String STORE_PIC_URL = BASE_URL.BASE_STATIC_URL + "store/";
+        public static final String HOSPITAL_PIC_URL = BASE_URL.BASE_STATIC_URL + "hospital/";
     }
 
     public static class USER_URL{

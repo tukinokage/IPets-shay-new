@@ -16,6 +16,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.example.usermodule.entity.result.UpdateUserInfoResult;
 import com.example.usermodule.viewmodel.UpdateInfoViewModel;
 import com.example.usermodule.viewmodel.UpdateUserInfoModelFactory;
@@ -43,17 +44,17 @@ import butterknife.ButterKnife;
 @Route(path = AroutePath.UpdateInfoActivity)
 public class UpdateInfoActivity extends AppCompatActivity {
 
-    @BindView(R.id.update_info_head_iv)
+    @BindView(R2.id.update_info_head_iv)
     QMUIRadiusImageView headIv;
-    @BindView(R.id.update_info_bg_iv)
+    @BindView(R2.id.update_info_bg_iv)
     ImageView imageView;
-    @BindView(R.id.update_info_nickname_input_text)
+    @BindView(R2.id.update_info_nickname_input_text)
     TextInputEditText nickNameEditText;
-    @BindView(R.id.update_info_sign_iv)
+    @BindView(R2.id.update_info_sign_iv)
     TextInputEditText signTextInput;
-    @BindView(R.id.update_info_sumit)
+    @BindView(R2.id.update_info_sumit)
     TextView submitTv;
-    @BindView(R.id.main_activity_go_register_tv)
+    @BindView(R2.id.main_activity_go_register_tv)
     TextView backTv;
 
     UserInfoViewModel userInfoViewModel;
@@ -196,28 +197,7 @@ public class UpdateInfoActivity extends AppCompatActivity {
             }
         });
 
-
-
     }
-
-    private void loadPic(UserInfo userInfo){
-
-        if(!TextUtils.isEmpty(userInfo.getHeadPicName())){
-            Glide.with(AppContext.getContext())
-                    .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL)
-                    .placeholder(R.drawable.head_icon)
-                    .error(R.drawable.ic_img_preview_default)
-                    .into(headIv);
-        }
-
-        if(!TextUtils.isEmpty(userInfo.getBgPicName())) {
-            Glide.with(AppContext.getContext())
-                    .load(UrlUtil.STATIC_RESOURCE.BG_PIC_URL)
-                    .placeholder(R.drawable.ic_img_preview_default)
-                    .into(imageView);
-        }
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -250,6 +230,22 @@ public class UpdateInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void loadPic(UserInfo userInfo){
+        if(!TextUtils.isEmpty(userInfo.getHeadPicName())){
+            Glide.with(AppContext.getContext())
+                    .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + userInfo.getHeadPicName())
+                    .placeholder(R.drawable.head_icon)
+                    .error(R.drawable.ic_img_preview_default)
+                    .into(headIv);
+        }
+
+        if(!TextUtils.isEmpty(userInfo.getBgPicName())) {
+            Glide.with(AppContext.getContext())
+                    .load(UrlUtil.STATIC_RESOURCE.BG_PIC_URL + userInfo.getBgPicName())
+                    .placeholder(R.drawable.ic_img_preview_default)
+                    .into(imageView);
+        }
+    }
 
     @Override
     protected void onDestroy(){

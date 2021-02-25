@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.usermodule.R;
+import com.example.usermodule.R2;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Pet;
 
@@ -125,13 +126,13 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        @BindView(R.id.pet_list_item_iv)
+        @BindView(R2.id.pet_list_item_iv)
         ImageView imageView;
 
-        @BindView(R.id.pet_list_item_name_tv)
+        @BindView(R2.id.pet_list_item_name_tv)
         TextView nameView;
 
-        @BindView(R.id.cancel_liked_ly)
+        @BindView(R2.id.cancel_liked_ly)
         LinearLayout unlikedLy;
 
         public NormalViewHolder(View view) {
@@ -150,7 +151,7 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         public final View view;
 
-        @BindView(R.id.pet_list_foot_tips)
+        @BindView(R2.id.pet_list_foot_tips)
         TextView textView;
 
         public FootViewHolder(@NonNull View itemView) {

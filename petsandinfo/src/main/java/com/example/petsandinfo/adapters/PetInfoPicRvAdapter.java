@@ -58,10 +58,12 @@ public class PetInfoPicRvAdapter extends RecyclerView.Adapter {
     class PetInfoPicRvViewHolder extends RecyclerView.ViewHolder{
 
         View view;
+
         ImageView imageView;
         public PetInfoPicRvViewHolder(@NonNull View itemView) {
             super(itemView);
             view = itemView;
+            itemView.findViewById(R.id.post_item_rv_piv_iv);
         }
     }
 

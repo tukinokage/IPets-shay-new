@@ -1,13 +1,13 @@
 package com.example.petsandinfo.entity.response;
 
 public class CheckIsStarResponse {
-    boolean isStar;
+    int isStar;
 
-    public boolean isStar() {
+    public int getIsStar() {
         return isStar;
     }
 
-    public void setStar(boolean star) {
-        isStar = star;
+    public void setIsStar(int isStar) {
+        this.isStar = isStar;
     }
 }

@@ -3,14 +3,15 @@
     package="com.shay.loginandregistermodule">
     <!--组件化状态的配置， 不独立运行-->
     <application
-        android:allowBackup="true"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name="com.shay.baselibrary.AppContext">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.login.LoginActivity"
             android:label="@string/app_name">
+        </activity>
+        <activity
+            android:name=".ui.phoneloginregister.PhoneCheckActivity">
+        </activity><activity
+            android:name=".ui.phoneloginregister.SetPasswordActivity">
         </activity>
     </application>
 

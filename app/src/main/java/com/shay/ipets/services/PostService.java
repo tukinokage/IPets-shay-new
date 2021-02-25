@@ -20,8 +20,8 @@ import retrofit2.http.PartMap;
 
 public interface PostService {
     @POST(UrlUtil.POST_URL.POST_NEW_URL)
-    @FormUrlEncoded
-    Observable<BaseResponse<PostResponse>> postNew(@FieldMap HashMap<String, Object> map);
+    @Multipart
+    Observable<BaseResponse<PostResponse>> postNew(@PartMap HashMap<String, RequestBody> map);
 
     @POST(UrlUtil.POST_URL.UPLOAD_PIC_URL)
     @Multipart

@@ -1,9 +1,11 @@
 package com.example.bbsmodule.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,7 +13,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.bbsmodule.R;
+import com.example.bbsmodule.R2;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Comment;
 import com.shay.baselibrary.dto.Post;
 
@@ -79,6 +84,10 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             PostViewHolder postViewHolder = (PostViewHolder) holder;
             postViewHolder.contentText.setText(post.getContextText());
             postViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
+            Glide.with(context)
+                    .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + post.getUserId() + ".jpg")
+                    .into(postViewHolder.icon)
+                    .onLoadStarted(context.getDrawable(R.color.qmui_config_color_gray_5));
             postViewHolder.name.setText(post.getUserName());
             postViewHolder.dateTextView.setText(post.getDateTime());
             postViewHolder.numTextView.setText("楼主");
@@ -91,15 +100,24 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
                 });
             }
 
-            if(postViewHolder.picRv.getAdapter() == null){
-                PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
-                        post.getPicNameList(),
+            LinearLayoutManager layoutManager= new LinearLayoutManager(context);
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            postViewHolder.picRv.setLayoutManager(layoutManager);
 
-                        picName -> {
+            if(!(post.getPicNameList().isEmpty())) {
+                if (postViewHolder.picRv.getAdapter() == null) {
+                    PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
+                            post.getPicNameList(), new PostInfoPicRvAdapter.PicOnClickListener() {
+                        @Override
+                        public void onclick(String picName) {
                             clikPicListener.onClick(picName);
-                        });
+                        }
+                    },
+                            POST);
 
-                postViewHolder.picRv.setAdapter(picRvAdapter);
+
+                    postViewHolder.picRv.setAdapter(picRvAdapter);
+                }
             }
         }else {
 
@@ -107,6 +125,11 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
             commentViewHolder.contentText.setText(commentsList.get(rposition).getContentText());
             commentViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
+            Glide.with(context)
+                    .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + commentsList.get(rposition).getUserId() + ".jpg")
+                    .into( commentViewHolder.icon)
+                    .onLoadStarted(context.getDrawable(R.drawable.pic_zb26_icon));
+
             commentViewHolder.name.setText(commentsList.get(rposition).getUserName());
             commentViewHolder.dateTextView.setText(commentsList.get(rposition).getDateTime());
             commentViewHolder.numTextView.setText("#" + position);
@@ -120,18 +143,27 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
                 });
 
             }
+            if(!(commentsList.get(position - 1).getPicList().isEmpty())){
+                LinearLayoutManager layoutManager= new LinearLayoutManager(context);
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                commentViewHolder.picRv.setLayoutManager(layoutManager);
 
-            if(commentViewHolder.picRv.getAdapter() == null){
-                PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
-                        post.getPicNameList(),
+                if(commentViewHolder.picRv.getAdapter() == null){
+                    PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
+                            commentsList.get(position - 1).getPicList(),
+                            new PostInfoPicRvAdapter.PicOnClickListener(){
+                                @Override
+                                public void onclick(String picName) {
+                                    clikPicListener.onClick(picName);
+                                }
+                            },
+                            COMMENT);
 
-                        picName -> {
-                            clikPicListener.onClick(picName);
-                        });
-
-                commentViewHolder.picRv.setAdapter(picRvAdapter);
+                    commentViewHolder.picRv.setAdapter(picRvAdapter);
+                }
             }
-        }
+            }
+
 
 
 
@@ -159,19 +191,19 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
 
     public class PostViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.post_comment_item_headicon_iv)
+        @BindView(R2.id.post_comment_item_headicon_iv)
         ImageView icon;
-        @BindView(R.id.post_comment_item_usernamne_textview)
+        @BindView(R2.id.post_comment_item_usernamne_textview)
         TextView name;
 
-        @BindView(R.id.post_comment_item_contenttext_textview)
+        @BindView(R2.id.post_comment_item_contenttext_textview)
         TextView contentText;
-        @BindView(R.id.post_comment_item_content_pic_rv)
+        @BindView(R2.id.post_comment_item_content_pic_rv)
         RecyclerView picRv;
 
-        @BindView(R.id.post_comment_item_datetime_textview)
+        @BindView(R2.id.post_comment_item_datetime_textview)
         TextView dateTextView;
-        @BindView(R.id.post_comment_item_num_textview)
+        @BindView(R2.id.post_comment_item_num_textview)
         TextView numTextView;
 
         public PostViewHolder(@NonNull View itemView) {
@@ -181,19 +213,19 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
     }
 
     public class CommentViewHolder extends RecyclerView.ViewHolder{
-        @BindView(R.id.post_comment_item_headicon_iv)
+        @BindView(R2.id.post_comment_item_headicon_iv)
         ImageView icon;
-        @BindView(R.id.post_comment_item_usernamne_textview)
+        @BindView(R2.id.post_comment_item_usernamne_textview)
         TextView name;
 
-        @BindView(R.id.post_comment_item_contenttext_textview)
+        @BindView(R2.id.post_comment_item_contenttext_textview)
         TextView contentText;
-        @BindView(R.id.post_comment_item_content_pic_rv)
+        @BindView(R2.id.post_comment_item_content_pic_rv)
         RecyclerView picRv;
 
-        @BindView(R.id.post_comment_item_datetime_textview)
+        @BindView(R2.id.post_comment_item_datetime_textview)
         TextView dateTextView;
-        @BindView(R.id.post_comment_item_num_textview)
+        @BindView(R2.id.post_comment_item_num_textview)
         TextView numTextView;
         public CommentViewHolder(@NonNull View itemView) {
             super(itemView);

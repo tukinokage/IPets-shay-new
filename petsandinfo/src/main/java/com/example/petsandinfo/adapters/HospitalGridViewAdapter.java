@@ -8,8 +8,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.R2;
 import com.example.petsandinfo.model.Hospital;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 
 import java.util.List;
 
@@ -63,6 +66,11 @@ public class HospitalGridViewAdapter extends BaseAdapter {
         //由于是固定的，只要在第一次初始化就可
         viewholder.nameTextView.setText(hospitalList.get(position).getHospitalName());
         viewholder.phoneNumTextView.setText(hospitalList.get(position).getHospitalPhoneNum());
+        viewholder.introTextView.setText(hospitalList.get(position).getHospitalIntroduce());
+        Glide.with(context)
+                .load(UrlUtil.STATIC_RESOURCE.HOSPITAL_PIC_URL + hospitalList.get(position).getHospitalId() + ".jpg")
+                .into(viewholder.imageView)
+                .onLoadStarted(context.getDrawable(R.color.material_blue_200));
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,14 +90,17 @@ public class HospitalGridViewAdapter extends BaseAdapter {
     }
 
     class HospitalViewholder{
-        @BindView(R.id.pet_hospital_icon_iv)
+        @BindView(R2.id.pet_hospital_icon_iv)
         ImageView imageView;
 
-        @BindView(R.id.pet_store_name_tv)
+        @BindView(R2.id.pet_hospital_name_tv)
         TextView nameTextView;
 
-        @BindView(R.id.pet_hospital_phone_tv)
+        @BindView(R2.id.pet_hospital_phone_tv)
         TextView phoneNumTextView;
+
+        @BindView(com.example.petsandinfo.R2.id.pet_hospital_intro_tv)
+        TextView introTextView;
         public HospitalViewholder(View v){
             ButterKnife.bind(this, v);
         }

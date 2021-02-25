@@ -1,6 +1,12 @@
 package com.shay.baselibrary.UserInfoUtil;
 
+import android.content.Context;
+import android.text.TextUtils;
+import android.widget.Toast;
+
 import com.shay.baselibrary.SharedPreferencesUtil.SharedPrefenccesUtil;
+
+import java.io.File;
 
 public class UserInfoUtil {
     public final static class UserInfoParamsName{
@@ -51,6 +57,35 @@ public class UserInfoUtil {
                 UserInfoParamsName.USER_INFO_FILE_NAME,
                 UserInfoParamsName.USER_TOKEN,
                 token);
+    }
+
+    public static void cleanSharedPreference(Context context) {
+        deleteFilesByDirectory(new File("/data/data/"
+                + context.getPackageName() + "/shared_prefs"));
+    }
+
+    public static boolean isLogin() {
+        try {
+            if(TextUtils.isEmpty(getUserId()) || TextUtils.isEmpty(getUserToken())){
+                return false;
+            }else {
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+
+
+    private static void deleteFilesByDirectory(File directory) {
+        if (directory != null && directory.exists() && directory.isDirectory()) {
+            for (File item : directory.listFiles()) {
+                item.delete();
+            }
+        }
     }
 
 }

@@ -9,8 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.example.petsandinfo.R2;
 import com.example.petsandinfo.R;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Pet;
+import com.shay.baselibrary.*;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,7 +80,13 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             Pet pet = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
             normalViewHolder.nameView.setText(pet.getPetName());
+            normalViewHolder.numView.setText(String.valueOf(pet.getViewNum()));
            // normalViewHolder.numView.setText(pet.getViewNum());
+            Glide.with(AppContext.getContext())
+                    .load(UrlUtil.STATIC_RESOURCE.PET_HEAD_PIC_URL + mValues.get(position).getPetHeadImg())
+                    .into(normalViewHolder.imageView)
+                    .onLoadStarted(AppContext.getContext().getDrawable(R.color.material_blue_200));
+
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -113,13 +123,13 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
     public class NormalViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        @BindView(R.id.pet_list_item_iv)
+        @BindView(R2.id.pet_list_item_iv)
         ImageView imageView;
 
-        @BindView(R.id.pet_list_item_name_tv)
+        @BindView(R2.id.pet_list_item_name_tv)
         TextView nameView;
 
-        @BindView(R.id.pet_list_item_view_num_tv)
+        @BindView(R2.id.pet_list_item_view_num_tv)
         TextView numView;
 
         public NormalViewHolder(View view) {
@@ -138,7 +148,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
 
         public final View view;
 
-        @BindView(R.id.pet_list_foot_tips)
+        @BindView(R2.id.pet_list_foot_tips)
         TextView textView;
 
         public FootViewHolder(@NonNull View itemView) {

@@ -18,7 +18,29 @@
 
             <Space
                 android:layout_width="1dp"
-                android:layout_height="300dp" />
+                android:layout_height="250dp" />
+            <FrameLayout
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:padding="5dp"
+                android:layout_gravity="right">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:alpha="0.5"
+                    android:layout_gravity="center"
+                    android:background="@drawable/text_nums_radius_bg_shape"
+                    />
+                <com.qmuiteam.qmui.alpha.QMUIAlphaTextView
+                    android:id="@+id/pet_info_pic_num_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="无图片"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

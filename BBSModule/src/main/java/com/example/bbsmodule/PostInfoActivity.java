@@ -47,6 +47,7 @@ import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.GlideLoadEngine;
 import com.shay.baselibrary.ToastUntil;
+import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.adapter.SelectPicAdapter;
 import com.shay.baselibrary.dto.Post;
 import com.shay.baselibrary.dto.PostPicInfo;
@@ -84,28 +85,28 @@ public class PostInfoActivity extends AppCompatActivity {
     public String postId;
     private BBSPost currentBBPost;
 
-    @BindView(R.id.comment_text_input_et)
+    @BindView(R2.id.comment_text_input_et)
     TextInputEditText commentTextInput;
 
-    @BindView(R.id.comment_select_pic_gridview)
+    @BindView(R2.id.comment_select_pic_gridview)
     GridView picGridView;
 
-    @BindView(R.id.comment_text_confrim_btn)
+    @BindView(R2.id.comment_text_confrim_btn)
     Button commitButton;
 
-    @BindView(R.id.post_info_comment_pull_rbtn)
+    @BindView(R2.id.post_info_comment_pull_rbtn)
     QMUIRoundButton qmuiRoundButton;
 
-    @BindView(R.id.comment_commit_area_layout)
+    @BindView(R2.id.comment_commit_area_layout)
     ConstraintLayout commitCommentLayout;
 
-    @BindView(R.id.activity_post_top_back_btn)
+    @BindView(R2.id.activity_post_top_back_btn)
     Button backButton;
 
-    @BindView(R.id.activity_post_info_top_title)
+    @BindView(R2.id.activity_post_info_top_title)
     TextView titleTextView;
 
-    @BindView(R.id.post_info_comment_rv)
+    @BindView(R2.id.post_info_comment_rv)
     RecyclerView contentPostItemRV;
 
 
@@ -284,6 +285,10 @@ public class PostInfoActivity extends AppCompatActivity {
         commitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!UserInfoUtil.isLogin()){
+                    ToastUntil.showToast("请先登录", AppContext.getContext());
+                    return;
+                }
                 setCommentEditorStatus(false);
                 commitCommentViewModel.sendComment(currentBBPost.getPostId(), commentTextInput.getText().toString());
                 //不可编辑状态

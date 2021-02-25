@@ -7,9 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.petsandinfo.R;
+import com.example.petsandinfo.R2;
 import com.example.petsandinfo.model.Store;
 import com.qmuiteam.qmui.widget.QMUIRadiusImageView;
+import com.shay.baselibrary.AppContext;
+import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 
 import java.util.List;
 
@@ -63,6 +67,12 @@ public class StoreGridViewAdapter extends BaseAdapter {
         //由于是固定的，只要在第一次初始化就可
         viewholder.nameText.setText(storeList.get(position).getStoreName());
         viewholder.introText.setText(storeList.get(position).getStoreIntroduce());
+
+        Glide.with(AppContext.getContext())
+                .load(UrlUtil.STATIC_RESOURCE.STORE_PIC_URL + storeList.get(position).getStoreId() + ".jpg")
+                .into(viewholder.imageView)
+                .onLoadStarted(AppContext.getContext().getDrawable(R.color.material_blue_200));
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,11 +92,11 @@ public class StoreGridViewAdapter extends BaseAdapter {
     }
 
     class StoreViewholder{
-        @BindView(R.id.pet_store_name_tv)
+        @BindView(R2.id.pet_store_name_tv)
         TextView nameText;
-        @BindView(R.id.pet_store_intro_tv)
+        @BindView(R2.id.pet_store_intro_tv)
         TextView introText;
-        @BindView(R.id.pet_store_icon_iv)
+        @BindView(R2.id.pet_store_icon_iv)
         QMUIRadiusImageView imageView;
 
         public StoreViewholder(View v){

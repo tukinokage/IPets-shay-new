@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ui.DailyRecordActivity"
     android:background="@color/light_grey_bg_color">
     <include layout="@layout/main_topbar_layout"
         android:id="@+id/daily_record_top_bar"/>
@@ -36,7 +35,7 @@
             android:textSize="20sp"
             android:background="@drawable/text_radius_bg_shape"
             android:textColor="@color/light_normal_text_color"/>
-        <TextView
+        <!--<TextView
             android:id="@+id/daily_record_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,6 +47,6 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             />
-
+-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
