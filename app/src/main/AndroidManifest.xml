@@ -19,7 +19,8 @@
         <activity android:name="com.shay.ipets.ui.DailyRecordActivity" android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name="com.shay.ipets.ui.MainActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
