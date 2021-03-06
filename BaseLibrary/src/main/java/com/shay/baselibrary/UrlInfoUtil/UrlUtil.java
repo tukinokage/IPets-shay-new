@@ -2,14 +2,11 @@ package com.shay.baselibrary.UrlInfoUtil;
 
 public class UrlUtil {
     public static class BASE_URL{
-        //public static final String BASE_URL = "http://172.27.35.1:7371/";
-        public static final String BASE_URL = "http://192.168.1.101:7371/";
-        public static final String BASE_STATIC_URL = "http://192.168.1.101:7371/IPET_RESOURCES/";
-        public static final String ALI_MSG_API_BASE_URL = "http://dysmsapi.aliyuncs.com/?";
-    }
 
-    public static class ALI_API_URL{
-        public static final String SEND_PHONE_MSG = "http://dysmsapi.aliyuncs.com/?";
+
+        //public static final String BASE_URL = "http://192.168.1.101:7371/";
+        public static final String BASE_URL = "http://175.24.125.240:7371/";
+        public static final String BASE_STATIC_URL = BASE_URL + "IPET_RESOURCES/";
     }
 
     public static class PET_PIC_URL{
