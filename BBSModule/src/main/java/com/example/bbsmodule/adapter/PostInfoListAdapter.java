@@ -104,7 +104,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
             postViewHolder.picRv.setLayoutManager(layoutManager);
 
-            if(!(post.getPicNameList().isEmpty())) {
+            if( post.getPicNameList() != null && !(post.getPicNameList().isEmpty())) {
                 if (postViewHolder.picRv.getAdapter() == null) {
                     PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
                             post.getPicNameList(), new PostInfoPicRvAdapter.PicOnClickListener() {

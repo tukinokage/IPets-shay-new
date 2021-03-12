@@ -56,15 +56,15 @@
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent">
 
-            <com.qmuiteam.qmui.widget.roundwidget.QMUIRoundButton
+            <Button
                 android:id="@+id/post_info_comment_pull_rbtn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_gravity="end"
                 android:layout_margin="10dp"
-                android:background="@color/theme_color"
-                android:text="+"
-                app:qmui_radius="20dp" />
+                android:background="@drawable/ic_post_comment"
+
+               />
 
             <include layout="@layout/post_comment_commit_layout" />
         </LinearLayout>

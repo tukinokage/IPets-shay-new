@@ -107,16 +107,6 @@ public class BBSMainActivity extends AppCompatActivity {
         selectionList = new ArrayList<>();
         postsAdapter = new PostsAdapter(this);
 
-        for(int i = 0; i < 2; i++ ){
-            BBSPost bbsPost = new BBSPost();
-            bbsPost.setTitle(String.valueOf(i));
-            if (i == 4){
-                bbsPost.setTitle("斯佩伯爵 海军上校String.valueOf(i)String.valueOf(i)String.valueOf(i)");
-            }
-            bbsPostsList.add(bbsPost);
-            Log.d("sdbb", String.valueOf(i));
-        }
-
         postsAdapter.setPostList(bbsPostsList);
         postSelectionsAdapter = new PostSelectionsAdapter(selectionList, this);
 
@@ -208,9 +198,9 @@ public class BBSMainActivity extends AppCompatActivity {
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
                             bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
-                        }else {
+                        }/*else {
                             ToastUntil.showToast("已无更多 ", AppContext.getContext());
-                        }
+                        }*/
 
                     }
                 }

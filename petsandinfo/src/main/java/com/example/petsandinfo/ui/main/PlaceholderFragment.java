@@ -306,13 +306,7 @@ public class PlaceholderFragment extends Fragment {
 
                     @Override
                     protected void onPostExecute(String s) {
-                        /*int mSize = petList.size();
-                        for(int i = mSize; i < mSize + 5; i++){
-                            Pet pet = new Pet();
-                            pet.setPetName(String.valueOf(i));
-                            pet.setViewNum(23445);
-                            petList.add(pet);
-                        }*/
+
                         ToastUntil.showToast("刷新完毕", getContext());
                         swipeRefreshLayout.setRefreshing(false);
                         petRecylerAdapter.setmValues(petList);

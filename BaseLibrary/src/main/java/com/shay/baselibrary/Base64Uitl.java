@@ -1,5 +1,6 @@
 package com.shay.baselibrary;
 
+import android.os.Message;
 import android.util.Base64;
 
 import java.io.File;

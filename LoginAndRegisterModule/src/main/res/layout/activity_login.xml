@@ -71,7 +71,7 @@
 
             app:layout_constraintTop_toBottomOf="@id/login_activity_password_tv"
             app:layout_constraintVertical_bias="0.2"
-            app:qmui_backgroundColor="@color/material_orange_400"
+            app:qmui_backgroundColor="@color/theme_color"
             app:qmui_borderWidth="0dp"
             app:qmui_radius="20dp" />
 

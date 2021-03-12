@@ -92,6 +92,12 @@ public class UserInfoActivity extends AppCompatActivity {
         userInfoViewModel = new ViewModelProvider(this, new UserInfoModelFactory())
                 .get(UserInfoViewModel.class);
 
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         init();
         initListener();
         initObserver();

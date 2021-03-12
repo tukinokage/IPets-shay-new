@@ -95,7 +95,7 @@ public class PostInfoActivity extends AppCompatActivity {
     Button commitButton;
 
     @BindView(R2.id.post_info_comment_pull_rbtn)
-    QMUIRoundButton qmuiRoundButton;
+    Button pullBtn;
 
     @BindView(R2.id.comment_commit_area_layout)
     ConstraintLayout commitCommentLayout;
@@ -162,6 +162,8 @@ public class PostInfoActivity extends AppCompatActivity {
             ToastUntil.showToast("错误操作", this);
         }
 
+        //关闭回复窗口
+        animatorClose(commitCommentLayout);
     }
 
 
@@ -265,7 +267,7 @@ public class PostInfoActivity extends AppCompatActivity {
         commentTextInput.addTextChangedListener(textWatcher);
 
         //动画
-        qmuiRoundButton.setOnClickListener(v -> {
+        pullBtn.setOnClickListener(v -> {
 
             if(commitCommentLayout.getVisibility()  == View.GONE){
                 animatorOpen(commitCommentLayout);

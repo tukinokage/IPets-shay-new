@@ -108,9 +108,16 @@ public class UserInfoFragment extends Fragment {
         ARouter.getInstance().inject(this);
 
 
-        init();
+
         initListener();
         initObserver();
+        backBtn.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     public void init()  {
@@ -118,6 +125,7 @@ public class UserInfoFragment extends Fragment {
         try {
             if(UserInfoUtil.isLogin()){
                 isLogined = true;
+
             }else {
                  //未登录
                 isLogined = false;
@@ -134,11 +142,8 @@ public class UserInfoFragment extends Fragment {
                 }
             }else {
                 if(isLogined){
-                    if(userInfoViewModel.getMyId().equals(userId)){
+                        userId = UserInfoUtil.getUserId();
                         isMyUserInfo = true;
-                    }else {
-                        isMyUserInfo = false;
-                    }
                 }else {
                     isMyUserInfo = false;
                 }
@@ -156,6 +161,7 @@ public class UserInfoFragment extends Fragment {
             if(userId != null){
                 userInfoViewModel.getUserInfo(userId);
             }
+
 
         } catch (MyException e){
             ToastUntil.showToast(e.getMessage(), AppContext.getContext());
@@ -279,6 +285,11 @@ public class UserInfoFragment extends Fragment {
             public void onClick(View v) {
             }
         });
+
+        updateInfoLy.setVisibility(View.VISIBLE);
+        pwLy.setVisibility(View.VISIBLE);
+        loginoutLy.setVisibility(View.VISIBLE);
+        petStarLy.setVisibility(View.VISIBLE);
     }
 
     private void hideUpdateFunction(){
