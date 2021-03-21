@@ -83,7 +83,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         if(holder instanceof PostViewHolder){
             PostViewHolder postViewHolder = (PostViewHolder) holder;
             postViewHolder.contentText.setText(post.getContextText());
-            postViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
+            postViewHolder.icon.setImageResource(R.color.btn_filled_blue_bg_normal);
             Glide.with(context)
                     .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + post.getUserId() + ".jpg")
                     .into(postViewHolder.icon)
@@ -124,11 +124,11 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             int rposition = position -1;
             CommentViewHolder commentViewHolder = (CommentViewHolder) holder;
             commentViewHolder.contentText.setText(commentsList.get(rposition).getContentText());
-            commentViewHolder.icon.setImageResource(R.drawable.pic_zb26_icon);
+            commentViewHolder.icon.setImageResource(R.color.btn_filled_blue_bg_normal);
             Glide.with(context)
                     .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + commentsList.get(rposition).getUserId() + ".jpg")
                     .into( commentViewHolder.icon)
-                    .onLoadStarted(context.getDrawable(R.drawable.pic_zb26_icon));
+                    .onLoadStarted(context.getDrawable(R.color.material_white));
 
             commentViewHolder.name.setText(commentsList.get(rposition).getUserName());
             commentViewHolder.dateTextView.setText(commentsList.get(rposition).getDateTime());
