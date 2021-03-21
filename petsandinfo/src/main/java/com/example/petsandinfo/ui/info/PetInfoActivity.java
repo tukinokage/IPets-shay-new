@@ -150,6 +150,13 @@ public class PetInfoActivity extends AppCompatActivity {
             }
         });
 
+        shareFB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUntil.showToast("暂未开放微博分享", AppContext.getContext());
+            }
+        });
+
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

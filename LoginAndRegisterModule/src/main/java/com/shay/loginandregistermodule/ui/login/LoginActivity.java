@@ -186,12 +186,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initListener(){
-        weiboLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         phoneLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -214,6 +209,13 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
+        });
+
+        weiboLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUntil.showToast("暂未开放", AppContext.getContext());
             }
         });
 

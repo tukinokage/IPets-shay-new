@@ -7,10 +7,12 @@ import com.example.usermodule.entity.params.GetUserCommentParam;
 import com.example.usermodule.entity.params.GetUserDailyRecordParam;
 import com.example.usermodule.entity.params.GetUserInfoParam;
 import com.example.usermodule.entity.params.GetUserPetParam;
+import com.example.usermodule.entity.params.StarPetParam;
 import com.example.usermodule.entity.responses.GetDailyRecordResponse;
 import com.example.usermodule.entity.responses.GetStarPetListResponse;
 import com.example.usermodule.entity.responses.GetUserCommentResponse;
 import com.example.usermodule.entity.responses.GetUserInfoResponse;
+import com.example.usermodule.entity.responses.StarPetResponse;
 import com.example.usermodule.entity.result.GetStarPetListResult;
 import com.shay.baselibrary.NetUtil.RetrofitOnErrorUtil;
 import com.shay.baselibrary.NetUtil.RetrofitOnResponseUtil;
@@ -32,6 +34,7 @@ public class UserInfoRepository {
     private GetResultListener getCommentListener;
     private GetResultListener getDailyRecordListener;
     private GetResultListener  getStarPetList;
+    private StarResultListener starPetResultListener;
 
     private volatile static UserInfoRepository instance;
 
@@ -179,6 +182,38 @@ public class UserInfoRepository {
 
         }
 
+    public void starPet(StarPetParam starPetParam, StarResultListener starPetResultListener){
+
+        this.starPetResultListener = starPetResultListener;
+        HashMap map = (HashMap) ObjectTransformUtil.objectToMap(starPetParam);
+        userDataSource.starPet(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseResponse<StarPetResponse>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<StarPetResponse> starPetResponseBaseResponse) {
+                        Result result = RetrofitOnResponseUtil.parseBaseResponse(starPetResponseBaseResponse);
+                        setStarPetResult(result);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Result result = RetrofitOnErrorUtil.OnError(e);
+                        setStarPetResult(result);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                });
+
+    }
+
 
     public void setStarPetList(Result result){
         getStarPetList.getResult(result);
@@ -189,10 +224,22 @@ public class UserInfoRepository {
     public void setGetDaliyRecord(Result result){
         getDailyRecordListener.getResult(result);
     }
+    public void setStarPetResult(Result result){
+        starPetResultListener.getResult(result);
+    }
+
+    public void setStarPetList(StarPetParam starPetParam, StarResultListener starResultListener) {
+
+
+    }
 
 
     public interface GetResultListener{
         void getResult(Result result);
     }
 
+
+    public interface StarResultListener{
+        void getResult(Result result);
+    }
 }

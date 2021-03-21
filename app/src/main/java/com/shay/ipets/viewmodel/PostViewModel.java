@@ -117,7 +117,7 @@ public class PostViewModel extends ViewModel {
 
                 }catch (FileNotFoundException e){
                     e.printStackTrace();
-                    uploadPicResultMutableLiveData.setValue(new UploadPicResult(){
+                    uploadPicResultMutableLiveData.postValue(new UploadPicResult(){
                         {
                             setErrorMsg("没有找到图片");
                             setIndex(upLoadPicParam.getIndex());

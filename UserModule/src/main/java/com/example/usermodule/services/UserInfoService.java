@@ -5,6 +5,7 @@ import com.example.usermodule.entity.responses.GetDailyRecordResponse;
 import com.example.usermodule.entity.responses.GetStarPetListResponse;
 import com.example.usermodule.entity.responses.GetUserCommentResponse;
 import com.example.usermodule.entity.responses.GetUserInfoResponse;
+import com.example.usermodule.entity.responses.StarPetResponse;
 import com.shay.baselibrary.dto.response.BaseResponse;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 
@@ -31,5 +32,9 @@ public interface UserInfoService {
     @POST(UrlUtil.DAILY_RECORD_URL.GET_DAILY_RECORD_URL)
     @FormUrlEncoded
     Observable<BaseResponse<GetDailyRecordResponse>> getDailyRecordService(@FieldMap HashMap<String, Object> map);
+
+    @POST(UrlUtil.PET_URL.STAR_PET_URL)
+    @FormUrlEncoded
+    Observable<BaseResponse<StarPetResponse>> unStarPet(@FieldMap HashMap<String, Object> map);
 
 }

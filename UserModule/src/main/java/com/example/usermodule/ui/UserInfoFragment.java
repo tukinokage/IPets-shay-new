@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,12 +50,12 @@ import butterknife.ButterKnife;
 public class UserInfoFragment extends Fragment {
 
     public static final String PARAM_NAME = "userId";
-    @Autowired
+
     public String userId;
 
     UserInfoViewModel userInfoViewModel;
 
-    boolean isMyUserInfo = false;
+   boolean  isMyUserInfo = false;
     boolean isLogined = false;
 
     @BindView(R2.id.user_info_top_back_tv)
@@ -101,23 +102,36 @@ public class UserInfoFragment extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 
         ButterKnife.bind(this, getActivity());
         ARouter.getInstance().inject(this);
-
-
-
         initListener();
         initObserver();
         backBtn.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("UserInfoFragment：",  "UserInfoFragment onResume");
         init();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(!hidden){
+            init();
+        }
     }
 
     public void init()  {
@@ -185,7 +199,6 @@ public class UserInfoFragment extends Fragment {
                      userNameTv.setText(userInfo.getUserName());
                      postNumTv.setText(userInfo.getPostNum());
                      daliyrecordNumTv.setText(userInfo.getDailyNum());
-                     userId = userInfo.getUserId();
                      loadPic(userInfo);
                  }else {
                      ToastUntil.showToast(getUserResult.getErrorMsg(), AppContext.getContext());
@@ -268,9 +281,13 @@ public class UserInfoFragment extends Fragment {
         loginoutLy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                userId = null;
                 UserInfoUtil.saveUserId("");
                 UserInfoUtil.saveUserToken("");
                 UserInfoUtil.cleanSharedPreference(AppContext.getContext());
+                isMyUserInfo = false;
+                isLogined = false;
+                init();
                 ARouter.getInstance().build(AroutePath.LoginActivity).navigation();
             }
         });
@@ -305,8 +322,8 @@ public class UserInfoFragment extends Fragment {
         if(!TextUtils.isEmpty(userInfo.getHeadPicName())){
             Glide.with(AppContext.getContext())
                     .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + userInfo.getHeadPicName())
-                    .placeholder(R.drawable.head_icon)
-                    .error(R.drawable.head_icon)
+                    .placeholder(R.color.color_white)
+                    .error(R.color.btn_filled_blue_bg_normal)
                     .into(headIv);
         }
 

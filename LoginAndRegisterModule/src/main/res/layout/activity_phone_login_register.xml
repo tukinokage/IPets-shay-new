@@ -25,6 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <TextView
 
             android:id="@+id/activtiy_phone_login_register_phonetip_tv"
@@ -89,6 +90,12 @@
             app:qmui_backgroundColor="@color/material_orange_400"
             app:qmui_borderWidth="0dp"
             tools:visibility="visible" />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="注意：受开发平台影响， 只支持开发者本人手机号码"
+            android:textColor="@color/material_grey_500"/>
 
     </LinearLayout>
 

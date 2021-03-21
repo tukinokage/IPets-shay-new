@@ -45,10 +45,14 @@ import static com.shay.baselibrary.AppContext.getContext;
 public class BBSMainActivity extends AppCompatActivity {
 
     public  int PER_PAPER_NUM = 15;
-    public  int CURRENT_PAPER_NUM = 1;
-    public  int CURRENT_TYPE = 0;
+    public static int CURRENT_PAPER_NUM = 1;
+    public  static int CURRENT_TYPE = 0;
     private boolean HASH_MORE = true;
     private boolean IS_LOADING_MORE = false;
+
+    int lastVisibleItem = 0;
+    int index = 1;
+    int temp = 0;
 
     @BindView(R2.id.posts_activity_post_rv)
     RecyclerView recyclerView;
@@ -138,8 +142,11 @@ public class BBSMainActivity extends AppCompatActivity {
             @Override
             public void onChanged(GetPostListResult getPostListResult) {
                 if (TextUtils.isEmpty(getPostListResult.getErrorMg())){
-                    CURRENT_PAPER_NUM += 1;
+
                     HASH_MORE = getPostListResult.isHasMore();
+                    if (HASH_MORE){
+                        CURRENT_PAPER_NUM += 1;
+                    }
                     bbsPostsList.addAll(getPostListResult.getBbsPostList());
                     postsAdapter.notifyDataSetChanged();
                     IS_LOADING_MORE = false;
@@ -176,6 +183,15 @@ public class BBSMainActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                super.onScrollStateChanged(recyclerView, newState);
+                //获取总的适配器的数量
+                int totalCount = postsAdapter.getItemCount();
+                //判断当前滑动停止，并且获取当前屏幕最后一个可见的条目是第几个，当前屏幕数据已经显示完毕的时候就去加载数据
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == totalCount) {
+                    //请求数据
+
+                }
+
             }
 
             @Override
@@ -184,10 +200,27 @@ public class BBSMainActivity extends AppCompatActivity {
                 //到底部
                 StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
                 assert layoutManager != null;
-                int spanCount = layoutManager.getSpanCount();
-                int[] lastPositions = new int[spanCount];
-                int[] lastCompletelyVisibleItemPosition = layoutManager.findLastVisibleItemPositions(lastPositions);
-                if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
+               //int spanCount = layoutManager.getSpanCount();
+                //int[] lastPositions = new int[spanCount];
+                //int[] lastCompletelyVisibleItemPosition = layoutManager.findLastVisibleItemPositions(lastPositions);
+                layoutManager.findFirstVisibleItemPositions(null);
+                int[] firstVisibleItemPositions = layoutManager.findLastVisibleItemPositions(null);
+                for (int firstVisibleItemPosition : firstVisibleItemPositions) {
+                   int temp = firstVisibleItemPosition;
+                    if (lastVisibleItem < temp) {
+                        lastVisibleItem = firstVisibleItemPosition;//标记最后一个显示的postion
+                        if(IS_LOADING_MORE){
+                            return;
+                        }
+
+                        if(HASH_MORE){
+                            ToastUntil.showToast("正在加载", AppContext.getContext());
+                            IS_LOADING_MORE = true;
+                            bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+                        }
+                    }
+                }
+               /* if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == postsAdapter.getItemCount()){
                         if(IS_LOADING_MORE){
@@ -198,12 +231,10 @@ public class BBSMainActivity extends AppCompatActivity {
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
                             bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
-                        }/*else {
-                            ToastUntil.showToast("已无更多 ", AppContext.getContext());
-                        }*/
+                        }
 
                     }
-                }
+                }*/
 
             }
         });

@@ -108,7 +108,7 @@ dependencies {
     //本地库依赖
     //implementation project(':photopicker')
     //远程依赖
-    implementation 'com.zhihu.android:matisse:0.5.2-beta4'
+    implementation 'com.zhihu.android:matisse:0.5.3-beta3'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     //Aroute

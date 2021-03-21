@@ -2,9 +2,7 @@ package com.shay.baselibrary.UrlInfoUtil;
 
 public class UrlUtil {
     public static class BASE_URL{
-
-
-        //public static final String BASE_URL = "http://192.168.1.101:7371/";
+       // public static final String BASE_URL = "http://192.168.31.239:7371/";
         public static final String BASE_URL = "http://175.24.125.240:7371/";
         public static final String BASE_STATIC_URL = BASE_URL + "IPET_RESOURCES/";
     }
@@ -25,7 +23,6 @@ public class UrlUtil {
     }
 
     public static class USER_URL{
-
         public static final String LOGIN_URL = BASE_URL.BASE_URL + "usr/login";
         public static final String TOKEN_LOGIN_URL = BASE_URL.BASE_URL + "usr/loginToken";
         public static final String REGISTER_URL = BASE_URL.BASE_URL + "usr/register";
@@ -42,7 +39,6 @@ public class UrlUtil {
         public static final String UPDATE_HEAD_IMG_URL = BASE_URL.BASE_URL + "usr/updateHeadImg";
        // public static final String REGISTER_URL = "http://172.27.35.1:7371/ls/register";
     }
-
 
 
     public static class PET_URL{
@@ -64,11 +60,9 @@ public class UrlUtil {
     }
 
     public static class COMMENT_URL{
-
         public static final String GET_COMMENT_LIST_URL = BASE_URL.BASE_URL + "comment/getCommentList";
         public static final String POST_COMMENT_URL = BASE_URL.BASE_URL + "comment/postComment";
         public static final String UPLOAD_COMMENT_PIC_URL = BASE_URL.BASE_URL + "comment/uploadPic";
-
     }
 
     public static class DAILY_RECORD_URL{

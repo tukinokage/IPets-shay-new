@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.usermodule.entity.params.GetUserCommentParam;
 import com.example.usermodule.entity.params.GetUserPetParam;
+import com.example.usermodule.entity.params.StarPetParam;
 import com.example.usermodule.entity.params.UpdateBgParam;
 import com.example.usermodule.entity.params.UpdateHeadImgParam;
 import com.example.usermodule.entity.params.UpdateUserInfoParam;
@@ -29,7 +30,7 @@ public class GetPetStarListViewModel extends ViewModel {
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     GetStarPetListAsyncTask getStarPetListAsyncTask;
     RemoveStarPetAsyncTask removeStarPetAsyncTask;
-    private List<Pet> petList;
+    private List<Pet> petList = new ArrayList<>();
 
     private MutableLiveData<List<Pet>> petListMutableLiveData = new MutableLiveData<>();
 
@@ -37,13 +38,6 @@ public class GetPetStarListViewModel extends ViewModel {
 
     public GetPetStarListViewModel(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
-        petList = new ArrayList<>();
-        for (int i = 0; i < 10; i++){
-            Pet pet = new Pet();
-            pet.setPetName(String.valueOf(i));
-            pet.setViewNum(50);
-            petList.add(pet);
-        }
 
     }
 
@@ -67,6 +61,7 @@ public class GetPetStarListViewModel extends ViewModel {
                             getStarPetListResult.setErrorMsg(((Result.Error) result).getErrorMsg());
                         }else{
                             GetStarPetListResponse getStarPetListResponse = (GetStarPetListResponse) ((Result.Success)result).getData();
+                            petList.addAll(getStarPetListResponse.getPetList());
                             getStarPetListResult.setPetList(getStarPetListResponse.getPetList());
                         }
                         starPetListResultMutableLiveData.setValue(getStarPetListResult);
@@ -88,28 +83,26 @@ public class GetPetStarListViewModel extends ViewModel {
         }
     }
 
-    class RemoveStarPetAsyncTask extends AsyncTask<GetUserPetParam, String, Exception>{
+    class RemoveStarPetAsyncTask extends AsyncTask<StarPetParam, String, Exception>{
 
         @Override
-        protected Exception doInBackground(GetUserPetParam... getUserPetParams) {
+        protected Exception doInBackground(StarPetParam... starPetParams) {
             try {
-                userInfoRepository.getStarPetList(getUserPetParams[0], new UserInfoRepository.GetResultListener() {
+                userInfoRepository.starPet(starPetParams[0], new UserInfoRepository.StarResultListener() {
                     @Override
                     public void getResult(Result result) {
-                        GetStarPetListResult getStarPetListResult = new GetStarPetListResult();
-                        if(result instanceof Result.Error){
-                            getStarPetListResult.setErrorMsg(((Result.Error) result).getErrorMsg());
-                        }else{
-                            GetStarPetListResponse getStarPetListResponse = (GetStarPetListResponse) ((Result.Success)result).getData();
-                            getStarPetListResult.setPetList(getStarPetListResponse.getPetList());
+                        if (result instanceof Result.Error){
+
+                        }else {
+
                         }
-                        starPetListResultMutableLiveData.setValue(getStarPetListResult);
                     }
                 });
-            } catch (Exception e) {
+            }catch (Exception e){
                 e.printStackTrace();
                 return e;
             }
+
             return  null;
         }
 
@@ -142,15 +135,16 @@ public class GetPetStarListViewModel extends ViewModel {
 
     public void removeIndexPet(int position, String userId){
 
-/*
-        removeStarPetAsyncTask = (RemoveStarPetAsyncTask) asyncTaskFactory.createAsyncTask(new RemoveStarPetAsyncTask());
-        removeStarPetAsyncTask.execute();
-*/
+            StarPetParam starPetParam = new StarPetParam();
+            starPetParam.setPetId(petList.get(position).getPetId());
+            starPetParam.setUserId(userId);
+            removeStarPetAsyncTask = (RemoveStarPetAsyncTask) asyncTaskFactory.createAsyncTask(new RemoveStarPetAsyncTask());
+            removeStarPetAsyncTask.execute(starPetParam);
 
-        if(petList.size() > position){
-            petList.remove(position);
-            petListMutableLiveData.setValue(petList);
-        }
+            if(petList.size() > position){
+                petList.remove(position);
+                petListMutableLiveData.setValue(petList);
+            }
     }
 
     public void cancelAsyncTask(){

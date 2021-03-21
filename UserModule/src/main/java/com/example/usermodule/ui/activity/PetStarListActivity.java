@@ -91,7 +91,7 @@ public class PetStarListActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 Pet pet = getPetStarListViewModel.getCurrentList().get(position);
-                ARouter.getInstance().build(AroutePath.PetInfoActivity).withParcelable(AroutePath.paramName.MPET, pet);
+                ARouter.getInstance().build(AroutePath.PetInfoActivity).withParcelable(AroutePath.paramName.MPET, pet).navigation();
             }
         });
 

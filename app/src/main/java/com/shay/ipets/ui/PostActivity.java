@@ -97,13 +97,7 @@ public class PostActivity extends AppCompatActivity {
            classPositives[i-1] = PostTypeEnum.getRankEnumByNum(i).getRankName();
        }
 
-        int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_CODE_CHOOSE);
-            return;
-        }
     }
     private void initObserver(){
         postViewModel.getPostPicInfoMutableLiveData().observe(this, new Observer<List<PostPicInfo>>() {
@@ -227,6 +221,15 @@ public class PostActivity extends AppCompatActivity {
     }
 
     private void selectPic(){
+
+        int hasWriteContactsPermission = checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteContactsPermission != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_CODE_CHOOSE);
+            return;
+        }
+
        if(postViewModel.mContentListLength() == MAX_PIC_NUM){
            ToastUntil.showToast("不能超过" + MAX_PIC_NUM + "张", AppContext.getContext());
        }

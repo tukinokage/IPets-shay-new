@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:background="@color/theme_color"
+            android:background="@color/material_white"
             app:layout_scrollFlags="scroll|enterAlways"
             app:layout_constraintTop_toTopOf="parent">
             <LinearLayout
@@ -31,8 +31,9 @@
                     android:id="@+id/activity_post_info_top_title"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:textColor="@color/material_white"
+                    android:textColor="@color/light_normal_text_color"
                     android:gravity="center"
+
                     android:minHeight="?actionBarSize"
                     android:maxLength="15"
                     android:text="标题"

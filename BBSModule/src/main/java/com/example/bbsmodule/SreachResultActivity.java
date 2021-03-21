@@ -93,17 +93,6 @@ public class SreachResultActivity extends AppCompatActivity {
         selectionList = new ArrayList<>();
         postsAdapter = new PostsAdapter(this);
 
-        for(int i = 0; i < 2; i++ ){
-            BBSPost bbsPost = new BBSPost();
-            bbsPost.setTitle(String.valueOf(i));
-            if (i == 4){
-                bbsPost.setTitle("斯佩伯爵 海军上校String.valueOf(i)String.valueOf(i)String.valueOf(i)");
-            }
-
-            bbsPostsList.add(bbsPost);
-            Log.d("测试post序号", String.valueOf(i));
-        }
-
         topText.setText(searchCondition);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override

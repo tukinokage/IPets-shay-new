@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 
 import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
@@ -28,6 +29,8 @@ import com.shay.baselibrary.dto.result.ConfrimPhoneResult;
 import com.shay.ipets.R;
 import com.shay.ipets.ui.dialog.OperatorDialog;
 
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,6 +80,13 @@ public class MainActivity extends FragmentActivity {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
             window.setStatusBarColor(Color.TRANSPARENT);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //通知fragmen刷新
+        ft.setMaxLifecycle(mContent, Lifecycle.State.RESUMED);
     }
 
     private void initListener(){
@@ -175,6 +185,7 @@ public class MainActivity extends FragmentActivity {
                 ft.hide(mContent).add(contentLayout.getId(), mfragment).commitAllowingStateLoss();
             } else {
                 ft.hide(mContent).show(mfragment).commitAllowingStateLoss();
+                ft.setMaxLifecycle(mfragment, Lifecycle.State.RESUMED);
             }
             mContent = mfragment;
         }
@@ -199,6 +210,8 @@ public class MainActivity extends FragmentActivity {
             }
         }
     }
+
+
 
     @Override
     protected void onDestroy() {

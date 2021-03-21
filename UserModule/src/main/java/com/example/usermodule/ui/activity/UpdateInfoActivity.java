@@ -118,8 +118,8 @@ public class UpdateInfoActivity extends AppCompatActivity {
         });
 
         imageView.setOnClickListener(v -> PictureSelector.create(UpdateInfoActivity.this, SELECT_BG_REQUEST_CODE)
-                //.selectPicture(  true, 800, 480, 4, 3));
-                .selectPicture(  false));
+                .selectPicture(  true, 800, 480, 4, 3));
+               // .selectPicture(  false));
 
         nickNameEditText.setOnClickListener(v -> {
 
@@ -208,11 +208,11 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 PictureBean p =  data.getParcelableExtra(PictureSelector.PICTURE_RESULT);
                 String picturePath = p.getPath();
                 try {
-                    imageView.setImageBitmap(LoadLocalPic.loadPic(picturePath));
+                    headIv.setImageBitmap(LoadLocalPic.loadPic(picturePath));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
-                    updateInfoViewModel.uploadHeadImg(p.getUri().getPath());
                 }
+                updateInfoViewModel.uploadHeadImg(picturePath);
             }
         }else  if(requestCode == SELECT_BG_REQUEST_CODE){
             if (data != null) {

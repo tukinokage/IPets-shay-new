@@ -15,11 +15,19 @@
         android:id="@+id/login_activity_content_csLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/material_grey_100"
+        android:background="@color/material_grey_50"
         android:padding="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginmodule_include">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/login_activity_account_et"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="公共账户名:gkd 密码:123456"
+            android:textColor="@color/light_text_color"/>
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/login_activity_account_et"
             android:layout_width="0dp"

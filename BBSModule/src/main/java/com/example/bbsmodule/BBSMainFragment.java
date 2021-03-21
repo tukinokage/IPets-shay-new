@@ -42,11 +42,15 @@ import butterknife.ButterKnife;
 @Route(path = AroutePath.fragmentUrl.BBSMainFragment)
 public class BBSMainFragment extends Fragment {
 
-    public  int PER_PAPER_NUM = 15;
-    public  int CURRENT_PAPER_NUM = 1;
-    public  int CURRENT_TYPE = 0;
-    private boolean HASH_MORE = true;
-    private boolean IS_LOADING_MORE = false;
+    public final int PER_PAPER_NUM = 8;
+    public static int CURRENT_PAPER_NUM = 1;
+    public  static  int CURRENT_TYPE = 0;
+    private static boolean HASH_MORE = true;
+    private static boolean IS_LOADING_MORE = false;
+
+
+
+    static int lastVisibleItem = 0;
 
     @BindView(R2.id.posts_activity_post_rv)
     RecyclerView recyclerView;
@@ -108,15 +112,6 @@ public class BBSMainFragment extends Fragment {
         selectionList = new ArrayList<>();
         postsAdapter = new PostsAdapter(getContext());
 
-        for(int i = 0; i < 2; i++ ){
-            BBSPost bbsPost = new BBSPost();
-            bbsPost.setTitle(String.valueOf(i));
-            if (i == 4){
-                bbsPost.setTitle("斯佩伯爵 海军上校String.valueOf(i)String.valueOf(i)String.valueOf(i)");
-            }
-            bbsPostsList.add(bbsPost);
-            Log.d("sdbb", String.valueOf(i));
-        }
 
         postsAdapter.setPostList(bbsPostsList);
         postSelectionsAdapter = new PostSelectionsAdapter(selectionList, getContext());
@@ -187,6 +182,23 @@ public class BBSMainFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
+                super.onScrollStateChanged(recyclerView, newState);
+                //获取总的适配器的数量
+                int totalCount = postsAdapter.getItemCount();
+                //判断当前滑动停止，并且获取当前屏幕最后一个可见的条目是第几个，当前屏幕数据已经显示完毕的时候就去加载数据
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == totalCount) {
+                    //请求数据
+                    if(IS_LOADING_MORE){
+                        return;
+                    }
+
+                    if(HASH_MORE){
+                        ToastUntil.showToast("正在加载", AppContext.getContext());
+                        IS_LOADING_MORE = true;
+                        bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+                    }
+                }
+
             }
 
             @Override
@@ -195,10 +207,18 @@ public class BBSMainFragment extends Fragment {
                 //到底部
                 StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) recyclerView.getLayoutManager();
                 assert layoutManager != null;
-                int spanCount = layoutManager.getSpanCount();
-                int[] lastPositions = new int[spanCount];
-                int[] lastCompletelyVisibleItemPosition = layoutManager.findLastVisibleItemPositions(lastPositions);
-                if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
+                //int spanCount = layoutManager.getSpanCount();
+                //int[] lastPositions = new int[spanCount];
+                //int[] lastCompletelyVisibleItemPosition = layoutManager.findLastVisibleItemPositions(lastPositions);
+                layoutManager.findFirstVisibleItemPositions(null);
+                int[] firstVisibleItemPositions = layoutManager.findLastVisibleItemPositions(null);
+                for (int firstVisibleItemPosition : firstVisibleItemPositions) {
+                    int temp = firstVisibleItemPosition;
+                    if (lastVisibleItem < temp) {
+                        lastVisibleItem = firstVisibleItemPosition;//标记最后一个显示的postion
+                    }
+                }
+               /* if(lastCompletelyVisibleItemPosition[0] == layoutManager.getItemCount() -1){
                     Log.d("刷新", "滑动到底部" + layoutManager.getItemCount());
                     if(layoutManager.getItemCount() == postsAdapter.getItemCount()){
                         if(IS_LOADING_MORE){
@@ -209,12 +229,10 @@ public class BBSMainFragment extends Fragment {
                             ToastUntil.showToast("正在加载", AppContext.getContext());
                             IS_LOADING_MORE = true;
                             bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
-                        }else {
-                            ToastUntil.showToast("已无更多 ", AppContext.getContext());
                         }
 
                     }
-                }
+                }*/
 
             }
         });
