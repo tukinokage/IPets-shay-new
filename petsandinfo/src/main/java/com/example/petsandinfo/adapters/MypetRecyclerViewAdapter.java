@@ -85,7 +85,7 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             Glide.with(AppContext.getContext())
                     .load(UrlUtil.STATIC_RESOURCE.PET_HEAD_PIC_URL + mValues.get(position).getPetHeadImg())
                     .into(normalViewHolder.imageView)
-                    .onLoadStarted(AppContext.getContext().getDrawable(R.color.material_blue_200));
+                    .onLoadFailed(AppContext.getContext().getDrawable(R.color.material_blue_200));
 
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

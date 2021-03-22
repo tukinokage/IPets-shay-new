@@ -38,7 +38,6 @@ public class GetPetStarListViewModel extends ViewModel {
 
     public GetPetStarListViewModel(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
-
     }
 
     public MutableLiveData<GetStarPetListResult> getStarPetListResultMutableLiveData() {

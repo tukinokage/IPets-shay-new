@@ -1,5 +1,6 @@
 package com.shay.baselibrary;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -32,6 +33,7 @@ public class JumpToTianMaoUtils {
                 "com.taobao.tao.detail.activity.DetailActivity");
         context.startActivity(intent);
         Toast.makeText(context, "即将为您跳转到天猫", Toast.LENGTH_SHORT).show();
+
     }
 
 

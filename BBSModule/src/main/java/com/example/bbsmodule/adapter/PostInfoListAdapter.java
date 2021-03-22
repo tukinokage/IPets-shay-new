@@ -1,6 +1,7 @@
 package com.example.bbsmodule.adapter;
 
 import android.content.Context;
+import android.graphics.BitmapRegionDecoder;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,6 +156,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onclick(String picName) {
                                     clikPicListener.onClick(picName);
+                                    BitmapRegionDecoder
                                 }
                             },
                             COMMENT);
