@@ -35,6 +35,8 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -76,12 +78,18 @@ public class BBSMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_bbsmain);
         ButterKnife.bind(this);
 
+
         bbsViewModel = new ViewModelProvider(this, new BBSViewModelFactory())
                 .get(BBSViewModel.class);
 
         init();
         initObserver();
         initListener();
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override
@@ -157,6 +165,8 @@ public class BBSMainActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void initListener(){
         postsAdapter.setOnClickListener(new PostsAdapter.PostOnclickListener() {
             @Override
@@ -182,7 +192,6 @@ public class BBSMainActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
                 super.onScrollStateChanged(recyclerView, newState);
                 //获取总的适配器的数量
                 int totalCount = postsAdapter.getItemCount();

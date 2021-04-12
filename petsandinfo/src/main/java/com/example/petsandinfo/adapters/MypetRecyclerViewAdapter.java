@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.petsandinfo.R2;
 import com.example.petsandinfo.R;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
@@ -83,9 +84,10 @@ public class MypetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             normalViewHolder.numView.setText(String.valueOf(pet.getViewNum()));
            // normalViewHolder.numView.setText(pet.getViewNum());
             Glide.with(AppContext.getContext())
-                    .load(UrlUtil.STATIC_RESOURCE.PET_HEAD_PIC_URL + mValues.get(position).getPetHeadImg())
-                    .into(normalViewHolder.imageView)
-                    .onLoadFailed(AppContext.getContext().getDrawable(R.color.material_blue_200));
+                    .load(UrlUtil.PET_PIC_URL.HEAD_ICON_URL + mValues.get(position).getPetHeadImg())
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .into(normalViewHolder.imageView);
 
             normalViewHolder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

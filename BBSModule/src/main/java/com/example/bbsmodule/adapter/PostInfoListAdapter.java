@@ -15,8 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.bbsmodule.R;
 import com.example.bbsmodule.R2;
+import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Comment;
 import com.shay.baselibrary.dto.Post;
@@ -87,6 +89,8 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             postViewHolder.icon.setImageResource(R.color.btn_filled_blue_bg_normal);
             Glide.with(context)
                     .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + post.getUserId() + ".jpg")
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .skipMemoryCache(true)
                     .into(postViewHolder.icon)
                     .onLoadStarted(context.getDrawable(R.color.qmui_config_color_gray_5));
             postViewHolder.name.setText(post.getUserName());
@@ -127,7 +131,11 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             commentViewHolder.contentText.setText(commentsList.get(rposition).getContentText());
             commentViewHolder.icon.setImageResource(R.color.btn_filled_blue_bg_normal);
             Glide.with(context)
-                    .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + commentsList.get(rposition).getUserId() + ".jpg")
+
+                    .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + commentsList.get(rposition).getHeadPicName())
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into( commentViewHolder.icon)
                     .onLoadStarted(context.getDrawable(R.color.material_white));
 
@@ -156,7 +164,6 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
                                 @Override
                                 public void onclick(String picName) {
                                     clikPicListener.onClick(picName);
-                                    BitmapRegionDecoder
                                 }
                             },
                             COMMENT);

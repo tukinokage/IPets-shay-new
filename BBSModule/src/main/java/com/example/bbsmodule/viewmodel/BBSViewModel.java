@@ -30,6 +30,7 @@ public class BBSViewModel extends ViewModel {
     public MutableLiveData<List<String>> getSelectonListMutableLiveData() {
         return selectonListMutableLiveData;
     }
+
     class SearchPostListAsyncTask extends AsyncTask<GetPostListParam, String, Exception>{
 
         @Override

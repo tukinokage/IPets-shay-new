@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
@@ -92,6 +93,7 @@ public class PetsContentFragment extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -106,6 +108,7 @@ public class PetsContentFragment extends Fragment {
         for (int i = 0; i < classesNum; i++){
             sectionsPagerAdapter.addFragment(
                     PlaceholderFragment.newInstance(i, PetClassesEnum.getEnumByNum(i).getChinese()));
+
         }
         viewPager.setAdapter(sectionsPagerAdapter);
         return v;

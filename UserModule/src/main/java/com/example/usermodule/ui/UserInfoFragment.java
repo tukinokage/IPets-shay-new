@@ -28,6 +28,7 @@ import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.usermodule.R;
 import com.example.usermodule.R2;
 import com.example.usermodule.entity.result.GetUserResult;
@@ -322,6 +323,8 @@ public class UserInfoFragment extends Fragment {
         if(!TextUtils.isEmpty(userInfo.getHeadPicName())){
             Glide.with(AppContext.getContext())
                     .load(UrlUtil.STATIC_RESOURCE.HEAD_ICON_URL + userInfo.getHeadPicName())
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(R.color.color_white)
                     .error(R.color.btn_filled_blue_bg_normal)
                     .into(headIv);
@@ -330,6 +333,8 @@ public class UserInfoFragment extends Fragment {
         if(!TextUtils.isEmpty(userInfo.getBgPicName())) {
             Glide.with(AppContext.getContext())
                     .load(UrlUtil.STATIC_RESOURCE.BG_PIC_URL + userInfo.getBgPicName())
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(R.drawable.ic_img_preview_default)
                     .into(bgImageView);
         }

@@ -46,9 +46,7 @@ public class BBSMainFragment extends Fragment {
     public static int CURRENT_PAPER_NUM = 1;
     public  static  int CURRENT_TYPE = 0;
     private static boolean HASH_MORE = true;
-    private static boolean IS_LOADING_MORE = false;
-
-
+    private boolean IS_LOADING_MORE = false;
 
     static int lastVisibleItem = 0;
 
@@ -174,7 +172,17 @@ public class BBSMainFragment extends Fragment {
                 CURRENT_TYPE = position;
                 CURRENT_PAPER_NUM = 1;
                 bbsPostsList.clear();
-                bbsViewModel.getBBSPostLIstByCondition(CURRENT_TYPE, null, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+                if(bbsViewModel.getPostListResultMutableLiveData()
+                        .getValue()
+                        .getBbsPostList() != null){
+                    bbsViewModel.getPostListResultMutableLiveData().getValue().getBbsPostList().clear();
+                }
+
+                bbsViewModel.getBBSPostLIstByCondition(
+                        CURRENT_TYPE,
+                        null,
+                        PER_PAPER_NUM,
+                        CURRENT_PAPER_NUM);
             }
         });
 
@@ -188,15 +196,15 @@ public class BBSMainFragment extends Fragment {
                 //判断当前滑动停止，并且获取当前屏幕最后一个可见的条目是第几个，当前屏幕数据已经显示完毕的时候就去加载数据
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem + 1 == totalCount) {
                     //请求数据
-                    if(IS_LOADING_MORE){
-                        return;
+                    if(!IS_LOADING_MORE){
+                        if(HASH_MORE){
+                            ToastUntil.showToast("正在加载", AppContext.getContext());
+                            IS_LOADING_MORE = true;
+                            bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+                        }
                     }
 
-                    if(HASH_MORE){
-                        ToastUntil.showToast("正在加载", AppContext.getContext());
-                        IS_LOADING_MORE = true;
-                        bbsViewModel.getBBSPostLIst(CURRENT_TYPE, PER_PAPER_NUM, CURRENT_PAPER_NUM);
-                    }
+
                 }
 
             }

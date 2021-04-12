@@ -13,9 +13,11 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.bbsmodule.R;
 import com.example.bbsmodule.R2;
 import com.example.bbsmodule.entity.BBSPost;
+import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 
 import java.util.List;
@@ -58,15 +60,17 @@ public class PostsAdapter extends RecyclerView.Adapter {
                 }
             });
         }
-        ((PostViewHolder) holder).imageView.setImageResource(R.drawable.post_none);
+        ((PostViewHolder) holder).imageView.setImageResource(R.color.material_white);
 
         if(!TextUtils.isEmpty(postList.get(position).getPicName())){
             Glide.with(context)
                     .load(UrlUtil.STATIC_RESOURCE.POST_PIC_URL + postList.get(position).getPicName())
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .skipMemoryCache(true)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(((PostViewHolder) holder).imageView)
-                    .onLoadFailed(context.getDrawable(R.color.material_blue_200));
+                    .onLoadFailed(context.getDrawable(R.color.material_blue_400));
         }
-
 
         ((PostViewHolder) holder).textView.setText(postList.get(position).getTitle());
 
