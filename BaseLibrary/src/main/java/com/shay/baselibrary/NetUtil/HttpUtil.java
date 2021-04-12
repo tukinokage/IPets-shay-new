@@ -2,6 +2,7 @@ package com.shay.baselibrary.NetUtil;
 
 import android.util.Log;
 
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -17,19 +18,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpUtil {
 
+    //自定义的okhttpclient
     private  OkHttpClient okHttpClient;
 
     //日志显示级别
     HttpLoggingInterceptor.Level level = HttpLoggingInterceptor.Level.BODY;
-//
-    HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-        @Override
-        public void log(String message) {
-            Log.i("Http请求参数：", message);
-        }
-    });
 
-    //default
+    HttpLoggingInterceptor loggingInterceptor =
+            new HttpLoggingInterceptor(message -> Log.i("Http请求参数：", message));
+
+    //默认okHttpClient
     public <T> T getService(Class<T> clazz, String baseUrl){
         loggingInterceptor.setLevel(level);
         okHttpClient = new OkHttpClient.Builder().
@@ -43,7 +41,9 @@ public class HttpUtil {
     }
 
 
-    public<T extends IHttpService> T getService(Class<T> clazz, String  baseUrl,int connectTimeout, int readTimeout, int writeTimeout){
+    //配置自定义okHttpClient
+    public<T extends IHttpService> T getService(Class<T> clazz, String  baseUrl,int connectTimeout,
+                                                int readTimeout, int writeTimeout){
         loggingInterceptor.setLevel(level);
         okHttpClient = new OkHttpClient.Builder().
                 connectTimeout(connectTimeout, TimeUnit.SECONDS).
@@ -57,6 +57,7 @@ public class HttpUtil {
     }
 
 
+    //创建service
     private <T> T createService(Class<T> clazz, String baseUrl,OkHttpClient client){
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -68,6 +69,7 @@ public class HttpUtil {
                 .baseUrl(baseUrl)
                 .build();
 
+        //动态代理实现
         T service = retrofit.create(clazz);
         return service;
        // Call<BaseResponse> demo = api.test(new HashMap<String, Object>(){{put("userName", "bkun")}});

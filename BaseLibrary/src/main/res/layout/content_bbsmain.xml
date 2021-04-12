@@ -33,6 +33,7 @@
             android:id="@+id/posts_activity_post_rv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
             />
     </LinearLayout>
 </LinearLayout>

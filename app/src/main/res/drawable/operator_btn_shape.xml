@@ -3,17 +3,18 @@
     <item android:state_pressed="true">
         <shape
             android:shape="rectangle">
-            <stroke android:width="4dp" android:color="@color/theme_color"/>
-            <solid android:color="@color/material_grey_600"/>
+            <stroke android:width="4dp" android:color="@color/material_white"/>
+            <solid android:color="@color/material_orange_700"/>
             <corners android:radius="10dp"></corners>
         </shape>
     </item>
 
-    <item android:state_pressed="false">
+    <item  android:state_pressed="false">
         <shape
             android:shape="rectangle">
-            <stroke android:width="4dp" android:color="@color/theme_color"/>
-            <solid android:color="@color/material_grey_800"/>
+            <stroke android:width="4dp" android:color="@color/material_white"/>
+            <solid android:color="@color/theme_color"/>
+
             <corners android:radius="10dp"></corners>
         </shape>
     </item>

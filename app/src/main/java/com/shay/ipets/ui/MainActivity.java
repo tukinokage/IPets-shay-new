@@ -1,6 +1,7 @@
 package com.shay.ipets.ui;
 
 
+import android.app.Application;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Binder;
@@ -22,6 +23,7 @@ import com.alibaba.android.arouter.core.LogisticsCenter;
 import com.alibaba.android.arouter.facade.Postcard;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.bumptech.glide.Glide;
 import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.ToastUntil;
@@ -217,5 +219,6 @@ public class MainActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+        Glide.get(AppContext.getContext()).clearDiskCache();
     }
 }
