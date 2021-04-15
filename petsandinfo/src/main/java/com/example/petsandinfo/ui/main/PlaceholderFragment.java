@@ -44,12 +44,11 @@ import java.util.List;
 public class PlaceholderFragment extends Fragment {
     //cb为三大分类
     //gridview通过观察cb切换更改详细设置内容
-    GridView gridView;
-
-    CheckBox shapeCheck;
-    CheckBox fetchCheck;
-    CheckBox rankCheck;
-    AdvanceSwipeRefreshLayout swipeRefreshLayout;
+    private GridView gridView;
+    private CheckBox shapeCheck;
+    private CheckBox fetchCheck;
+    private CheckBox rankCheck;
+    private AdvanceSwipeRefreshLayout swipeRefreshLayout;
 
     LinearLayout.LayoutParams displayParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -57,17 +56,17 @@ public class PlaceholderFragment extends Fragment {
     LinearLayout.LayoutParams hideParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
             0);
 
-    SelectionsAdapter selectionsAdapter;
+    private SelectionsAdapter selectionsAdapter;
 
-    List<String> mSeletionList;
-    List<String> mShapeSelectionList;
-    List<String> mFetchSelectionList;
-    List<String> mRankSelectionList;
+    private List<String> mSeletionList;
+    private List<String> mShapeSelectionList;
+    private List<String> mFetchSelectionList;
+    private List<String> mRankSelectionList;
 
-    List<Pet> petList ;
+    private List<Pet> petList ;
 
-    MypetRecyclerViewAdapter petRecylerAdapter;
-    RecyclerView recyclerView;
+    private MypetRecyclerViewAdapter petRecylerAdapter;
+    private RecyclerView recyclerView;
 
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final String ARG_SECTION_NAME = "section_name";

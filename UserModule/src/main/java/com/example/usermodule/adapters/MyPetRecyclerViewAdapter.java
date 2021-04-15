@@ -10,8 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.usermodule.R;
 import com.example.usermodule.R2;
+import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
 import com.shay.baselibrary.dto.Pet;
 
@@ -81,10 +83,12 @@ public class MyPetRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.
             Pet pet = mValues.get(position);
             NormalViewHolder normalViewHolder = (NormalViewHolder) holder;
             normalViewHolder.nameView.setText(pet.getPetName());
-            Glide.with(((NormalViewHolder) holder).mView)
-                    .load(UrlUtil.STATIC_RESOURCE.BG_PIC_URL + pet.getPetHeadImg())
-                    .placeholder(R.drawable.ic_launcher_background)
+            Glide.with(AppContext.getContext())
+                    .load(UrlUtil.PET_PIC_URL.HEAD_ICON_URL + mValues.get(position).getPetHeadImg())
+                    .placeholder(AppContext.getContext().getDrawable(R.color.material_blue_200))
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                     .into(normalViewHolder.imageView);
+
             normalViewHolder.unlikedLy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

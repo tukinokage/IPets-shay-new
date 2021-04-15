@@ -60,8 +60,9 @@ public class GetPetStarListViewModel extends ViewModel {
                             getStarPetListResult.setErrorMsg(((Result.Error) result).getErrorMsg());
                         }else{
                             GetStarPetListResponse getStarPetListResponse = (GetStarPetListResponse) ((Result.Success)result).getData();
-                            petList.addAll(getStarPetListResponse.getPetList());
+                            //getStarPetListResult.setPetList(getStarPetListResponse.getPetList());
                             getStarPetListResult.setPetList(getStarPetListResponse.getPetList());
+                            getStarPetListResult.setHasMore(getStarPetListResponse.isHasMore());
                         }
                         starPetListResultMutableLiveData.setValue(getStarPetListResult);
                     }
@@ -128,7 +129,7 @@ public class GetPetStarListViewModel extends ViewModel {
     }
 
     public void addPetList(List<Pet> petList){
-        petList.addAll(petList);
+        this.petList.addAll(petList);
         petListMutableLiveData.setValue(petList);
     }
 

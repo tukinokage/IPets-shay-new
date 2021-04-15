@@ -42,7 +42,7 @@ public class PetStarListActivity extends AppCompatActivity {
     public   int PER_PAPER_NUM = 15;
     public   int CURRENT_PAPER_NUM = 1;
     private boolean HASH_MORE = true;
-    private boolean IS_LOADING_MORE = false;
+    private static boolean IS_LOADING_MORE = false;
    @BindView(R2.id.star_pet_list_rv)
     RecyclerView starPetListRecycler;
    @BindView(R2.id.main_activity_go_register_tv)
@@ -77,6 +77,7 @@ public class PetStarListActivity extends AppCompatActivity {
         starPetListRecycler.setAdapter(petRecyclerViewAdapter);
 
         getPetStarListViewModel.getStarPetListData(userId, PER_PAPER_NUM, CURRENT_PAPER_NUM);
+        IS_LOADING_MORE = true;
     }
 
     private  void initListener(){
@@ -98,7 +99,6 @@ public class PetStarListActivity extends AppCompatActivity {
         petRecyclerViewAdapter.setUnlikeOnclickListener(new MyPetRecyclerViewAdapter.PetItemOnclickListener() {
             @Override
             public void onClick(int position) {
-                String petId = getPetStarListViewModel.getCurrentList().get(position).getPetId();
                 getPetStarListViewModel.removeIndexPet(position, userId);
             }
         });
