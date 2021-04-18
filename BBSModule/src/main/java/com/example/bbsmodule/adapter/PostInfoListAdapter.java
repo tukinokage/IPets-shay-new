@@ -39,7 +39,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
     private final static int POST = 0;
     private final static int COMMENT = 1;
 
-    private ClikPicListener clikPicListener;
+    private ClikLongPicListener clikPicListener;
     private ClickUserHeadIconListener onClickListener;
 
     public void setPost(Post post) {
@@ -59,7 +59,7 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
     public void setOnUserHeadClickListener(ClickUserHeadIconListener onClickListener) {
         this.onClickListener = onClickListener;
     }
-    public void setClikPicListener(ClikPicListener clikPicListener) {
+    public void setClikPicListener(ClikLongPicListener clikPicListener) {
         this.clikPicListener = clikPicListener;
     }
 
@@ -112,11 +112,12 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
             if( post.getPicNameList() != null && !(post.getPicNameList().isEmpty())) {
                 if (postViewHolder.picRv.getAdapter() == null) {
                     PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
-                            post.getPicNameList(), new PostInfoPicRvAdapter.PicOnClickListener() {
+                            post.getPicNameList(), new PostInfoPicRvAdapter.PicOnLongClickListener() {
                         @Override
-                        public void onclick(String picName) {
-                            clikPicListener.onClick(picName);
+                        public void onclick(PostInfoPicRvAdapter.PicViewHolder holder, String picUrl) {
+                            clikPicListener.onClick(holder, picUrl);
                         }
+
                     },
                             POST);
 
@@ -160,11 +161,12 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
                 if(commentViewHolder.picRv.getAdapter() == null){
                     PostInfoPicRvAdapter picRvAdapter = new PostInfoPicRvAdapter(context,
                             commentsList.get(position - 1).getPicList(),
-                            new PostInfoPicRvAdapter.PicOnClickListener(){
+                            new PostInfoPicRvAdapter.PicOnLongClickListener(){
                                 @Override
-                                public void onclick(String picName) {
-                                    clikPicListener.onClick(picName);
+                                public void onclick(PostInfoPicRvAdapter.PicViewHolder holder, String picUrl) {
+                                    clikPicListener.onClick(holder, picUrl );
                                 }
+
                             },
                             COMMENT);
 
@@ -252,8 +254,8 @@ public class PostInfoListAdapter extends RecyclerView.Adapter {
         return commentsList;
      }
 
-    public interface ClikPicListener{
-        void onClick(String picName);
+    public interface ClikLongPicListener{
+        void onClick(RecyclerView.ViewHolder viewHolder, String picUrl);
     }
 
 }

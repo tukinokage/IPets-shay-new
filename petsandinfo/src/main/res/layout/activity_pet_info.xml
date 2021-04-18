@@ -51,7 +51,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="20dp"
                 android:background="@drawable/ic_arrow_back_black_24dp"/>
-            <TextView
+         <!--   <TextView
                 android:id="@+id/pet_info_top_title"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
@@ -60,7 +60,7 @@
                 android:minHeight="?actionBarSize"
                 android:text="啊我是驴🐱"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
-        </LinearLayout>
+       --> </LinearLayout>
 
 
         <FrameLayout

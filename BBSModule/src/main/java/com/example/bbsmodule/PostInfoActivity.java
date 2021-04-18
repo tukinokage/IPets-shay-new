@@ -17,22 +17,29 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.android.arouter.facade.annotation.Autowired;
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.example.bbsmodule.adapter.PostInfoListAdapter;
+import com.example.bbsmodule.adapter.PostInfoPicRvAdapter;
 import com.example.bbsmodule.entity.BBSPost;
 import com.example.bbsmodule.entity.result.CommitCommentResult;
 import com.example.bbsmodule.entity.result.GetPostCommentResult;
@@ -47,6 +54,7 @@ import com.shay.baselibrary.AppContext;
 import com.shay.baselibrary.AroutePath;
 import com.shay.baselibrary.GlideLoadEngine;
 import com.shay.baselibrary.ToastUntil;
+import com.shay.baselibrary.picUtils.*;
 import com.shay.baselibrary.UserInfoUtil.UserInfoUtil;
 import com.shay.baselibrary.adapter.SelectPicAdapter;
 import com.shay.baselibrary.dto.Post;
@@ -233,12 +241,13 @@ public class PostInfoActivity extends AppCompatActivity {
             }
         });
 
-        postInfoListAdapter.setClikPicListener(new PostInfoListAdapter.ClikPicListener() {
+        //长按
+        postInfoListAdapter.setClikPicListener(new PostInfoListAdapter.ClikLongPicListener() {
             @Override
-            public void onClick(String picName) {
-                //加载图片大图
-            }
-        });
+            public void onClick(RecyclerView.ViewHolder viewHolder, String picUrl) {
+                    showPicLongClickedPopWindows((PostInfoPicRvAdapter.PicViewHolder) viewHolder, picUrl);
+                }
+            });
 
 
 
@@ -258,7 +267,7 @@ public class PostInfoActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(TextUtils.isEmpty(s.toString())){
                     commitButton.setEnabled(false);
-                }else {
+                } else {
                     commitButton.setEnabled(true);
                 }
             }
@@ -300,6 +309,17 @@ public class PostInfoActivity extends AppCompatActivity {
     }
 
     private void initObserver(){
+
+        postInfoViewModel.getSaveResultMutableLiveData().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    ToastUntil.showToast("保存成功", AppContext.getContext());
+                }else {
+                    ToastUntil.showToast("保存失败", AppContext.getContext());
+                }
+            }
+        });
 
         postInfoViewModel.getGetPostInfoResultMutableLiveData().observe(this, new Observer<GetPostInfoResult>() {
             @Override
@@ -423,6 +443,37 @@ public class PostInfoActivity extends AppCompatActivity {
     private void updatePicList(List list){
         selectPicAdapter.setPostPicInfoList(list);
         selectPicAdapter.notifyDataSetChanged();
+    }
+
+    private void showPicLongClickedPopWindows(PostInfoPicRvAdapter.PicViewHolder viewHolder, String picUrl){
+        View mPopView = LayoutInflater.from(this).inflate(R.layout.pic_pop_window_layout, null);
+        final PopupWindow mPopWin = new PopupWindow(mPopView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        mPopWin.setBackgroundDrawable(new ColorDrawable((Color.TRANSPARENT)));
+        mPopView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
+        int popWidth = mPopView.getMeasuredWidth();
+        int popHeight = mPopView.getMeasuredHeight();
+
+        //父控件位置
+        int[] location = new int[2];
+        viewHolder.itemView.getLocationOnScreen(location);
+        mPopWin.showAtLocation(viewHolder.itemView, Gravity.NO_GRAVITY, (location[0] + viewHolder.itemView.getWidth() / 2), location[1]
+                +viewHolder.itemView.getHeight() / 2);
+        mPopWin.update();
+
+        mPopView.findViewById(R.id.pic_pop_win_reload_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.loadPic(viewHolder.itemView.getContext(), picUrl);
+            }
+        });
+
+        mPopView.findViewById(R.id.pic_pop_win_savep_tv).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postInfoViewModel.savePic(viewHolder.getBitmap());
+            }
+        });
+
     }
 
     @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {

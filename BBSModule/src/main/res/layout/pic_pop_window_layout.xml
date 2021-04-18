@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="65dp"
+        android:layout_height="55dp"
+        android:orientation="vertical"
+        android:background="@color/material_white"
+        >
+        <TextView
+            android:id="@+id/pic_pop_win_savep_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="保存图片"
+            android:textColor="@color/light_text_color"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            />
+        <TextView
+            android:id="@+id/pic_pop_win_reload_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="重新加载"
+            android:textColor="@color/light_text_color"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:background="?attr/selectableItemBackground"
+            />
+    </LinearLayout>
+
+</LinearLayout>

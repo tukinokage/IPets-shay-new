@@ -1,6 +1,10 @@
 package com.example.bbsmodule.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.bbsmodule.R;
 import com.example.bbsmodule.R2;
 import com.shay.baselibrary.UrlInfoUtil.UrlUtil;
@@ -22,16 +27,16 @@ import butterknife.ButterKnife;
 public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
    private List<String> picList;
    private PicOnClickListener picOnClickListener;
-   private PicOnClickListener onPicClikedListener;
+   private PicOnLongClickListener onPicLongClikedListener;
    private int picType = 0;
    private final static int POST = 0;
    private final static int COMMENT = 1;
 
 
-    public PostInfoPicRvAdapter(Context context, List<String> picList, PicOnClickListener picOnClickListener, int picType) {
+    public PostInfoPicRvAdapter(Context context, List<String> picList, PicOnLongClickListener picOnClickListener, int picType) {
         this.picList = picList;
         this.context = context;
-        this.onPicClikedListener = picOnClickListener;
+        this.onPicLongClikedListener = picOnClickListener;
         this.picType = picType;
     }
 
@@ -61,15 +66,14 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
         }else if(picType == COMMENT){
             url = UrlUtil.STATIC_RESOURCE.COMMENT_PIC_URL;
         }
-        Glide.with(context)
-                .load( url + picList.get(position))
-                .into(picholder.imageView)
-                .onLoadFailed(context.getDrawable(R.color.material_blueGrey_200)) ;
+        ((PicViewHolder) holder).loadPic(context, url + picList.get(position));
 
-        picholder.imageView.setOnClickListener(new View.OnClickListener() {
+        String finalUrl = url;
+        picholder.imageView.setOnLongClickListener(new View.OnLongClickListener(){
             @Override
-            public void onClick(View v) {
-                onPicClikedListener.onclick(picList.get(position));
+            public boolean onLongClick(View v) {
+                onPicLongClikedListener.onclick((PicViewHolder) holder, finalUrl + picList.get(position));
+                return false;
             }
         });
     }
@@ -79,7 +83,7 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
         return picList.size();
     }
 
-    class PicViewHolder extends RecyclerView.ViewHolder {
+    public class PicViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R2.id.rv_pic_imageview)
         ImageView imageView;
@@ -87,10 +91,37 @@ public class PostInfoPicRvAdapter extends RecyclerView.Adapter {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+
+        public void loadPic(Context context, String picUrl){
+            Glide.with(context)
+                    .load(picUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                    .skipMemoryCache(true)
+                    .into(imageView)
+                    .onLoadFailed(context.getDrawable(R.color.material_blueGrey_200));
+        }
+
+        public Bitmap getBitmap(){
+            if(imageView != null){
+                if(imageView.getDrawable() instanceof ColorDrawable){
+                    return null;
+                }else {
+                    return ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                }
+
+            }else {
+                return null;
+            }
+
+        }
     }
 
 
     public interface PicOnClickListener{
         void onclick(String picName);
+    }
+
+    public interface PicOnLongClickListener{
+        void onclick(PicViewHolder holder, String picUrl);
     }
 }

@@ -73,7 +73,6 @@ public class PostsAdapter extends RecyclerView.Adapter {
         }
 
         ((PostViewHolder) holder).textView.setText(postList.get(position).getTitle());
-
     }
 
     @Override

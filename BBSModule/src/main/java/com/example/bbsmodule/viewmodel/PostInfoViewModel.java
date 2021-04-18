@@ -1,5 +1,6 @@
 package com.example.bbsmodule.viewmodel;
 
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 
@@ -16,6 +17,8 @@ import com.example.bbsmodule.repository.PostInfoRepository;
 import com.shay.baselibrary.dto.Picture;
 import com.shay.baselibrary.dto.PostPicInfo;
 import com.shay.baselibrary.dto.Result;
+import com.shay.baselibrary.picUtils.*;
+import com.shay.baselibrary.*;
 import com.shay.baselibrary.factorys.AsyncTaskFactory;
 
 public class PostInfoViewModel extends ViewModel {
@@ -23,6 +26,10 @@ public class PostInfoViewModel extends ViewModel {
 
     private MutableLiveData<GetPostInfoResult> getPostInfoResultMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<GetPostCommentResult> getPostCommentResultMutableLiveData = new MutableLiveData<>();
+
+
+
+    private MutableLiveData<Boolean> saveResultMutableLiveData = new MutableLiveData<>();
 
     AsyncTaskFactory asyncTaskFactory = new AsyncTaskFactory();
     GetPostCommentAsyncTask getPostCommentAsyncTask;
@@ -40,6 +47,9 @@ public class PostInfoViewModel extends ViewModel {
         return getPostCommentResultMutableLiveData;
     }
 
+    public MutableLiveData<Boolean> getSaveResultMutableLiveData() {
+        return saveResultMutableLiveData;
+    }
 
     class GetPostInfoAsyncTask extends AsyncTask<GetPostInfoParam, String, Exception>{
 
@@ -132,6 +142,11 @@ public class PostInfoViewModel extends ViewModel {
         getPostCommentAsyncTask = (GetPostCommentAsyncTask) asyncTaskFactory.
                 createAsyncTask(new GetPostCommentAsyncTask());
         getPostCommentAsyncTask.execute(commentParam);
+    }
+
+    public void savePic(Bitmap bmp){
+        boolean b = SavePicUtil.savePicToLocal(AppContext.getContext(), bmp);
+        saveResultMutableLiveData.setValue(b);
     }
 
 
