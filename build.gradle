@@ -2,6 +2,10 @@
 //新增统一管理gradle
 apply from:"versions.gradle"
 
+
+
+
+
 buildscript {
     repositories {
         google()
