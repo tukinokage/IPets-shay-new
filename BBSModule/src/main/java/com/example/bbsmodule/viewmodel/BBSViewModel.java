@@ -86,6 +86,8 @@ public class BBSViewModel extends ViewModel {
         searchPostListAsyncTask.execute(getPostListParam);
     }
 
+
+
     public void getBBSPostLIstByCondition(int type, String searchCondition, int perPaperNum, int currentPaperNum){
         GetPostListParam getPostListParam = new GetPostListParam();
         getPostListParam.setCurrentPaperNum(String.valueOf(currentPaperNum));

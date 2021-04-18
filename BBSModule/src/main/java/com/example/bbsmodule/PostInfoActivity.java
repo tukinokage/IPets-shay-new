@@ -386,7 +386,6 @@ public class PostInfoActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     //matisse选择图片

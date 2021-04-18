@@ -156,6 +156,7 @@ public class BBSMainActivity extends AppCompatActivity {
                         CURRENT_PAPER_NUM += 1;
                     }
                     bbsPostsList.addAll(getPostListResult.getBbsPostList());
+                    postsAdapter.setPostList(bbsPostsList);
                     postsAdapter.notifyDataSetChanged();
                     IS_LOADING_MORE = false;
                 }else {

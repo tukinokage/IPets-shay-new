@@ -43,9 +43,9 @@ public class PetStarListActivity extends AppCompatActivity {
     public   int CURRENT_PAPER_NUM = 1;
     private boolean HASH_MORE = true;
     private static boolean IS_LOADING_MORE = false;
-   @BindView(R2.id.star_pet_list_rv)
+    @BindView(R2.id.star_pet_list_rv)
     RecyclerView starPetListRecycler;
-   @BindView(R2.id.main_activity_go_register_tv)
+    @BindView(R2.id.main_activity_go_register_tv)
     TextView backTv;
 
     GetPetStarListViewModel getPetStarListViewModel;
