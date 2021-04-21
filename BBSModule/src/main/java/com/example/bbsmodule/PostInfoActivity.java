@@ -130,13 +130,12 @@ public class PostInfoActivity extends AppCompatActivity {
         commitCommentViewModel = new ViewModelProvider(this, new CommitCommentViewModelFactory())
                 .get(CommitCommentViewModel.class);
 
-        if(getIntent().getExtras().isEmpty()){
+        if(postId != null){
             currentBBPost = new BBSPost();
             currentBBPost.setPostId(postId);
         }else {
             currentBBPost = (BBSPost) getIntent().getExtras().get(POST_DATA_BUNDLE_NAME);
         }
-
 
         init();
         initListener();
